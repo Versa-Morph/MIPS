@@ -1,28 +1,22 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect } from "react";
 import {
   Award,
   CheckCircle2,
   RotateCcw,
   BookOpen,
-  Anchor,
-  Layers,
-  Clock,
-  Gauge,
-  UserCheck,
-  ShieldCheck,
   ArrowRight,
   TrendingUp,
-  Download,
-  FileCheck,
-  FileText,
+  Clock,
+  Gauge,
+  Layers,
+  Check,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
 import { TrainingState } from "@/types/simulation";
 import { calculateCadetScore } from "@/utils/scoringCalculator";
-import { Modal } from "@/components/common/Modal";
 import { sound } from "@/utils/audioEngine";
 
 export function AssessmentViewScreen() {
@@ -31,9 +25,6 @@ export function AssessmentViewScreen() {
     documents,
     selectedBerth,
     isFirstAttemptCorrect,
-    cadetName,
-    cadetNrp,
-    cadetDepartment,
     resetTraining,
     setStep,
   } = useTrainingStore();
@@ -47,9 +38,6 @@ export function AssessmentViewScreen() {
     currentSimMinute,
     resetSimulation,
   } = useSimulationStore();
-
-  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   const vessel = scenario.vessel;
   const viewedCount = documents.filter((d) => d.isViewed).length;
@@ -85,60 +73,7 @@ export function AssessmentViewScreen() {
 
   useEffect(() => {
     sound.playSuccessChime();
-
-    const saveSessionToDb = async () => {
-      if (typeof window === "undefined" || !window.location?.origin) return;
-      try {
-        await fetch(`${window.location.origin}/api/sessions`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cadetName,
-            cadetNrp,
-            cadetDepartment,
-            cadetBatch: "Batch 47 (2026)",
-            scenarioId: scenario.id,
-            selectedBerth: selectedBerth || "B-01",
-            isFirstAttemptCorrect,
-            totalScore: score.totalScore,
-            documentReviewScore: score.documentReviewScore,
-            berthDecisionScore: score.berthDecisionScore,
-            operationScore: score.operationScore,
-            kpiScore: score.kpiScore,
-            grade: assessment.grade,
-            durationMinutes: Math.max(42, currentSimMinute),
-            productivity: productivityMovesPerHour > 0 ? productivityMovesPerHour : 71.4,
-            containersHandled: Math.max(50, containersHandled),
-            documentViews: documents.map((d) => ({
-              type: d.type,
-              duration: d.viewDurationSeconds,
-            })),
-          }),
-        });
-      } catch (e) {
-        console.error("Session auto-save failed:", e);
-      }
-    };
-
-    saveSessionToDb();
-  }, [
-    cadetName,
-    cadetNrp,
-    cadetDepartment,
-    scenario.id,
-    selectedBerth,
-    isFirstAttemptCorrect,
-    score.totalScore,
-    score.documentReviewScore,
-    score.berthDecisionScore,
-    score.operationScore,
-    score.kpiScore,
-    assessment.grade,
-    currentSimMinute,
-    productivityMovesPerHour,
-    containersHandled,
-    documents,
-  ]);
+  }, []);
 
   const handleReviewReplay = () => {
     resetSimulation();
@@ -151,55 +86,44 @@ export function AssessmentViewScreen() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn select-none">
+    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn select-none">
       <div className="rounded-2xl bg-gradient-to-r from-[#08182B] via-[#0F243E] to-[#172E4C] border border-slate-800 p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="space-y-2">
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1.5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-              <span>●</span> Training Completed · Official Assessment
+              <Check className="w-3.5 h-3.5" /> TRAINING COMPLETED
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-              Cadet Evaluation Scorecard
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">
+              {vessel.name}
             </h1>
             <p className="text-slate-300 text-sm">
-              Cadet: <strong className="text-white">{cadetName}</strong> ({cadetNrp}) ·{" "}
-              Target: <span className="font-mono text-amber-400">{vessel.name}</span>
+              Container Vessel Arrival & Berthing
             </p>
           </div>
 
-          <div className="flex items-center gap-4 bg-slate-950/80 border-2 border-emerald-500/40 rounded-2xl p-5 shadow-2xl shrink-0">
-            <div className="text-center">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">
-                FINAL SCORE
-              </span>
-              <div className="font-mono text-4xl sm:text-5xl font-black text-[#F5B800] tracking-tight">
-                {score.totalScore}{" "}
-                <span className="text-xl text-slate-500 font-normal">/ 100</span>
-              </div>
-              <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/30">
-                {assessment.grade} · PASSED
-              </span>
+          <div className="p-4 rounded-xl bg-slate-950/80 border border-amber-500/30 text-center shrink-0">
+            <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-widest">
+              TRAINING SCORE
+            </span>
+            <div className="text-4xl font-black text-[#F5B800] font-mono">
+              {score.totalScore}{" "}
+              <span className="text-lg text-slate-500 font-normal">/ 100</span>
             </div>
           </div>
         </div>
-
-        <Award className="absolute right-4 bottom-[-30px] w-56 h-56 text-slate-700/10 pointer-events-none stroke-[1]" />
       </div>
 
-      <div className="rounded-xl bg-slate-900 border border-slate-800 p-6 space-y-4 shadow-lg">
-        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800 pb-3">
-          <TrendingUp className="w-4 h-4 text-[#F5B800]" /> Competency Assessment Breakdown (4 Pillars)
+      <div className="rounded-xl bg-slate-900 border border-slate-800 p-6 space-y-4 shadow-lg text-xs">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 border-b border-slate-800 pb-3 flex items-center gap-2">
+          <TrendingUp className="w-4 h-4 text-[#F5B800]" /> Assessment Components
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-300 flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-sky-400" />
-                1. Document Package Review (20% Weight)
-              </span>
-              <span className="font-mono font-bold text-emerald-400 text-sm">
-                {score.documentReviewScore} / {score.documentReviewMax} pts
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div className="flex justify-between font-bold">
+              <span className="text-slate-300">Document Review (20%)</span>
+              <span className="text-emerald-400 font-mono">
+                {score.documentReviewScore} / {score.documentReviewMax}
               </span>
             </div>
             <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -210,19 +134,13 @@ export function AssessmentViewScreen() {
                 }}
               ></div>
             </div>
-            <p className="text-[11px] text-slate-400">
-              {viewedCount} of {documents.length} operational documents examined.
-            </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-300 flex items-center gap-2">
-                <Anchor className="w-4 h-4 text-[#F5B800]" />
-                2. Berth Selection Decision (40% Weight)
-              </span>
-              <span className="font-mono font-bold text-emerald-400 text-sm">
-                {score.berthDecisionScore} / {score.berthDecisionMax} pts
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div className="flex justify-between font-bold">
+              <span className="text-slate-300">Berth Decision (40%)</span>
+              <span className="text-emerald-400 font-mono">
+                {score.berthDecisionScore} / {score.berthDecisionMax}
               </span>
             </div>
             <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -233,19 +151,13 @@ export function AssessmentViewScreen() {
                 }}
               ></div>
             </div>
-            <p className="text-[11px] text-slate-400">
-              Allocated Berth B-01 (Feasible · LOA & Draft compatible).
-            </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-300 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-emerald-400" />
-                3. Operation Completion (20% Weight)
-              </span>
-              <span className="font-mono font-bold text-sky-400 text-sm">
-                {score.operationScore} / {score.operationMax} pts
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div className="flex justify-between font-bold">
+              <span className="text-slate-300">Operation (20%)</span>
+              <span className="text-sky-400 font-mono">
+                {score.operationScore} / {score.operationMax}
               </span>
             </div>
             <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -256,19 +168,13 @@ export function AssessmentViewScreen() {
                 }}
               ></div>
             </div>
-            <p className="text-[11px] text-slate-400">
-              Full 50 container moves completed within standard schedule.
-            </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-300 flex items-center gap-2">
-                <Gauge className="w-4 h-4 text-amber-400" />
-                4. KPI Performance & Productivity (20% Weight)
-              </span>
-              <span className="font-mono font-bold text-amber-400 text-sm">
-                {score.kpiScore} / {score.kpiMax} pts
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div className="flex justify-between font-bold">
+              <span className="text-slate-300">KPI Performance (20%)</span>
+              <span className="text-amber-400 font-mono">
+                {score.kpiScore} / {score.kpiMax}
               </span>
             </div>
             <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -279,160 +185,107 @@ export function AssessmentViewScreen() {
                 }}
               ></div>
             </div>
-            <p className="text-[11px] text-slate-400">
-              Achieved 71.4 Moves/Hour with 72% Crane and 68% Truck utilization.
-            </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Berth Decision
-          </span>
-          <span className="text-base font-bold text-emerald-400 flex items-center justify-center gap-1">
-            <CheckCircle2 className="w-4 h-4" /> Correct (B-01)
-          </span>
-        </div>
-
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Containers Handled
-          </span>
-          <span className="text-base font-black text-white font-mono">
-            50 / 50 Units
-          </span>
-        </div>
-
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Operation Duration
-          </span>
-          <span className="text-base font-black text-sky-400 font-mono">
-            42 Minutes
-          </span>
-        </div>
-
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Gross Productivity
-          </span>
-          <span className="text-base font-black text-[#F5B800] font-mono">
-            71.4 M/H
-          </span>
-        </div>
-      </div>
-
-      <div className="rounded-xl bg-[#08182B] border-2 border-emerald-500/30 p-6 space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-bold shrink-0">
-            <UserCheck className="w-5 h-5 stroke-[2.5]" />
-          </div>
-          <div>
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              Instructor Evaluation Feedback
-              <span className="text-[10px] font-normal text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                Official Debrief
-              </span>
-            </h3>
-            <p className="text-[11px] text-slate-400">
-              Capt. H. Gunawan · Senior Port Operations Training Officer
-            </p>
-          </div>
-        </div>
-
-        <div className="text-sm text-slate-200 leading-relaxed pl-13 border-l-2 border-emerald-500/50 my-2 italic">
-          &quot;{assessment.feedbackText}&quot;
-        </div>
-
-        <div className="pt-2 border-t border-slate-800 flex flex-wrap gap-2 text-xs">
-          {assessment.learningHighlights.map((highlight, index) => (
-            <span
-              key={index}
-              className="px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300 font-mono text-[11px] flex items-center gap-1.5"
-            >
-              <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-              {highlight}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h3 className="font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">
+            DECISION
+          </h3>
+          <div className="flex justify-between items-center font-mono">
+            <span className="text-slate-300">Berth Selection</span>
+            <span className="text-emerald-400 font-bold flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Correct
             </span>
-          ))}
+          </div>
+        </div>
+
+        <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h3 className="font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">
+            OPERATION
+          </h3>
+          <div className="space-y-1.5 font-mono">
+            <div className="flex justify-between">
+              <span className="text-slate-300">Containers</span>
+              <span className="text-white font-bold">50 / 50</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-300">Duration</span>
+              <span className="text-sky-400 font-bold">42 min</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-300">Productivity</span>
+              <span className="text-[#F5B800] font-bold">71 moves/hour</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h3 className="font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">
+            PERFORMANCE
+          </h3>
+          <div className="space-y-1.5 font-mono">
+            <div className="flex justify-between">
+              <span className="text-slate-300">Decision Accuracy</span>
+              <span className="text-emerald-400 font-bold">100%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-300">Operation Completion</span>
+              <span className="text-emerald-400 font-bold">100%</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="rounded-xl bg-slate-900 border border-slate-800 p-5 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleReviewReplay}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors border border-slate-700"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Review Replay</span>
-          </button>
-
-          <button
-            onClick={() => setIsCertModalOpen(true)}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-md shadow-emerald-600/20"
-          >
-            <FileCheck className="w-4 h-4" />
-            <span>View Certificate (PDF)</span>
-          </button>
-
-          <button
-            onClick={() => setIsReportModalOpen(true)}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs transition-colors shadow-md shadow-sky-600/20"
-          >
-            <FileText className="w-4 h-4" />
-            <span>Debrief Report (PDF)</span>
-          </button>
+      <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3 text-xs">
+        <h3 className="font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">
+          STATUS
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono">
+          <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
+            <CheckCircle2 className="w-4 h-4" /> Documents Reviewed
+          </div>
+          <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
+            <CheckCircle2 className="w-4 h-4" /> Berth Selected
+          </div>
+          <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
+            <CheckCircle2 className="w-4 h-4" /> Simulation Completed
+          </div>
         </div>
+      </div>
+
+      <div className="rounded-xl bg-[#08182B] border border-slate-800 p-6 space-y-2">
+        <h3 className="text-xs font-bold text-[#F5B800] uppercase tracking-wider">
+          Feedback
+        </h3>
+        <p className="text-base font-bold text-white leading-snug">
+          Good work.
+        </p>
+        <p className="text-xs text-slate-300 leading-relaxed">
+          You successfully identified the berth that meets the vessel&apos;s LOA and draft requirements and completed the vessel operation.
+        </p>
+      </div>
+
+      <div className="rounded-xl bg-slate-900 border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <button
+          onClick={handleReviewReplay}
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors border border-slate-700"
+        >
+          <RotateCcw className="w-4 h-4" />
+          <span>Review Simulation</span>
+        </button>
 
         <button
           onClick={handleBackToDashboard}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 transition-all transform hover:scale-[1.02]"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-bold text-sm shadow-md shadow-amber-500/20 transition-all transform hover:scale-[1.02]"
         >
           <BookOpen className="w-4 h-4" />
-          <span>Return to Training Center</span>
+          <span>Back to Training Center</span>
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
         </button>
       </div>
-
-      {isCertModalOpen && (
-        <Modal
-          isOpen={true}
-          onClose={() => setIsCertModalOpen(false)}
-          title="Official Certificate of Port Operational Simulation Competency"
-          referenceNumber="MIPS-CERT-2026-09"
-          pdfUrl="/documents/cadet-certificate.pdf"
-        >
-          <div className="p-4 text-center space-y-4">
-            <h3 className="text-base font-bold text-amber-400">
-              Certificate Awarded to {cadetName} ({cadetNrp})
-            </h3>
-            <p className="text-xs text-slate-300 max-w-md mx-auto">
-              Evaluation Score: 92/100 · Grade: EXCELLENT. Official graduation record certified under BKI and IALA training standards.
-            </p>
-          </div>
-        </Modal>
-      )}
-
-      {isReportModalOpen && (
-        <Modal
-          isOpen={true}
-          onClose={() => setIsReportModalOpen(false)}
-          title="Official Cadet Simulation Evaluation & Performance Debrief Report"
-          referenceNumber="MIPS-REP-2026-09"
-          pdfUrl="/documents/evaluation-report.pdf"
-        >
-          <div className="p-4 text-center space-y-4">
-            <h3 className="text-base font-bold text-sky-400">
-              Operational Debrief Report: {cadetName} ({cadetNrp})
-            </h3>
-            <p className="text-xs text-slate-300 max-w-md mx-auto">
-              Complete performance audit including berth allocation analysis, 4-pillar scores, and 45-minute operational event timeline.
-            </p>
-          </div>
-        </Modal>
-      )}
     </div>
   );
 }

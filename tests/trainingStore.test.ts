@@ -99,26 +99,4 @@ describe("Training FSM Store (Zustand 5)", () => {
     expect(state.isFirstAttemptCorrect).toBe(false);
     expect(state.documents.every((d) => !d.isViewed)).toBe(true);
   });
-
-  it("handles loginCadet and logoutCadet lifecycle", () => {
-    const { loginCadet, logoutCadet } = useTrainingStore.getState();
-
-    loginCadet(
-      "Cadet Budi",
-      "TRN-2026-099",
-      "Marine Engineering (Teknika)",
-      "Batch 48"
-    );
-    let state = useTrainingStore.getState();
-    expect(state.isAuthenticated).toBe(true);
-    expect(state.cadetName).toBe("Cadet Budi");
-    expect(state.cadetNrp).toBe("TRN-2026-099");
-    expect(state.currentState).toBe(TrainingState.DASHBOARD);
-
-    logoutCadet();
-    state = useTrainingStore.getState();
-    expect(state.isAuthenticated).toBe(false);
-    expect(state.currentState).toBe(TrainingState.LOGIN);
-    expect(state.selectedBerth).toBeNull();
-  });
 });

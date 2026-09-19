@@ -25,38 +25,35 @@ describe("Screen 07: Assessment & Scorecard View", () => {
   it("renders 92/100 final score and the 4 evaluation pillars", () => {
     render(<AssessmentViewScreen />);
 
-    // Score display
     expect(screen.getByText("92")).toBeDefined();
-    expect(screen.getByText(/EXCELLENT/i)).toBeDefined();
+    expect(screen.getByText(/TRAINING COMPLETED/i)).toBeDefined();
 
-    // 4 Evaluation pillars
-    expect(screen.getByText(/Document Package Review/i)).toBeDefined();
-    expect(screen.getByText(/20 \/ 20 pts/i)).toBeDefined();
+    expect(screen.getByText(/Document Review \(20%\)/i)).toBeDefined();
+    expect(screen.getByText(/20 \/ 20/i)).toBeDefined();
 
-    expect(screen.getByText(/Berth Selection Decision/i)).toBeDefined();
-    expect(screen.getByText(/40 \/ 40 pts/i)).toBeDefined();
+    expect(screen.getByText(/Berth Decision \(40%\)/i)).toBeDefined();
+    expect(screen.getByText(/40 \/ 40/i)).toBeDefined();
 
-    expect(screen.getByText(/Operation Completion/i)).toBeDefined();
-    expect(screen.getByText(/18 \/ 20 pts/i)).toBeDefined();
+    expect(screen.getByText(/Operation \(20%\)/i)).toBeDefined();
+    expect(screen.getByText(/18 \/ 20/i)).toBeDefined();
 
-    expect(screen.getByText(/KPI Performance & Productivity/i)).toBeDefined();
-    expect(screen.getByText(/14 \/ 20 pts/i)).toBeDefined();
+    expect(screen.getByText(/KPI Performance \(20%\)/i)).toBeDefined();
+    expect(screen.getByText(/14 \/ 20/i)).toBeDefined();
   });
 
   it("renders instructor feedback and operational statistics", () => {
     render(<AssessmentViewScreen />);
 
-    expect(screen.getByText(/Capt\. H\. Gunawan/i)).toBeDefined();
-    expect(screen.getByText(/Good work, Cadet/i)).toBeDefined();
-    expect(screen.getByText(/Correct \(B-01\)/i)).toBeDefined();
-    expect(screen.getByText(/50 \/ 50 Units/i)).toBeDefined();
+    expect(screen.getByText(/Good work\./i)).toBeDefined();
+    expect(screen.getByText(/Correct/i)).toBeDefined();
+    expect(screen.getByText(/50 \/ 50/i)).toBeDefined();
   });
 
   it("supports Return to Training Center and Review Simulation Replay", () => {
     render(<AssessmentViewScreen />);
 
     const returnButton = screen.getByRole("button", {
-      name: /Return to Training Center/i,
+      name: /Back to Training Center/i,
     });
     fireEvent.click(returnButton);
 

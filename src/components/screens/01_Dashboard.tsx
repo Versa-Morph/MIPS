@@ -6,266 +6,144 @@ import {
   Lock,
   ArrowRight,
   BookOpen,
-  Award,
   CheckCircle2,
   Clock,
   Compass,
   Layers,
-  Trophy,
-  Medal,
+  Circle,
+  Play,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 
 export function DashboardScreen() {
-  const { setStep, cadetName, cadetBatch, selectScenario } = useTrainingStore();
+  const { setStep, cadetName } = useTrainingStore();
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn">
-      {/* Cadet Welcome Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#08182B] via-[#0F243E] to-[#162E4D] border border-slate-800 p-6 sm:p-8 shadow-xl text-white">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn select-none">
+      <div className="rounded-2xl bg-gradient-to-r from-[#08182B] via-[#0F243E] to-[#162E4D] border border-slate-800 p-6 sm:p-8 shadow-xl text-white relative overflow-hidden">
+        <div className="relative z-10 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[#F5B800] text-xs font-bold uppercase tracking-wider">
+            <span>●</span> MIPS TRAINING CENTER
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            Welcome, {cadetName}
+          </h1>
+          <p className="text-slate-300 text-sm max-w-xl">
+            Trainee / Junior Port Operations Personnel Simulation Environment
+          </p>
+        </div>
+
+        <Compass className="absolute right-4 bottom-[-30px] w-56 h-56 text-slate-700/10 pointer-events-none stroke-[1]" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="rounded-2xl bg-slate-900 border-2 border-amber-500/40 p-6 flex flex-col justify-between shadow-lg space-y-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[#F5B800] text-xs font-semibold uppercase tracking-wider">
-              <span>●</span> MIPS Cadet Training Center
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              Welcome back, {cadetName}
-            </h1>
-            <p className="text-slate-300 text-sm max-w-xl">
-              {cadetBatch} · Port Operations & Navigation Command Training
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400">
+              Active Assignment
+            </span>
+            <h2 className="text-xl font-bold text-white">
+              Container Vessel Arrival & Berthing Operation
+            </h2>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Handle the scheduled arrival of MV Nusantara (08:00 WIB). Review documents, assign the appropriate berth, and supervise cargo operations.
             </p>
           </div>
 
-          {/* Quick Stats Pill Cards */}
-          <div className="flex items-center gap-4 bg-slate-900/80 backdrop-blur-sm border border-slate-700/60 rounded-xl p-4 self-start md:self-auto shadow-inner">
-            <div className="text-center px-3 border-r border-slate-800">
-              <div className="text-2xl font-black text-[#F5B800] font-mono">
-                1 / 3
-              </div>
-              <div className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
-                Modules Done
-              </div>
-            </div>
-            <div className="text-center px-3">
-              <div className="text-2xl font-black text-emerald-400 font-mono">
-                88%
-              </div>
-              <div className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
-                Avg. Score
-              </div>
-            </div>
-          </div>
+          <button
+            onClick={() => setStep(TrainingState.SCENARIO_SELECTION)}
+            className="w-full py-3 px-4 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-bold text-sm shadow-md shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+          >
+            <span>Continue</span>
+            <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+          </button>
         </div>
 
-        {/* Decorative Compass watermark */}
-        <Compass className="absolute right-4 bottom-[-30px] w-64 h-64 text-slate-700/10 pointer-events-none stroke-[1]" />
+        <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between shadow-lg space-y-4">
+          <div className="space-y-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              Training Progress
+            </span>
+            <div className="text-3xl font-black text-white font-mono">
+              1 / 3 <span className="text-base text-slate-400 font-normal">Completed</span>
+            </div>
+            <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-[#F5B800] rounded-full" style={{ width: "33%" }}></div>
+            </div>
+            <p className="text-xs text-slate-400 pt-1">
+              Complete the active berthing scenario to unlock subsequent terminal modules.
+            </p>
+          </div>
+
+          <div className="text-xs text-slate-500 font-mono">
+            Status: Scenario 01 Active
+          </div>
+        </div>
       </div>
 
-      {/* Available Training Modules Grid */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-[#F5B800]" />
-            Active Training Curriculum
-          </h2>
-          <span className="text-xs text-slate-400 font-medium">
-            Semester 2 · Operational Scenario Series
-          </span>
-        </div>
+      <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 space-y-4 shadow-lg">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800 pb-3">
+          <BookOpen className="w-4 h-4 text-[#F5B800]" /> Available Training
+        </h3>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Active Module: Container Vessel Arrival & Berthing */}
-          <div className="lg:col-span-2 rounded-2xl bg-slate-900/90 border-2 border-amber-500/40 hover:border-[#F5B800] transition-all duration-300 p-6 shadow-lg flex flex-col justify-between group">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  READY TO LAUNCH
-                </span>
-                <span className="text-xs text-slate-400 font-mono flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-[#F5B800]" /> ~15 mins
-                </span>
-              </div>
-
+        <div className="space-y-3">
+          <div
+            onClick={() => setStep(TrainingState.SCENARIO_SELECTION)}
+            className="cursor-pointer p-4 rounded-xl bg-slate-950 border border-amber-500/40 hover:border-[#F5B800] transition-all flex items-center justify-between group"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#F5B800] animate-pulse"></div>
               <div>
-                <h3 className="text-xl font-bold text-white group-hover:text-[#F5B800] transition-colors">
-                  Container Vessel Arrival & Berthing Operation
-                </h3>
-                <p className="text-slate-400 text-sm mt-2 leading-relaxed">
-                  Analyze operational documents for the inbound container vessel{" "}
-                  <strong className="text-slate-200">MV Nusantara</strong>.
-                  Verify physical berth constraints, execute berth assignment,
-                  and monitor automated quay crane and truck operations.
+                <h4 className="text-sm font-bold text-white group-hover:text-[#F5B800] transition-colors">
+                  Vessel Arrival & Berthing
+                </h4>
+                <p className="text-xs text-slate-400">
+                  Target: MV Nusantara (280m LOA, 10.2m Draft, 50 Containers)
                 </p>
               </div>
-
-              {/* Specs Pills */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 text-xs font-mono border border-slate-700">
-                  Target: MV Nusantara (280m LOA)
-                </span>
-                <span className="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 text-xs font-mono border border-slate-700">
-                  Cargo: 50 Containers
-                </span>
-                <span className="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 text-xs font-mono border border-slate-700">
-                  Berths: B-01 vs B-02
-                </span>
-              </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-800 mt-6 flex items-center justify-between">
-              <div className="text-xs text-slate-400">
-                Difficulty: <span className="text-emerald-400 font-semibold">Basic / Level 1</span>
-              </div>
-              <button
-                onClick={() => selectScenario("SCN-001")}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-bold text-sm shadow-md shadow-amber-500/20 transition-all transform group-hover:translate-x-1"
-              >
-                <span>Launch Training Scenario</span>
-                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-            </div>
+            <button className="px-3 py-1.5 rounded-lg bg-slate-800 group-hover:bg-[#F5B800] group-hover:text-slate-950 text-slate-200 text-xs font-bold transition-all flex items-center gap-1">
+              <span>Start</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
 
-          {/* Side Progress & Competency Column */}
-          <div className="space-y-6">
-            {/* Competency Meter Card */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 space-y-4">
-              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                <Award className="w-4 h-4 text-[#F5B800]" /> Cadet Competency Rating
-              </h4>
-
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-400">Berth Allocation & Draft Check</span>
-                    <span className="font-mono font-bold text-emerald-400">92%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: "92%" }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-400">Document Analysis</span>
-                    <span className="font-mono font-bold text-[#F5B800]">85%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#F5B800] rounded-full" style={{ width: "85%" }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-400">Cargo & Crane Productivity</span>
-                    <span className="font-mono font-bold text-sky-400">76%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-sky-500 rounded-full" style={{ width: "76%" }}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Scenario 02: Feeder Cargo Arrival (PRD P1: Second Scenario) */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 hover:border-sky-500/50 transition-all p-5 space-y-3 flex flex-col justify-between group shadow-lg">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-[11px] font-semibold">
-                    <span>●</span> SCENARIO 02
-                  </span>
-                  <span className="text-[11px] text-slate-400 font-mono flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-sky-400" /> ~10 mins
-                  </span>
-                </div>
-                <h4 className="text-sm font-bold text-white group-hover:text-sky-400 transition-colors">
-                  Feeder Cargo Arrival & Priority Dispatch
+          <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/80 flex items-center justify-between opacity-60">
+            <div className="flex items-center gap-3">
+              <Circle className="w-2.5 h-2.5 text-slate-600" />
+              <div>
+                <h4 className="text-sm font-semibold text-slate-400">
+                  Cargo Handling
                 </h4>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Target: MV Baruna Mas (210m LOA, 8.2m Draft). Practice allocating the optimal feeder berth (B-02) to save deepwater berth B-01.
+                <p className="text-xs text-slate-600">
+                  Quay crane productivity, cycle sequencing & container dispatch
                 </p>
               </div>
-
-              <button
-                onClick={() => selectScenario("SCN-002")}
-                className="w-full mt-2 py-2 px-3 rounded-lg bg-slate-800 hover:bg-sky-600 text-slate-200 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-slate-700 hover:border-sky-500"
-              >
-                <span>Launch Feeder Scenario</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
             </div>
 
-            {/* Locked Module Cards */}
-            <div className="rounded-2xl bg-slate-900/50 border border-slate-800/80 p-4 space-y-3 opacity-70">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
-                  <Layers className="w-4 h-4 text-slate-500" />
-                  Hazardous IMDG Cargo Handling
-                </div>
-                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-400 flex items-center gap-1">
-                  <Lock className="w-3 h-3" /> Locked
-                </span>
-              </div>
-              <p className="text-xs text-slate-500">
-                Unlock after completing Scenarios 01 & 02.
-              </p>
-            </div>
+            <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase px-2 py-0.5 rounded bg-slate-900 border border-slate-800">
+              <Lock className="w-3 h-3" /> Locked
+            </span>
+          </div>
 
-            {/* Cohort Hall of Fame / Leaderboard Widget (PRD P1) */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 space-y-3 shadow-lg">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                  <Trophy className="w-4 h-4 text-[#F5B800]" /> Top Cadet Leaderboard
+          <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/80 flex items-center justify-between opacity-60">
+            <div className="flex items-center gap-3">
+              <Circle className="w-2.5 h-2.5 text-slate-600" />
+              <div>
+                <h4 className="text-sm font-semibold text-slate-400">
+                  Yard Operations
                 </h4>
-                <span className="text-[10px] font-mono text-slate-500">Batch 47</span>
-              </div>
-
-              <div className="space-y-2 text-xs font-mono">
-                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/80 border border-amber-500/30">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">🥇</span>
-                    <div>
-                      <div className="font-bold text-white font-sans text-xs">Cadet Pratama</div>
-                      <div className="text-[10px] text-slate-400">TRN-2026-047 · Deck</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-[#F5B800] text-sm">92</span>
-                    <span className="text-[10px] text-slate-500">/100</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">🥈</span>
-                    <div>
-                      <div className="font-bold text-slate-200 font-sans text-xs">Cadet Dewi Lestari</div>
-                      <div className="text-[10px] text-slate-400">TRN-2026-012 · Port Ops</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-slate-200 text-sm">88</span>
-                    <span className="text-[10px] text-slate-500">/100</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">🥉</span>
-                    <div>
-                      <div className="font-bold text-slate-200 font-sans text-xs">Cadet Budi Santoso</div>
-                      <div className="text-[10px] text-slate-400">TRN-2026-088 · Marine Eng</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-slate-300 text-sm">78</span>
-                    <span className="text-[10px] text-slate-500">/100</span>
-                  </div>
-                </div>
+                <p className="text-xs text-slate-600">
+                  Container yard stacking, reefer connections & truck turnaround
+                </p>
               </div>
             </div>
+
+            <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase px-2 py-0.5 rounded bg-slate-900 border border-slate-800">
+              <Lock className="w-3 h-3" /> Locked
+            </span>
           </div>
         </div>
       </div>

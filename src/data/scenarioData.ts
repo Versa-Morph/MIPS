@@ -61,29 +61,10 @@ export const trainingScenario: TrainingScenario = {
   id: "SCN-001",
   name: "Container Vessel Arrival & Berthing Operation",
   difficulty: "Basic",
-  duration: "~10-15 Minutes",
-  objective:
-    "Evaluate vessel particulars and berth specifications, approve the compliant berth allocation, and oversee automated cargo operations.",
+  duration: "~10 minutes",
+  objective: "Determine suitable berth and complete vessel operation",
   description:
-    "MV Nusantara is arriving with 50 containers. Review operational documents, verify physical constraints (LOA and Draft), assign the suitable berth, and monitor performance KPIs.",
+    "MV Nusantara is scheduled to arrive at the port at 08:00. Your task is to review available operational documents, determine the appropriate berth, and complete the vessel operation.",
   vessel: vesselMVNusantara,
   availableBerths: berths,
 };
-
-export const feederScenario: TrainingScenario = {
-  id: "SCN-002",
-  name: "Feeder Cargo Vessel Arrival & Priority Dispatch",
-  difficulty: "Intermediate",
-  duration: "~10 Minutes",
-  objective:
-    "Handle inbound feeder vessel MV Baruna Mas with 30 containers. Optimize terminal resource utilization by allocating the feeder-specific berth.",
-  description:
-    "MV Baruna Mas (LOA 210m, Draft 8.2m) is requesting priority berthing. Analyze feeder quay limitations and manage turnaround scheduling.",
-  vessel: vesselMVBaruna,
-  availableBerths: berths,
-};
-
-export const availableScenarios: TrainingScenario[] = [
-  trainingScenario,
-  feederScenario,
-];

@@ -1,5 +1,4 @@
 export enum TrainingState {
-  LOGIN = "LOGIN",
   DASHBOARD = "DASHBOARD",
   SCENARIO_SELECTION = "SCENARIO_SELECTION",
   BRIEFING = "BRIEFING",
@@ -14,8 +13,8 @@ export enum TrainingState {
 }
 
 export interface TimelineEvent {
-  timeOffsetMinutes: number; // 0, 3, 5, 8, 10, 15, 25, 35, 40, 45
-  clockTime: string; // "08:00", "08:03", "08:05", etc.
+  timeOffsetMinutes: number;
+  clockTime: string;
   title: string;
   description: string;
   category: "NAVIGATION" | "MOORING" | "CRANE" | "TRUCK" | "SYSTEM";
@@ -29,10 +28,8 @@ export interface TimelineEvent {
   craneStatus: "IDLE" | "POSITIONING" | "OPERATING" | "COMPLETED";
   truckStatus: "STANDBY" | "CYCLING" | "COMPLETED";
   vesselPosition: { x: number; y: number; rotation: number };
-  craneSpreaderY: number; // For vertical hoisting animation
+  craneSpreaderY: number;
 }
-
-export type WeatherMode = "NIGHT_RADAR" | "DAY_FAIRWAY" | "COASTAL_FOG";
 
 export interface LiveKPIs {
   elapsedSimulationMinutes: number;

@@ -8,27 +8,18 @@ import { TrainingState } from "../src/types/simulation";
 
 describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
   beforeEach(() => {
-    useTrainingStore.getState().logoutCadet();
+    useTrainingStore.getState().resetTraining();
     useSimulationStore.getState().resetSimulation();
   });
 
   it("walks through the entire 7-screen pedagogical lifecycle smoothly", () => {
     render(<Home />);
 
-    expect(screen.getByText(/Cadet Identification Portal/i)).toBeDefined();
-    const quickLoginBtn = screen.getByRole("button", {
-      name: /1-Click Quick Demo Login/i,
-    });
-    fireEvent.click(quickLoginBtn);
-    expect(useTrainingStore.getState().currentState).toBe(
-      TrainingState.DASHBOARD
-    );
-
     expect(
       screen.getByText(/Container Vessel Arrival & Berthing Operation/i)
     ).toBeDefined();
     const launchScenarioBtn = screen.getByRole("button", {
-      name: /Launch Training Scenario/i,
+      name: /Continue/i,
     });
     fireEvent.click(launchScenarioBtn);
     expect(useTrainingStore.getState().currentState).toBe(
@@ -86,7 +77,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     fireEvent.click(b01Card);
 
     const submitDecisionBtn = screen.getByRole("button", {
-      name: /Submit Berth Decision/i,
+      name: /Submit Decision/i,
     });
     fireEvent.click(submitDecisionBtn);
     expect(useTrainingStore.getState().currentState).toBe(
@@ -101,7 +92,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
       TrainingState.SIMULATION_RUNNING
     );
 
-    expect(screen.getByText(/MIPS SIMULATOR · TACTICAL HUD/i)).toBeDefined();
+    expect(screen.getByText(/TRAINING SIMULATION/i)).toBeDefined();
     expect(screen.getByText(/Terminal Event Log/i)).toBeDefined();
     expect(screen.getByText(/Operational KPI Telemetry/i)).toBeDefined();
 
@@ -109,19 +100,18 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     expect(useSimulationStore.getState().containersHandled).toBe(50);
 
     const proceedToAssessmentBtn = screen.getByRole("button", {
-      name: /Proceed to Assessment|Skip to Assessment/i,
+      name: /Complete Operation/i,
     });
     fireEvent.click(proceedToAssessmentBtn);
     expect(useTrainingStore.getState().currentState).toBe(
       TrainingState.ASSESSMENT
     );
 
-    expect(screen.getByText(/Cadet Evaluation Scorecard/i)).toBeDefined();
+    expect(screen.getByText(/TRAINING COMPLETED/i)).toBeDefined();
     expect(screen.getByText(/92/)).toBeDefined();
-    expect(screen.getByText(/EXCELLENT/i)).toBeDefined();
 
     const returnToTrainingBtn = screen.getByRole("button", {
-      name: /Return to Training Center/i,
+      name: /Back to Training Center/i,
     });
     fireEvent.click(returnToTrainingBtn);
     expect(useTrainingStore.getState().currentState).toBe(

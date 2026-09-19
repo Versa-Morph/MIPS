@@ -46,24 +46,20 @@ describe("Screen 05: Berth Allocation Decision & Validation", () => {
     const b01Card = screen.getByText(/Berth B-01 \(Deepwater Terminal\)/i);
     fireEvent.click(b01Card);
 
-    // Click Submit
     const submitButton = screen.getByRole("button", {
-      name: /Submit Berth Decision/i,
+      name: /Submit Decision/i,
     });
     fireEvent.click(submitButton);
 
-    // Decision feedback shows acceptance
     expect(
-      screen.getByText(/DECISION ACCEPTED & VERIFIED/i)
-    ).toBeDefined();
+      screen.getAllByText(/DECISION ACCEPTED/i).length
+    ).toBeGreaterThanOrEqual(1);
 
-    // START SIMULATION button appears
     const simButton = screen.getByRole("button", {
       name: /START SIMULATION/i,
     });
     expect(simButton).toBeDefined();
 
-    // Clicking simulation advances state
     fireEvent.click(simButton);
     expect(useTrainingStore.getState().currentState).toBe(
       TrainingState.SIMULATION_RUNNING
@@ -73,20 +69,17 @@ describe("Screen 05: Berth Allocation Decision & Validation", () => {
   it("rejects B-02 decision with warning banner and keeps simulation locked", () => {
     render(<BerthDecisionScreen />);
 
-    // Click Berth B-02 card
     const b02Card = screen.getByText(/Berth B-02 \(Feeder Quay\)/i);
     fireEvent.click(b02Card);
 
-    // Click Submit
     const submitButton = screen.getByRole("button", {
-      name: /Submit Berth Decision/i,
+      name: /Submit Decision/i,
     });
     fireEvent.click(submitButton);
 
-    // Warning banner shown
     expect(
-      screen.getByText(/DECISION REVIEW REQUIRED/i)
-    ).toBeDefined();
+      screen.getAllByText(/REVIEW REQUIRED/i).length
+    ).toBeGreaterThanOrEqual(1);
 
     // START SIMULATION button is NOT unlocked
     expect(screen.queryByText(/START SIMULATION/i)).toBeNull();

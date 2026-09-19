@@ -6,11 +6,10 @@ import { ProgressBar } from "../src/components/common/ProgressBar";
 import { TrainingState } from "../src/types/simulation";
 
 describe("Layout Components (Header & ProgressBar)", () => {
-  it("renders Header with academy brand, cadet profile, and vessel tag", () => {
+  it("renders Header with training center brand and cadet profile", () => {
     render(<Header />);
-    expect(screen.getByText(/MIPS ACADEMY/i)).toBeDefined();
-    expect(screen.getByText(/Cadet Pratama/i)).toBeDefined();
-    expect(screen.getByText(/Batch 47/i)).toBeDefined();
+    expect(screen.getByText(/MIPS TRAINING CENTER/i)).toBeDefined();
+    expect(screen.getByText(/Welcome, Cadet/i)).toBeDefined();
   });
 
   it("renders ProgressBar with the 5 core training milestones", () => {

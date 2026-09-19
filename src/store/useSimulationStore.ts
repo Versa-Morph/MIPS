@@ -1,29 +1,26 @@
 import { create } from "zustand";
-import { TimelineEvent, WeatherMode } from "../types/simulation";
+import { TimelineEvent } from "../types/simulation";
 import { simulationTimeline } from "../data/simulationTimeline";
 
 export interface SimulationStoreState {
   isPlaying: boolean;
-  currentSimMinute: number; // 0 to 45
-  clockTime: string; // "08:00" to "08:45"
+  currentSimMinute: number;
+  clockTime: string;
   speedMultiplier: 1 | 2 | 4;
-  weatherMode: WeatherMode;
-  containersHandled: number; // 0 to 50
-  totalContainers: number; // 50
+  containersHandled: number;
+  totalContainers: number;
   productivityMovesPerHour: number;
-  craneUtilization: number; // %
-  truckUtilization: number; // %
+  craneUtilization: number;
+  truckUtilization: number;
   isCompleted: boolean;
   currentEvent: TimelineEvent;
   eventsHistory: TimelineEvent[];
   vesselPosition: { x: number; y: number; rotation: number };
   craneSpreaderY: number;
 
-  // Actions
   play: () => void;
   pause: () => void;
   setSpeed: (speed: 1 | 2 | 4) => void;
-  setWeatherMode: (mode: WeatherMode) => void;
   seek: (minute: number) => void;
   tick: (deltaMinutes?: number) => void;
   resetSimulation: () => void;
@@ -44,7 +41,6 @@ function formatClockTime(minuteOffset: number): string {
 }
 
 function getActiveEvent(minute: number): TimelineEvent {
-  // Find the latest event whose timeOffsetMinutes <= minute
   let active = simulationTimeline[0];
   for (const event of simulationTimeline) {
     if (event.timeOffsetMinutes <= minute) {
@@ -59,13 +55,12 @@ function getActiveEvent(minute: number): TimelineEvent {
 function calculateKPIs(minute: number, containers: number) {
   let productivity = 0;
   if (minute >= 8 && containers > 0) {
-    const activeOperationMinutes = minute - 5; // Mooring completed at T+05
+    const activeOperationMinutes = minute - 5;
     productivity = Number(
       ((containers / Math.max(1, activeOperationMinutes)) * 60).toFixed(1)
     );
   }
 
-  // Crane utilization %
   let craneUtil = 0;
   if (minute >= 8 && minute <= 40) {
     craneUtil = 72;
@@ -73,7 +68,6 @@ function calculateKPIs(minute: number, containers: number) {
     craneUtil = 0;
   }
 
-  // Truck utilization %
   let truckUtil = 0;
   if (minute >= 5 && minute <= 40) {
     truckUtil = 68;
@@ -93,7 +87,6 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
   currentSimMinute: 0,
   clockTime: "08:00",
   speedMultiplier: 1,
-  weatherMode: "NIGHT_RADAR",
   containersHandled: 0,
   totalContainers: TOTAL_CONTAINERS,
   productivityMovesPerHour: 0,
@@ -118,10 +111,6 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
 
   setSpeed: (speed: 1 | 2 | 4) => {
     set({ speedMultiplier: speed });
-  },
-
-  setWeatherMode: (mode: WeatherMode) => {
-    set({ weatherMode: mode });
   },
 
   seek: (minute: number) => {

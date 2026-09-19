@@ -17,16 +17,10 @@ describe("Screen 06: Simulation View Cockpit", () => {
   it("renders 3-panel cockpit with telemetry, dossier, timeline, and KPIs", () => {
     render(<SimulationViewScreen />);
 
-    // Top Cockpit bar
-    expect(screen.getByText(/MIPS SIMULATOR · TACTICAL HUD/i)).toBeDefined();
+    expect(screen.getByText(/TRAINING SIMULATION/i)).toBeDefined();
     expect(screen.getAllByText(/MV Nusantara/i).length).toBeGreaterThanOrEqual(1);
-
-    // Controls & Telemetry
+    expect(screen.getByText(/YOUR DECISION/i)).toBeDefined();
     expect(screen.getByText(/SIM TIME/i)).toBeDefined();
-    expect(screen.getByText(/Marine Sensor Telemetry/i)).toBeDefined();
-    expect(screen.getByText(/085° ENE/i)).toBeDefined();
-
-    // Bottom monitoring deck
     expect(screen.getByText(/Terminal Event Log/i)).toBeDefined();
     expect(screen.getByText(/Operational KPI Telemetry/i)).toBeDefined();
   });
@@ -35,7 +29,7 @@ describe("Screen 06: Simulation View Cockpit", () => {
     render(<SimulationViewScreen />);
 
     const proceedButton = screen.getByRole("button", {
-      name: /Skip to Assessment|Proceed to Assessment/i,
+      name: /Complete Operation/i,
     });
     fireEvent.click(proceedButton);
 

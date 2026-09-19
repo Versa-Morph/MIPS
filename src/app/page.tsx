@@ -1,11 +1,12 @@
 "use client";
 
+"use client";
+
 import React from "react";
 import { Header } from "@/components/common/Header";
 import { ProgressBar } from "@/components/common/ProgressBar";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
-import { LoginScreen } from "@/components/screens/00_LoginScreen";
 import { DashboardScreen } from "@/components/screens/01_Dashboard";
 import { ScenarioCardScreen } from "@/components/screens/02_ScenarioCard";
 import { BriefingScreen } from "@/components/screens/03_Briefing";
@@ -15,11 +16,7 @@ import { SimulationViewScreen } from "@/components/screens/06_SimulationView";
 import { AssessmentViewScreen } from "@/components/screens/07_AssessmentView";
 
 export default function Home() {
-  const { currentState, isAuthenticated } = useTrainingStore();
-
-  if (currentState === TrainingState.LOGIN || !isAuthenticated) {
-    return <LoginScreen />;
-  }
+  const { currentState } = useTrainingStore();
 
   const renderActiveScreen = () => {
     switch (currentState) {

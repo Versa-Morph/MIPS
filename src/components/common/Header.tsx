@@ -2,36 +2,20 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   Anchor,
   User,
   RotateCcw,
   ShieldCheck,
-  LogOut,
   Volume2,
   VolumeX,
-  GraduationCap,
-  Ship,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { sound } from "@/utils/audioEngine";
 
 export function Header() {
-  const pathname = usePathname();
-  const isInstructorPage = pathname === "/instructor";
-
-  const {
-    cadetName,
-    cadetBatch,
-    cadetNrp,
-    currentState,
-    resetTraining,
-    logoutCadet,
-    setStep,
-  } = useTrainingStore();
-
+  const { cadetName, currentState, resetTraining, setStep } = useTrainingStore();
   const [isMuted, setIsMuted] = useState(sound.getIsMuted());
 
   const handleToggleSound = () => {
@@ -56,14 +40,11 @@ export function Header() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold tracking-tight text-white text-base">
-                  MIPS ACADEMY
-                </span>
-                <span className="hidden sm:inline-flex text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  Cadet Port Simulator
+                  MIPS TRAINING CENTER
                 </span>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                Operational Port Berthing & Terminal Logistics
+                Maritime Integrated Port Simulator
               </p>
             </div>
           </Link>
@@ -72,34 +53,14 @@ export function Header() {
         {isLiveSimulation && (
           <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-semibold animate-pulse">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            SIMULATION STATUS: LIVE
+            SIMULATION STATUS: RUNNING
           </div>
         )}
 
         <div className="flex items-center gap-2.5">
-          {isInstructorPage ? (
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold transition-all"
-              title="Return to Cadet Simulator view"
-            >
-              <Ship className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Cadet View</span>
-            </Link>
-          ) : (
-            <Link
-              href="/instructor"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold transition-all"
-              title="Open Instructor Gradebook & Analytics"
-            >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Instructor Portal</span>
-            </Link>
-          )}
-
           <button
             onClick={handleToggleSound}
-            title={isMuted ? "Unmute Maritime Sound Effects" : "Mute Sound Effects"}
+            title={isMuted ? "Unmute Sound" : "Mute Sound"}
             className="p-2 rounded-md hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
           >
             {isMuted ? (
@@ -125,18 +86,6 @@ export function Header() {
             <RotateCcw className="w-4 h-4" />
           </button>
 
-          <button
-            onClick={() => {
-              if (window.confirm("Logout from Cadet Portal?")) {
-                logoutCadet();
-              }
-            }}
-            title="Logout / Switch Cadet"
-            className="p-2 rounded-md hover:bg-slate-800 text-slate-400 hover:text-red-400 transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
-
           <div className="h-6 w-px bg-slate-800"></div>
 
           <div className="flex items-center gap-2.5 pl-1">
@@ -145,11 +94,8 @@ export function Header() {
             </div>
             <div className="text-left hidden sm:block">
               <div className="text-xs font-semibold text-slate-200 flex items-center gap-1">
-                {cadetName}
+                Welcome, {cadetName}
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
-              <div className="text-[10px] font-medium text-slate-400 font-mono">
-                {cadetNrp} · {cadetBatch}
               </div>
             </div>
           </div>
