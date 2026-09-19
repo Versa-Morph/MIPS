@@ -12,4 +12,7 @@ yarn-error.log*
 .superpowers
 .codegraph
 .omo
+data/*.db*
+data/*.db-wal
+data/*.db-shm
 

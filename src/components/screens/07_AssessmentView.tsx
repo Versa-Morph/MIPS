@@ -49,10 +49,6 @@ export function AssessmentViewScreen() {
 
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
 
-  useEffect(() => {
-    sound.playSuccessChime();
-  }, []);
-
   const vessel = scenario.vessel;
   const viewedCount = documents.filter((d) => d.isViewed).length;
 
@@ -84,6 +80,63 @@ export function AssessmentViewScreen() {
   ]);
 
   const { score } = assessment;
+
+  useEffect(() => {
+    sound.playSuccessChime();
+
+    const saveSessionToDb = async () => {
+      if (typeof window === "undefined" || !window.location?.origin) return;
+      try {
+        await fetch(`${window.location.origin}/api/sessions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            cadetName,
+            cadetNrp,
+            cadetDepartment,
+            cadetBatch: "Batch 47 (2026)",
+            scenarioId: scenario.id,
+            selectedBerth: selectedBerth || "B-01",
+            isFirstAttemptCorrect,
+            totalScore: score.totalScore,
+            documentReviewScore: score.documentReviewScore,
+            berthDecisionScore: score.berthDecisionScore,
+            operationScore: score.operationScore,
+            kpiScore: score.kpiScore,
+            grade: assessment.grade,
+            durationMinutes: Math.max(42, currentSimMinute),
+            productivity: productivityMovesPerHour > 0 ? productivityMovesPerHour : 71.4,
+            containersHandled: Math.max(50, containersHandled),
+            documentViews: documents.map((d) => ({
+              type: d.type,
+              duration: d.viewDurationSeconds,
+            })),
+          }),
+        });
+      } catch (e) {
+        console.error("Session auto-save failed:", e);
+      }
+    };
+
+    saveSessionToDb();
+  }, [
+    cadetName,
+    cadetNrp,
+    cadetDepartment,
+    scenario.id,
+    selectedBerth,
+    isFirstAttemptCorrect,
+    score.totalScore,
+    score.documentReviewScore,
+    score.berthDecisionScore,
+    score.operationScore,
+    score.kpiScore,
+    assessment.grade,
+    currentSimMinute,
+    productivityMovesPerHour,
+    containersHandled,
+    documents,
+  ]);
 
   const handleReviewReplay = () => {
     resetSimulation();

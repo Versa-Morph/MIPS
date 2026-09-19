@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Anchor,
   User,
@@ -9,12 +11,17 @@ import {
   LogOut,
   Volume2,
   VolumeX,
+  GraduationCap,
+  Ship,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { sound } from "@/utils/audioEngine";
 
 export function Header() {
+  const pathname = usePathname();
+  const isInstructorPage = pathname === "/instructor";
+
   const {
     cadetName,
     cadetBatch,
@@ -38,7 +45,8 @@ export function Header() {
     <header className="w-full bg-[#08182B] border-b border-slate-800 text-white shadow-md select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div
+          <Link
+            href="/"
             onClick={() => setStep(TrainingState.DASHBOARD)}
             className="cursor-pointer flex items-center gap-3 group"
           >
@@ -58,7 +66,7 @@ export function Header() {
                 Operational Port Berthing & Terminal Logistics
               </p>
             </div>
-          </div>
+          </Link>
         </div>
 
         {isLiveSimulation && (
@@ -69,6 +77,26 @@ export function Header() {
         )}
 
         <div className="flex items-center gap-2.5">
+          {isInstructorPage ? (
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold transition-all"
+              title="Return to Cadet Simulator view"
+            >
+              <Ship className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Cadet View</span>
+            </Link>
+          ) : (
+            <Link
+              href="/instructor"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold transition-all"
+              title="Open Instructor Gradebook & Analytics"
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Instructor Portal</span>
+            </Link>
+          )}
+
           <button
             onClick={handleToggleSound}
             title={isMuted ? "Unmute Maritime Sound Effects" : "Mute Sound Effects"}
