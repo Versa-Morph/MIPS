@@ -8,6 +8,7 @@ import { TrainingState } from "@/types/simulation";
 import { DashboardScreen } from "@/components/screens/01_Dashboard";
 import { ScenarioCardScreen } from "@/components/screens/02_ScenarioCard";
 import { BriefingScreen } from "@/components/screens/03_Briefing";
+import { DocumentCenterScreen } from "@/components/screens/04_DocumentCenter";
 
 export default function Home() {
   const { currentState, setStep } = useTrainingStore();
@@ -22,6 +23,9 @@ export default function Home() {
 
       case TrainingState.BRIEFING:
         return <BriefingScreen />;
+
+      case TrainingState.DOCUMENT_REVIEW:
+        return <DocumentCenterScreen />;
 
       default:
         return <DashboardScreen />;
