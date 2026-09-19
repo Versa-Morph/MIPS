@@ -11,6 +11,7 @@ import { BriefingScreen } from "@/components/screens/03_Briefing";
 import { DocumentCenterScreen } from "@/components/screens/04_DocumentCenter";
 import { BerthDecisionScreen } from "@/components/screens/05_BerthDecision";
 import { SimulationViewScreen } from "@/components/screens/06_SimulationView";
+import { AssessmentViewScreen } from "@/components/screens/07_AssessmentView";
 
 export default function Home() {
   const { currentState, setStep } = useTrainingStore();
@@ -37,6 +38,10 @@ export default function Home() {
       case TrainingState.SIMULATION_PAUSED:
       case TrainingState.SIMULATION_COMPLETED:
         return <SimulationViewScreen />;
+
+      case TrainingState.ASSESSMENT:
+      case TrainingState.TRAINING_COMPLETED:
+        return <AssessmentViewScreen />;
 
       default:
         return <DashboardScreen />;
