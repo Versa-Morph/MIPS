@@ -32,6 +32,8 @@ export interface TimelineEvent {
   craneSpreaderY: number; // For vertical hoisting animation
 }
 
+export type WeatherMode = "NIGHT_RADAR" | "DAY_FAIRWAY" | "COASTAL_FOG";
+
 export interface LiveKPIs {
   elapsedSimulationMinutes: number;
   containersHandled: number;

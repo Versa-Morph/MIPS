@@ -15,6 +15,7 @@ export function PortCanvas() {
     containersHandled,
     totalContainers,
     currentEvent,
+    weatherMode,
   } = useSimulationStore();
 
   const isOperating = currentEvent.vesselStatus === "OPERATING";
@@ -42,8 +43,26 @@ export function PortCanvas() {
         <defs>
           {/* Water gradient */}
           <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#061224" />
-            <stop offset="100%" stopColor="#0B1E36" />
+            <stop
+              offset="0%"
+              stopColor={
+                weatherMode === "DAY_FAIRWAY"
+                  ? "#0284C7"
+                  : weatherMode === "COASTAL_FOG"
+                  ? "#1E293B"
+                  : "#061224"
+              }
+            />
+            <stop
+              offset="100%"
+              stopColor={
+                weatherMode === "DAY_FAIRWAY"
+                  ? "#075985"
+                  : weatherMode === "COASTAL_FOG"
+                  ? "#334155"
+                  : "#0B1E36"
+              }
+            />
           </linearGradient>
 
           {/* Quay concrete gradient */}
@@ -348,6 +367,18 @@ export function PortCanvas() {
               containerColor="#F59E0B"
             />
           </>
+        )}
+
+        {weatherMode === "COASTAL_FOG" && (
+          <rect
+            x="0"
+            y="0"
+            width="1000"
+            height="560"
+            fill="#CBD5E1"
+            opacity="0.22"
+            className="pointer-events-none animate-pulse"
+          />
         )}
       </svg>
     </div>

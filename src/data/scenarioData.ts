@@ -15,6 +15,21 @@ export const vesselMVNusantara: Vessel = {
   callSign: "PK-47A",
 };
 
+export const vesselMVBaruna: Vessel = {
+  id: "VESSEL-002",
+  name: "MV Baruna Mas",
+  imo: "9876543",
+  loa: 210, // meters
+  beam: 28.5, // meters
+  draft: 8.2, // meters
+  fwdDraft: 7.8,
+  aftDraft: 8.2,
+  eta: "14:00",
+  totalCargoCount: 30,
+  flag: "Indonesia",
+  callSign: "PK-88B",
+};
+
 export const berths: Berth[] = [
   {
     id: "B-01",
@@ -54,3 +69,21 @@ export const trainingScenario: TrainingScenario = {
   vessel: vesselMVNusantara,
   availableBerths: berths,
 };
+
+export const feederScenario: TrainingScenario = {
+  id: "SCN-002",
+  name: "Feeder Cargo Vessel Arrival & Priority Dispatch",
+  difficulty: "Intermediate",
+  duration: "~10 Minutes",
+  objective:
+    "Handle inbound feeder vessel MV Baruna Mas with 30 containers. Optimize terminal resource utilization by allocating the feeder-specific berth.",
+  description:
+    "MV Baruna Mas (LOA 210m, Draft 8.2m) is requesting priority berthing. Analyze feeder quay limitations and manage turnaround scheduling.",
+  vessel: vesselMVBaruna,
+  availableBerths: berths,
+};
+
+export const availableScenarios: TrainingScenario[] = [
+  trainingScenario,
+  feederScenario,
+];

@@ -12,6 +12,9 @@ import {
   ArrowRight,
   Sparkles,
   CheckCircle2,
+  Sun,
+  Moon,
+  CloudFog,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
@@ -24,8 +27,14 @@ import { sound } from "@/utils/audioEngine";
 
 export function SimulationViewScreen() {
   const { scenario, selectedBerth, setStep } = useTrainingStore();
-  const { isCompleted, containersHandled, currentSimMinute, play } =
-    useSimulationStore();
+  const {
+    isCompleted,
+    containersHandled,
+    currentSimMinute,
+    play,
+    weatherMode,
+    setWeatherMode,
+  } = useSimulationStore();
 
   const vessel = scenario.vessel;
   const assignedBerth = scenario.availableBerths.find(
@@ -77,6 +86,45 @@ export function SimulationViewScreen() {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+            <button
+              onClick={() => setWeatherMode("NIGHT_RADAR")}
+              className={`p-1.5 rounded text-xs transition-colors ${
+                weatherMode === "NIGHT_RADAR"
+                  ? "bg-[#F5B800] text-slate-950 shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+              title="Tactical Night Radar Mode"
+            >
+              <Moon className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setWeatherMode("DAY_FAIRWAY")}
+              className={`p-1.5 rounded text-xs transition-colors ${
+                weatherMode === "DAY_FAIRWAY"
+                  ? "bg-sky-500 text-slate-950 shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+              title="Daylight Fairway Visual Mode"
+            >
+              <Sun className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => {
+                setWeatherMode("COASTAL_FOG");
+                sound.playFoghorn();
+              }}
+              className={`p-1.5 rounded text-xs transition-colors ${
+                weatherMode === "COASTAL_FOG"
+                  ? "bg-amber-400 text-slate-950 shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+              title="Reduced Visibility / Fairway Fog Mode"
+            >
+              <CloudFog className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] font-semibold">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             SIMULATION LIVE

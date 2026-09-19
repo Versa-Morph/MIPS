@@ -2,7 +2,12 @@ import { create } from "zustand";
 import { TrainingState } from "../types/simulation";
 import { DocumentType, OperationalDocument, TrainingScenario } from "../types/domain";
 import { initialDocuments } from "../data/documentsData";
-import { trainingScenario, vesselMVNusantara, berths } from "../data/scenarioData";
+import {
+  trainingScenario,
+  vesselMVNusantara,
+  berths,
+  availableScenarios,
+} from "../data/scenarioData";
 
 export interface DecisionResult {
   isValid: boolean;
@@ -31,6 +36,7 @@ export interface TrainingStoreState {
   submitBerthDecision: (berthId: string) => DecisionResult;
   loginCadet: (name: string, nrp: string, department: string, batch?: string) => void;
   logoutCadet: () => void;
+  selectScenario: (scenarioId: string) => void;
   resetTraining: () => void;
 }
 
@@ -145,6 +151,19 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
       documents: JSON.parse(JSON.stringify(initialDocuments)),
       activeDocumentModal: null,
     });
+  },
+
+  selectScenario: (scenarioId: string) => {
+    const found = availableScenarios.find((s) => s.id === scenarioId);
+    if (found) {
+      set({
+        scenario: found,
+        selectedBerth: null,
+        decisionAttempts: 0,
+        isFirstAttemptCorrect: false,
+        currentState: TrainingState.SCENARIO_SELECTION,
+      });
+    }
   },
 
   resetTraining: () => {

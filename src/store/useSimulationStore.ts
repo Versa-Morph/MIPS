@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { TimelineEvent } from "../types/simulation";
+import { TimelineEvent, WeatherMode } from "../types/simulation";
 import { simulationTimeline } from "../data/simulationTimeline";
 
 export interface SimulationStoreState {
@@ -7,6 +7,7 @@ export interface SimulationStoreState {
   currentSimMinute: number; // 0 to 45
   clockTime: string; // "08:00" to "08:45"
   speedMultiplier: 1 | 2 | 4;
+  weatherMode: WeatherMode;
   containersHandled: number; // 0 to 50
   totalContainers: number; // 50
   productivityMovesPerHour: number;
@@ -22,6 +23,7 @@ export interface SimulationStoreState {
   play: () => void;
   pause: () => void;
   setSpeed: (speed: 1 | 2 | 4) => void;
+  setWeatherMode: (mode: WeatherMode) => void;
   seek: (minute: number) => void;
   tick: (deltaMinutes?: number) => void;
   resetSimulation: () => void;
@@ -91,6 +93,7 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
   currentSimMinute: 0,
   clockTime: "08:00",
   speedMultiplier: 1,
+  weatherMode: "NIGHT_RADAR",
   containersHandled: 0,
   totalContainers: TOTAL_CONTAINERS,
   productivityMovesPerHour: 0,
@@ -115,6 +118,10 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
 
   setSpeed: (speed: 1 | 2 | 4) => {
     set({ speedMultiplier: speed });
+  },
+
+  setWeatherMode: (mode: WeatherMode) => {
+    set({ weatherMode: mode });
   },
 
   seek: (minute: number) => {
