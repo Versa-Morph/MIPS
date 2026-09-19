@@ -49,6 +49,7 @@ export interface OperationalDocument {
   isViewed: boolean;
   viewDurationSeconds: number;
   summary: string;
+  pdfUrl?: string;
   content: {
     header: string;
     issuer: string;

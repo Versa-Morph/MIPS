@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { X, FileText, Download, ExternalLink, Table } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   referenceNumber?: string;
+  pdfUrl?: string;
   children: React.ReactNode;
 }
 
@@ -16,8 +17,19 @@ export function Modal({
   onClose,
   title,
   referenceNumber,
+  pdfUrl,
   children,
 }: ModalProps) {
+  const [viewMode, setViewMode] = useState<"pdf" | "sheet">(
+    pdfUrl ? "pdf" : "sheet"
+  );
+
+  useEffect(() => {
+    if (pdfUrl) {
+      setViewMode("pdf");
+    }
+  }, [pdfUrl, isOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -37,20 +49,20 @@ export function Modal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 animate-fadeIn">
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-slate-950/85 backdrop-blur-sm transition-opacity"
       ></div>
 
       {/* Modal Dialog Container */}
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#0E1F35] border-2 border-slate-700/80 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-10 text-slate-100">
+      <div className="relative w-full max-w-5xl h-[92vh] bg-[#0E1F35] border-2 border-slate-700/80 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-10 text-slate-100">
         {/* Modal Header */}
-        <div className="px-6 py-4 bg-[#08182B] border-b border-slate-800 flex items-center justify-between shrink-0">
+        <div className="px-5 py-3.5 bg-[#08182B] border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white tracking-wide">
+              <span className="text-sm sm:text-base font-bold text-white tracking-wide">
                 {title}
               </span>
               {referenceNumber && (
@@ -59,33 +71,100 @@ export function Modal({
                 </span>
               )}
             </div>
-            <span className="text-[11px] text-slate-400">
-              Official Port Authority Document Viewer · Maritime Verification Mode
+            <span className="text-[11px] text-slate-400 block">
+              Official Port Authority Document Viewer · Verified Real File Stream
             </span>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
-            title="Close document (Esc)"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            {pdfUrl && (
+              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+                <button
+                  onClick={() => setViewMode("pdf")}
+                  className={`px-2.5 py-1 rounded text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                    viewMode === "pdf"
+                      ? "bg-[#F5B800] text-slate-950 font-bold shadow-sm"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                  title="Render official PDF file"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Real PDF View</span>
+                </button>
+                <button
+                  onClick={() => setViewMode("sheet")}
+                  className={`px-2.5 py-1 rounded text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                    viewMode === "sheet"
+                      ? "bg-[#F5B800] text-slate-950 font-bold shadow-sm"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                  title="Interactive digital data sheet"
+                >
+                  <Table className="w-3.5 h-3.5" />
+                  <span>Data Sheet</span>
+                </button>
+              </div>
+            )}
+
+            {pdfUrl && (
+              <a
+                href={pdfUrl}
+                download
+                className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                title="Download original PDF file"
+              >
+                <Download className="w-4 h-4" />
+              </a>
+            )}
+
+            {pdfUrl && (
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                title="Open PDF in new browser tab"
+              >
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            )}
+
+            <button
+              onClick={onClose}
+              className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+              title="Close document (Esc)"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Modal Content Body */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8 bg-slate-950/50">
-          {children}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-950/60 flex flex-col">
+          {viewMode === "pdf" && pdfUrl ? (
+            <div className="w-full h-full flex-1 min-h-[550px] rounded-xl overflow-hidden border border-slate-800 shadow-inner bg-slate-900">
+              <iframe
+                src={`${pdfUrl}#toolbar=1&navpanes=0`}
+                className="w-full h-full min-h-[550px] border-0"
+                title={title}
+              />
+            </div>
+          ) : (
+            <div className="w-full max-w-4xl mx-auto">{children}</div>
+          )}
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 bg-[#08182B] border-t border-slate-800 flex items-center justify-between shrink-0">
-          <span className="text-xs text-slate-400 font-mono">
-            Document status: <span className="text-emerald-400 font-bold">✓ Logged & Verified</span>
+        <div className="px-5 py-3 bg-[#08182B] border-t border-slate-800 flex items-center justify-between shrink-0 text-xs">
+          <span className="text-slate-400 font-mono">
+            Security status:{" "}
+            <span className="text-emerald-400 font-bold">
+              ✓ Digital Signature Verified (BKI / KSOP Priok)
+            </span>
           </span>
+
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200"
+            className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 font-semibold text-slate-200"
           >
             Close Viewer
           </button>

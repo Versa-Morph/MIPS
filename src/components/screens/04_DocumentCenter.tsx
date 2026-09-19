@@ -234,6 +234,7 @@ export function DocumentCenterScreen() {
           onClose={handleCloseDoc}
           title={currentActiveDoc.title}
           referenceNumber={currentActiveDoc.referenceNumber}
+          pdfUrl={currentActiveDoc.pdfUrl}
         >
           {renderDocumentContent()}
         </Modal>

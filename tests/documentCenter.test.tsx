@@ -22,33 +22,34 @@ describe("Screen 04: Document Center & Modal Viewer", () => {
   it("tracks document inspection and updates status to VERIFIED upon opening", () => {
     render(<DocumentCenterScreen />);
 
-    // Initially unreviewed
     const unreviewedBadges = screen.getAllByText(/UNREVIEWED/i);
     expect(unreviewedBadges.length).toBe(4);
 
-    // Click on Notice of Arrival card to open modal
     const noaCard = screen.getByText(/Notice of Arrival \(NOA\)/i);
     fireEvent.click(noaCard);
 
-    // Modal should be open showing official content
+    const pdfIframe = screen.getByTitle(/Notice of Arrival \(NOA\)/i);
+    expect(pdfIframe).toBeDefined();
+    expect(pdfIframe.getAttribute("src")).toContain("notice-of-arrival.pdf");
+
+    const dataSheetTab = screen.getByRole("button", { name: /Data Sheet/i });
+    fireEvent.click(dataSheetTab);
+
     expect(
       screen.getByText(/CRITICAL NAUTICAL PARAMETERS DECLARED/i)
     ).toBeDefined();
     expect(screen.getAllByText(/10\.20/i).length).toBeGreaterThanOrEqual(1);
 
-    // Verify in store that isViewed is now true
     const doc = useTrainingStore
       .getState()
       .documents.find((d) => d.type === "ARRIVAL_NOTICE");
     expect(doc?.isViewed).toBe(true);
 
-    // Close modal
     const closeButton = screen.getByRole("button", { name: /Close Viewer/i });
     fireEvent.click(closeButton);
 
-    // Modal closed
     expect(
-      screen.queryByText(/CRITICAL NAUTICAL PARAMETERS DECLARED/i)
+      screen.queryByTitle(/Notice of Arrival \(NOA\)/i)
     ).toBeNull();
   });
 

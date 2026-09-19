@@ -10,6 +10,7 @@ export const initialDocuments: OperationalDocument[] = [
     viewDurationSeconds: 0,
     summary:
       "Vessel ETA, dimensions, arrival drafts (Fwd/Aft), and port clearance request.",
+    pdfUrl: "/documents/notice-of-arrival.pdf",
     content: {
       header: "PORT AUTHORITY OF TANJUNG PRIOK - NOTICE OF ARRIVAL",
       issuer: "Marine Operations & Harbor Master Division",
@@ -45,6 +46,7 @@ export const initialDocuments: OperationalDocument[] = [
     viewDurationSeconds: 0,
     summary:
       "Full vessel structural parameters, deadweight tonnage, and propulsion specs.",
+    pdfUrl: "/documents/vessel-particulars.pdf",
     content: {
       header: "LLOYD'S REGISTER OF SHIPPING - SHIP PARTICULARS",
       issuer: "Ship Classification & Marine Registry",
@@ -78,6 +80,7 @@ export const initialDocuments: OperationalDocument[] = [
     viewDurationSeconds: 0,
     summary:
       "Breakdown of 50 containers (Import, Export, Reefer, Dangerous Goods).",
+    pdfUrl: "/documents/cargo-manifest.pdf",
     content: {
       header: "INTERNATIONAL CARGO MANIFEST - INWARD FREIGHT",
       issuer: "Terminal Logistics & Cargo Planning Department",
@@ -107,6 +110,7 @@ export const initialDocuments: OperationalDocument[] = [
     viewDurationSeconds: 0,
     summary:
       "Technical specifications, depth limits, and crane gear for Berths B-01 and B-02.",
+    pdfUrl: "/documents/berth-specifications.pdf",
     content: {
       header: "PORT OF MIPS - WHARF TECHNICAL SPECIFICATION SHEET",
       issuer: "Port Engineering & Berthing Master Office",
