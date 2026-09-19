@@ -95,6 +95,65 @@ export function InstructorDashboard() {
       s.cadet_department.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleExportCsv = () => {
+    if (sessions.length === 0) return;
+    const headers = [
+      "Session ID",
+      "Cadet Name",
+      "NRP",
+      "Department",
+      "Batch",
+      "Scenario",
+      "Selected Berth",
+      "First Attempt Correct",
+      "Decision Attempts",
+      "Total Score",
+      "Document Score",
+      "Berth Decision Score",
+      "Operation Score",
+      "KPI Score",
+      "Grade",
+      "Duration (Mins)",
+      "Productivity (M/H)",
+      "Containers Handled",
+      "Completed At",
+    ];
+
+    const rows = sessions.map((s) => [
+      `"${s.id}"`,
+      `"${s.cadet_name}"`,
+      `"${s.cadet_nrp}"`,
+      `"${s.cadet_department}"`,
+      `"${s.cadet_batch}"`,
+      `"${s.scenario_id}"`,
+      `"${s.selected_berth}"`,
+      s.is_first_attempt_correct ? "YES" : "NO",
+      s.decision_attempts,
+      s.total_score,
+      s.document_review_score,
+      s.berth_decision_score,
+      s.operation_score,
+      s.kpi_score,
+      `"${s.grade}"`,
+      s.duration_minutes,
+      s.productivity,
+      s.containers_handled,
+      `"${s.completed_at}"`,
+    ]);
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `mips-cadet-gradebook-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn select-none">
       <div className="rounded-2xl bg-gradient-to-r from-[#08182B] via-[#0E2239] to-[#162E4D] border border-slate-800 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -112,6 +171,14 @@ export function InstructorDashboard() {
         </div>
 
         <div className="flex items-center gap-3 self-start md:self-auto">
+          <button
+            onClick={handleExportCsv}
+            title="Export all cadet evaluation records to CSV"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/20"
+          >
+            <FileSpreadsheet className="w-4 h-4" />
+            <span className="hidden sm:inline">Export CSV</span>
+          </button>
           <button
             onClick={() => setStep(TrainingState.DASHBOARD)}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700"

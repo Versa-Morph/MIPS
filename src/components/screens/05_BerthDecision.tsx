@@ -17,6 +17,7 @@ import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { validateBerthAssignment, MANDATORY_UKC_METERS } from "@/utils/validation";
 import { sound } from "@/utils/audioEngine";
+import { Modal } from "@/components/common/Modal";
 
 export function BerthDecisionScreen() {
   const { scenario, selectedBerth, submitBerthDecision, setStep, currentState } =
@@ -24,6 +25,7 @@ export function BerthDecisionScreen() {
   const vessel = scenario.vessel;
   const berths = scenario.availableBerths;
 
+  const [isGroundingModalOpen, setIsGroundingModalOpen] = useState(false);
   const [activeChoice, setActiveChoice] = useState<string>(
     selectedBerth || "B-01"
   );
@@ -314,31 +316,46 @@ export function BerthDecisionScreen() {
       {/* Decision Feedback Alert Banner */}
       {decisionFeedback && (
         <div
-          className={`p-5 rounded-2xl border flex items-start gap-3.5 text-sm transition-all duration-300 animate-fadeIn ${
+          className={`p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm transition-all duration-300 animate-fadeIn ${
             decisionFeedback.isValid
               ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-200"
               : "bg-amber-950/40 border-amber-500/50 text-amber-200"
           }`}
         >
-          {decisionFeedback.isValid ? (
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-          ) : (
-            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-          )}
-          <div className="space-y-1">
-            <strong
-              className={`block font-bold ${
-                decisionFeedback.isValid ? "text-emerald-300" : "text-amber-300"
-              }`}
-            >
-              {decisionFeedback.isValid
-                ? "DECISION ACCEPTED & VERIFIED"
-                : "DECISION REVIEW REQUIRED"}
-            </strong>
-            <p className="text-xs sm:text-sm leading-relaxed text-slate-300">
-              {decisionFeedback.message}
-            </p>
+          <div className="flex items-start gap-3.5">
+            {decisionFeedback.isValid ? (
+              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+            ) : (
+              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+            )}
+            <div className="space-y-1">
+              <strong
+                className={`block font-bold ${
+                  decisionFeedback.isValid ? "text-emerald-300" : "text-amber-300"
+                }`}
+              >
+                {decisionFeedback.isValid
+                  ? "DECISION ACCEPTED & VERIFIED"
+                  : "DECISION REVIEW REQUIRED"}
+              </strong>
+              <p className="text-xs sm:text-sm leading-relaxed text-slate-300">
+                {decisionFeedback.message}
+              </p>
+            </div>
           </div>
+
+          {!decisionFeedback.isValid && (
+            <button
+              onClick={() => {
+                sound.playWarningAlarm();
+                setIsGroundingModalOpen(true);
+              }}
+              className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shrink-0 flex items-center gap-1.5 shadow-md shadow-red-600/20 self-start sm:self-auto"
+            >
+              <ShieldAlert className="w-4 h-4" />
+              <span>Simulate Grounding Incident (What-If)</span>
+            </button>
+          )}
         </div>
       )}
 
@@ -372,6 +389,84 @@ export function BerthDecisionScreen() {
           )}
         </div>
       </div>
+
+      {/* Grounding Incident Consequence Modal (What-If Pedagogical Simulator) */}
+      {isGroundingModalOpen && (
+        <Modal
+          isOpen={true}
+          onClose={() => setIsGroundingModalOpen(false)}
+          title="EMERGENCY SIMULATION: VESSEL GROUNDING INCIDENT AT BERTH B-02"
+          referenceNumber="INCIDENT-SIM-B02"
+        >
+          <div className="space-y-6 text-slate-100 font-sans">
+            <div className="p-4 rounded-xl bg-red-950/60 border-2 border-red-500/60 text-red-200 text-xs sm:text-sm flex items-start gap-3">
+              <ShieldAlert className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-red-300 font-bold block text-sm mb-1">
+                  MARITIME CASUALTY REPORT · CRITICAL WATER DEPTH DEFICIT
+                </strong>
+                MV Nusantara (Arrival Draft: 10.20m) grounded on the shallow seabed while attempting alongside approach at Berth B-02 (Controlling Depth: 9.00m).
+              </div>
+            </div>
+
+            {/* Bathymetric Cross-Section SVG */}
+            <div className="rounded-xl bg-slate-950 border border-slate-800 p-4">
+              <div className="text-xs font-mono font-bold text-slate-400 mb-2 flex justify-between">
+                <span>BATHYMETRIC CROSS-SECTION (BERTH B-02 BASIN)</span>
+                <span className="text-red-400">DEPTH DEFICIT: -1.20 METERS</span>
+              </div>
+
+              <svg viewBox="0 0 600 200" className="w-full h-auto bg-[#06101E] rounded-lg border border-slate-800">
+                {/* Water line */}
+                <rect x="0" y="30" width="600" height="90" fill="#0369A1" opacity="0.3" />
+                <line x1="0" y1="30" x2="600" y2="30" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="4,2" />
+                <text x="15" y="24" fill="#38BDF8" fontSize="10" fontFamily="monospace">Water Surface (LAT Datum: 0.00m)</text>
+
+                {/* Seabed at 9.0m */}
+                <rect x="0" y="120" width="600" height="80" fill="#78350F" opacity="0.4" />
+                <line x1="0" y1="120" x2="600" y2="120" stroke="#D97706" strokeWidth="2" />
+                <text x="15" y="136" fill="#F59E0B" fontSize="10" fontFamily="monospace">Berth B-02 Seabed (-9.00m LWS)</text>
+
+                {/* Grounded Ship Hull */}
+                <path d="M 120,40 L 460,40 L 450,132 L 150,132 Z" fill="#1E293B" stroke="#EF4444" strokeWidth="2" />
+                <text x="290" y="70" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontWeight="bold">MV NUSANTARA</text>
+                <text x="290" y="90" textAnchor="middle" fill="#F87171" fontSize="10" fontFamily="monospace">Draft: 10.20m (Keel at -10.20m)</text>
+
+                {/* Mud Impact Area */}
+                <rect x="150" y="120" width="300" height="12" fill="#EF4444" opacity="0.4" stroke="#DC2626" strokeDasharray="3,2" />
+                <text x="300" y="150" textAnchor="middle" fill="#EF4444" fontSize="11" fontWeight="bold" fontFamily="monospace">
+                  ⚠ 1.20m GROUNDING PENETRATION INTO HARD SAND/SILT ⚠
+                </text>
+              </svg>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <span className="text-red-400 font-bold uppercase block tracking-wider">
+                  Casualty Consequences
+                </span>
+                <ul className="space-y-1.5 text-slate-300 list-disc list-inside">
+                  <li>Double bottom plate rupture and structural hull bending.</li>
+                  <li>Rudder stock twisted and propeller blades sheared.</li>
+                  <li>Main port entrance fairway blocked to commercial traffic.</li>
+                  <li>Salvage operation required: 4 heavy tugs + lightering barge.</li>
+                </ul>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <span className="text-emerald-400 font-bold uppercase block tracking-wider">
+                  Instructor Lesson for Cadets
+                </span>
+                <p className="text-slate-300 leading-relaxed">
+                  Always enforce the <strong>Under Keel Clearance (UKC)</strong> rule. 
+                  A vessel drawing 10.20m cannot simply enter a 9.00m basin. 
+                  Allocating Berth B-01 (12.00m depth) is the only legally and physically sound choice.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

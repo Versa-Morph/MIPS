@@ -5,6 +5,7 @@ import { useSimulationStore } from "@/store/useSimulationStore";
 import { VesselGraphic } from "./VesselGraphic";
 import { CraneGraphic } from "./CraneGraphic";
 import { TruckGraphic } from "./TruckGraphic";
+import { TugboatGraphic } from "./TugboatGraphic";
 
 export function PortCanvas() {
   const {
@@ -267,6 +268,49 @@ export function PortCanvas() {
           totalContainers={totalContainers}
           isOperating={isOperating}
         />
+
+        {/* 5.1 Harbor Tugs Assisting Maneuver (PRD Image 5: Tug Bima & Tug Arjuna) */}
+        {currentSimMinute <= 10 && (
+          <g className="transition-all duration-700">
+            {/* Towing / Pushing lines from Tug Bima to Vessel Bow */}
+            <line
+              x1={vesselPosition.x + 70}
+              y1={vesselPosition.y - 10}
+              x2={vesselPosition.x + 85}
+              y2={vesselPosition.y - 40}
+              stroke="#F5B800"
+              strokeWidth="1.2"
+              strokeDasharray="3,2"
+              opacity="0.75"
+            />
+            <TugboatGraphic
+              id="BIMA"
+              x={vesselPosition.x + 85}
+              y={vesselPosition.y - 45}
+              rotation={vesselPosition.rotation + 45}
+              isPushing={currentSimMinute >= 3 && currentSimMinute <= 8}
+            />
+
+            {/* Towing / Pushing lines from Tug Arjuna to Vessel Stern */}
+            <line
+              x1={vesselPosition.x - 70}
+              y1={vesselPosition.y - 10}
+              x2={vesselPosition.x - 85}
+              y2={vesselPosition.y - 40}
+              stroke="#F5B800"
+              strokeWidth="1.2"
+              strokeDasharray="3,2"
+              opacity="0.75"
+            />
+            <TugboatGraphic
+              id="ARJUNA"
+              x={vesselPosition.x - 85}
+              y={vesselPosition.y - 45}
+              rotation={vesselPosition.rotation - 35}
+              isPushing={currentSimMinute >= 3 && currentSimMinute <= 8}
+            />
+          </g>
+        )}
 
         {/* 6. Rail-Mounted Quay Cranes QC-01 & QC-02 */}
         <CraneGraphic
