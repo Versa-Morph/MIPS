@@ -11,6 +11,8 @@ import {
   Clock,
   Compass,
   Layers,
+  Trophy,
+  Medal,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -181,6 +183,60 @@ export function DashboardScreen() {
               <p className="text-xs text-slate-500">
                 Unlock after completing Vessel Arrival & Berthing assessment.
               </p>
+            </div>
+
+            {/* Cohort Hall of Fame / Leaderboard Widget (PRD P1) */}
+            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 space-y-3 shadow-lg">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                  <Trophy className="w-4 h-4 text-[#F5B800]" /> Top Cadet Leaderboard
+                </h4>
+                <span className="text-[10px] font-mono text-slate-500">Batch 47</span>
+              </div>
+
+              <div className="space-y-2 text-xs font-mono">
+                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/80 border border-amber-500/30">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">🥇</span>
+                    <div>
+                      <div className="font-bold text-white font-sans text-xs">Cadet Pratama</div>
+                      <div className="text-[10px] text-slate-400">TRN-2026-047 · Deck</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-black text-[#F5B800] text-sm">92</span>
+                    <span className="text-[10px] text-slate-500">/100</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">🥈</span>
+                    <div>
+                      <div className="font-bold text-slate-200 font-sans text-xs">Cadet Dewi Lestari</div>
+                      <div className="text-[10px] text-slate-400">TRN-2026-012 · Port Ops</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-black text-slate-200 text-sm">88</span>
+                    <span className="text-[10px] text-slate-500">/100</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">🥉</span>
+                    <div>
+                      <div className="font-bold text-slate-200 font-sans text-xs">Cadet Budi Santoso</div>
+                      <div className="text-[10px] text-slate-400">TRN-2026-088 · Marine Eng</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-black text-slate-300 text-sm">78</span>
+                    <span className="text-[10px] text-slate-500">/100</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Download,
   FileCheck,
+  FileText,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
@@ -48,6 +49,7 @@ export function AssessmentViewScreen() {
   } = useSimulationStore();
 
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   const vessel = scenario.vessel;
   const viewedCount = documents.filter((d) => d.isViewed).length;
@@ -374,6 +376,14 @@ export function AssessmentViewScreen() {
             <FileCheck className="w-4 h-4" />
             <span>View Certificate (PDF)</span>
           </button>
+
+          <button
+            onClick={() => setIsReportModalOpen(true)}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs transition-colors shadow-md shadow-sky-600/20"
+          >
+            <FileText className="w-4 h-4" />
+            <span>Debrief Report (PDF)</span>
+          </button>
         </div>
 
         <button
@@ -400,6 +410,25 @@ export function AssessmentViewScreen() {
             </h3>
             <p className="text-xs text-slate-300 max-w-md mx-auto">
               Evaluation Score: 92/100 · Grade: EXCELLENT. Official graduation record certified under BKI and IALA training standards.
+            </p>
+          </div>
+        </Modal>
+      )}
+
+      {isReportModalOpen && (
+        <Modal
+          isOpen={true}
+          onClose={() => setIsReportModalOpen(false)}
+          title="Official Cadet Simulation Evaluation & Performance Debrief Report"
+          referenceNumber="MIPS-REP-2026-09"
+          pdfUrl="/documents/evaluation-report.pdf"
+        >
+          <div className="p-4 text-center space-y-4">
+            <h3 className="text-base font-bold text-sky-400">
+              Operational Debrief Report: {cadetName} ({cadetNrp})
+            </h3>
+            <p className="text-xs text-slate-300 max-w-md mx-auto">
+              Complete performance audit including berth allocation analysis, 4-pillar scores, and 45-minute operational event timeline.
             </p>
           </div>
         </Modal>
