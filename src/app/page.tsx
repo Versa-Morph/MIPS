@@ -9,6 +9,7 @@ import { DashboardScreen } from "@/components/screens/01_Dashboard";
 import { ScenarioCardScreen } from "@/components/screens/02_ScenarioCard";
 import { BriefingScreen } from "@/components/screens/03_Briefing";
 import { DocumentCenterScreen } from "@/components/screens/04_DocumentCenter";
+import { BerthDecisionScreen } from "@/components/screens/05_BerthDecision";
 
 export default function Home() {
   const { currentState, setStep } = useTrainingStore();
@@ -26,6 +27,10 @@ export default function Home() {
 
       case TrainingState.DOCUMENT_REVIEW:
         return <DocumentCenterScreen />;
+
+      case TrainingState.DECISION:
+      case TrainingState.DECISION_VALIDATED:
+        return <BerthDecisionScreen />;
 
       default:
         return <DashboardScreen />;
