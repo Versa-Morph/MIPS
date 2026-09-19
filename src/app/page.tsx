@@ -1,17 +1,38 @@
+"use client";
+
+import React from "react";
+import { Header } from "@/components/common/Header";
+import { ProgressBar } from "@/components/common/ProgressBar";
+import { useTrainingStore } from "@/store/useTrainingStore";
+import { TrainingState } from "@/types/simulation";
+import { DashboardScreen } from "@/components/screens/01_Dashboard";
+import { ScenarioCardScreen } from "@/components/screens/02_ScenarioCard";
+import { BriefingScreen } from "@/components/screens/03_Briefing";
+
 export default function Home() {
+  const { currentState, setStep } = useTrainingStore();
+
+  const renderActiveScreen = () => {
+    switch (currentState) {
+      case TrainingState.DASHBOARD:
+        return <DashboardScreen />;
+
+      case TrainingState.SCENARIO_SELECTION:
+        return <ScenarioCardScreen />;
+
+      case TrainingState.BRIEFING:
+        return <BriefingScreen />;
+
+      default:
+        return <DashboardScreen />;
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-slate-950 text-white">
-      <div className="max-w-2xl text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-wider">
-          MIPS Training Center
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Maritime Integrated Port Simulator
-        </h1>
-        <p className="text-slate-400 text-sm sm:text-base">
-          Taruna Training Simulation Demo — Operational Port Berthing
-        </p>
-      </div>
-    </main>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <Header />
+      <ProgressBar currentState={currentState} />
+      <main className="flex-1 overflow-y-auto">{renderActiveScreen()}</main>
+    </div>
   );
 }
