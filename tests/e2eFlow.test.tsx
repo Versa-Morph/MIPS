@@ -8,14 +8,22 @@ import { TrainingState } from "../src/types/simulation";
 
 describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
   beforeEach(() => {
-    useTrainingStore.getState().resetTraining();
+    useTrainingStore.getState().logoutCadet();
     useSimulationStore.getState().resetSimulation();
   });
 
   it("walks through the entire 7-screen pedagogical lifecycle smoothly", () => {
     render(<Home />);
 
-    // SCREEN 01: DASHBOARD
+    expect(screen.getByText(/Cadet Identification Portal/i)).toBeDefined();
+    const quickLoginBtn = screen.getByRole("button", {
+      name: /1-Click Quick Demo Login/i,
+    });
+    fireEvent.click(quickLoginBtn);
+    expect(useTrainingStore.getState().currentState).toBe(
+      TrainingState.DASHBOARD
+    );
+
     expect(
       screen.getByText(/Container Vessel Arrival & Berthing Operation/i)
     ).toBeDefined();

@@ -1,20 +1,26 @@
 "use client";
 
 import React from "react";
-import { Anchor, User, RotateCcw, ShieldCheck } from "lucide-react";
+import { Anchor, User, RotateCcw, ShieldCheck, LogOut } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 
 export function Header() {
-  const { cadetName, cadetBatch, currentState, resetTraining, setStep } =
-    useTrainingStore();
+  const {
+    cadetName,
+    cadetBatch,
+    cadetNrp,
+    currentState,
+    resetTraining,
+    logoutCadet,
+    setStep,
+  } = useTrainingStore();
 
   const isLiveSimulation = currentState === TrainingState.SIMULATION_RUNNING;
 
   return (
     <header className="w-full bg-[#08182B] border-b border-slate-800 text-white shadow-md select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand & Academy Title */}
         <div className="flex items-center gap-3">
           <div
             onClick={() => setStep(TrainingState.DASHBOARD)}
@@ -39,7 +45,6 @@ export function Header() {
           </div>
         </div>
 
-        {/* Center Live Simulation Status Badge (if in sim mode) */}
         {isLiveSimulation && (
           <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-semibold animate-pulse">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -47,7 +52,6 @@ export function Header() {
           </div>
         )}
 
-        {/* Cadet Profile & Global Reset */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => {
@@ -65,6 +69,18 @@ export function Header() {
             <RotateCcw className="w-4 h-4" />
           </button>
 
+          <button
+            onClick={() => {
+              if (window.confirm("Logout from Cadet Portal?")) {
+                logoutCadet();
+              }
+            }}
+            title="Logout / Switch Cadet"
+            className="p-2 rounded-md hover:bg-slate-800 text-slate-400 hover:text-red-400 transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+
           <div className="h-6 w-px bg-slate-800"></div>
 
           <div className="flex items-center gap-2.5 pl-1">
@@ -76,8 +92,8 @@ export function Header() {
                 {cadetName}
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               </div>
-              <div className="text-[10px] font-medium text-slate-400">
-                {cadetBatch}
+              <div className="text-[10px] font-medium text-slate-400 font-mono">
+                {cadetNrp} · {cadetBatch}
               </div>
             </div>
           </div>
