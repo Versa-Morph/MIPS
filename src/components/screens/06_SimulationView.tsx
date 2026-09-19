@@ -20,6 +20,7 @@ import { PortCanvas } from "@/components/simulation/PortCanvas";
 import { SimulationControls } from "@/components/simulation/SimulationControls";
 import { EventTimeline } from "@/components/simulation/EventTimeline";
 import { KPIDashboard } from "@/components/simulation/KPIDashboard";
+import { sound } from "@/utils/audioEngine";
 
 export function SimulationViewScreen() {
   const { scenario, selectedBerth, setStep } = useTrainingStore();
@@ -31,14 +32,22 @@ export function SimulationViewScreen() {
     (b) => b.id === selectedBerth
   );
 
-  // Auto-play on mount if at T+00
   useEffect(() => {
     if (currentSimMinute === 0) {
       play();
+    } else if (currentSimMinute === 5) {
+      sound.playFoghorn();
     }
   }, [currentSimMinute, play]);
 
+  useEffect(() => {
+    if (containersHandled > 0 && containersHandled <= 50) {
+      sound.playSpreaderClack();
+    }
+  }, [containersHandled]);
+
   const handleProceedToAssessment = () => {
+    sound.playSuccessChime();
     setStep(TrainingState.ASSESSMENT);
   };
 

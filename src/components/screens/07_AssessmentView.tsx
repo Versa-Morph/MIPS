@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import {
   Award,
   CheckCircle2,
@@ -14,11 +14,15 @@ import {
   ShieldCheck,
   ArrowRight,
   TrendingUp,
+  Download,
+  FileCheck,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
 import { TrainingState } from "@/types/simulation";
 import { calculateCadetScore } from "@/utils/scoringCalculator";
+import { Modal } from "@/components/common/Modal";
+import { sound } from "@/utils/audioEngine";
 
 export function AssessmentViewScreen() {
   const {
@@ -26,6 +30,9 @@ export function AssessmentViewScreen() {
     documents,
     selectedBerth,
     isFirstAttemptCorrect,
+    cadetName,
+    cadetNrp,
+    cadetDepartment,
     resetTraining,
     setStep,
   } = useTrainingStore();
@@ -39,6 +46,12 @@ export function AssessmentViewScreen() {
     currentSimMinute,
     resetSimulation,
   } = useSimulationStore();
+
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+
+  useEffect(() => {
+    sound.playSuccessChime();
+  }, []);
 
   const vessel = scenario.vessel;
   const viewedCount = documents.filter((d) => d.isViewed).length;
@@ -84,7 +97,6 @@ export function AssessmentViewScreen() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn select-none">
-      {/* Hero Header Scorecard Banner */}
       <div className="rounded-2xl bg-gradient-to-r from-[#08182B] via-[#0F243E] to-[#172E4C] border border-slate-800 p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="space-y-2">
@@ -95,12 +107,11 @@ export function AssessmentViewScreen() {
               Cadet Evaluation Scorecard
             </h1>
             <p className="text-slate-300 text-sm">
-              Mission: <strong className="text-white">{scenario.name}</strong> ·
+              Cadet: <strong className="text-white">{cadetName}</strong> ({cadetNrp}) ·{" "}
               Target: <span className="font-mono text-amber-400">{vessel.name}</span>
             </p>
           </div>
 
-          {/* Hero Score Gauge */}
           <div className="flex items-center gap-4 bg-slate-950/80 border-2 border-emerald-500/40 rounded-2xl p-5 shadow-2xl shrink-0">
             <div className="text-center">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">
@@ -117,18 +128,15 @@ export function AssessmentViewScreen() {
           </div>
         </div>
 
-        {/* Decorative Watermark */}
         <Award className="absolute right-4 bottom-[-30px] w-56 h-56 text-slate-700/10 pointer-events-none stroke-[1]" />
       </div>
 
-      {/* 4-Pillar Weighted Evaluation Grid (PRD Section 22) */}
       <div className="rounded-xl bg-slate-900 border border-slate-800 p-6 space-y-4 shadow-lg">
         <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800 pb-3">
           <TrendingUp className="w-4 h-4 text-[#F5B800]" /> Competency Assessment Breakdown (4 Pillars)
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          {/* Pillar 1: Document Review */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-300 flex items-center gap-2">
@@ -152,7 +160,6 @@ export function AssessmentViewScreen() {
             </p>
           </div>
 
-          {/* Pillar 2: Berth Decision */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-300 flex items-center gap-2">
@@ -176,7 +183,6 @@ export function AssessmentViewScreen() {
             </p>
           </div>
 
-          {/* Pillar 3: Operation Completion */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-300 flex items-center gap-2">
@@ -200,7 +206,6 @@ export function AssessmentViewScreen() {
             </p>
           </div>
 
-          {/* Pillar 4: KPI Performance */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2">
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-300 flex items-center gap-2">
@@ -226,7 +231,6 @@ export function AssessmentViewScreen() {
         </div>
       </div>
 
-      {/* Operational Highlights & Summary Table */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
           <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
@@ -265,7 +269,6 @@ export function AssessmentViewScreen() {
         </div>
       </div>
 
-      {/* Formative Instructor Feedback (PRD Section 21) */}
       <div className="rounded-xl bg-[#08182B] border-2 border-emerald-500/30 p-6 space-y-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-bold shrink-0">
@@ -301,15 +304,24 @@ export function AssessmentViewScreen() {
         </div>
       </div>
 
-      {/* Action Navigation Buttons */}
-      <div className="rounded-xl bg-slate-900 border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <button
-          onClick={handleReviewReplay}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors border border-slate-700"
-        >
-          <RotateCcw className="w-4 h-4" />
-          <span>Review Simulation Replay</span>
-        </button>
+      <div className="rounded-xl bg-slate-900 border border-slate-800 p-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <button
+            onClick={handleReviewReplay}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors border border-slate-700"
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span>Review Replay</span>
+          </button>
+
+          <button
+            onClick={() => setIsCertModalOpen(true)}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-md shadow-emerald-600/20"
+          >
+            <FileCheck className="w-4 h-4" />
+            <span>View Certificate (PDF)</span>
+          </button>
+        </div>
 
         <button
           onClick={handleBackToDashboard}
@@ -320,6 +332,25 @@ export function AssessmentViewScreen() {
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
         </button>
       </div>
+
+      {isCertModalOpen && (
+        <Modal
+          isOpen={true}
+          onClose={() => setIsCertModalOpen(false)}
+          title="Official Certificate of Port Operational Simulation Competency"
+          referenceNumber="MIPS-CERT-2026-09"
+          pdfUrl="/documents/cadet-certificate.pdf"
+        >
+          <div className="p-4 text-center space-y-4">
+            <h3 className="text-base font-bold text-amber-400">
+              Certificate Awarded to {cadetName} ({cadetNrp})
+            </h3>
+            <p className="text-xs text-slate-300 max-w-md mx-auto">
+              Evaluation Score: 92/100 · Grade: EXCELLENT. Official graduation record certified under BKI and IALA training standards.
+            </p>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

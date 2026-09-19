@@ -1,9 +1,18 @@
 "use client";
 
-import React from "react";
-import { Anchor, User, RotateCcw, ShieldCheck, LogOut } from "lucide-react";
+import React, { useState } from "react";
+import {
+  Anchor,
+  User,
+  RotateCcw,
+  ShieldCheck,
+  LogOut,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
+import { sound } from "@/utils/audioEngine";
 
 export function Header() {
   const {
@@ -15,6 +24,13 @@ export function Header() {
     logoutCadet,
     setStep,
   } = useTrainingStore();
+
+  const [isMuted, setIsMuted] = useState(sound.getIsMuted());
+
+  const handleToggleSound = () => {
+    const muted = sound.toggleMute();
+    setIsMuted(muted);
+  };
 
   const isLiveSimulation = currentState === TrainingState.SIMULATION_RUNNING;
 
@@ -52,7 +68,19 @@ export function Header() {
           </div>
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={handleToggleSound}
+            title={isMuted ? "Unmute Maritime Sound Effects" : "Mute Sound Effects"}
+            className="p-2 rounded-md hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+          >
+            {isMuted ? (
+              <VolumeX className="w-4 h-4 text-slate-500" />
+            ) : (
+              <Volume2 className="w-4 h-4 text-emerald-400" />
+            )}
+          </button>
+
           <button
             onClick={() => {
               if (

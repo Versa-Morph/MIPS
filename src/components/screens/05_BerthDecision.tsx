@@ -16,6 +16,7 @@ import {
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { validateBerthAssignment, MANDATORY_UKC_METERS } from "@/utils/validation";
+import { sound } from "@/utils/audioEngine";
 
 export function BerthDecisionScreen() {
   const { scenario, selectedBerth, submitBerthDecision, setStep, currentState } =
@@ -45,6 +46,11 @@ export function BerthDecisionScreen() {
 
   const handleSubmit = () => {
     const result = submitBerthDecision(activeChoice);
+    if (result.isValid) {
+      sound.playSuccessChime();
+    } else {
+      sound.playWarningAlarm();
+    }
     setDecisionFeedback({
       submitted: true,
       isValid: result.isValid,
