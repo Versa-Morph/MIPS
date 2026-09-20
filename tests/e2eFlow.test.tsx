@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
 import Home from "../src/app/page";
@@ -10,6 +10,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
   beforeEach(() => {
     useTrainingStore.getState().resetTraining();
     useSimulationStore.getState().resetSimulation();
+    vi.stubGlobal("confirm", () => true);
   });
 
   it("walks through the entire 7-screen pedagogical lifecycle smoothly", () => {
@@ -66,21 +67,25 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     const nameInput = screen.getByPlaceholderText(/cth: MV Nusantara/i);
     const callSignInput = screen.getByPlaceholderText(/cth: PK-47A/i);
     const imoInput = screen.getByPlaceholderText(/cth: 1234567/i);
+    const lastPortInput = screen.getByPlaceholderText(/cth: Singapore/i);
     const loaInput = screen.getByPlaceholderText(/cth: 280\.0/i);
     const draftInput = screen.getByPlaceholderText(/cth: 10\.20/i);
     const depthInput = screen.getByPlaceholderText(/Hitung: Draft \+ 1\.3m UKC/i);
     const ctnInput = screen.getByPlaceholderText("cth: 50");
     const reeferInput = screen.getByPlaceholderText("cth: 5");
+    const dgInput = screen.getByPlaceholderText(/cth: 4\.1/i);
     const craneInput = screen.getByPlaceholderText("cth: 3");
 
     fireEvent.change(nameInput, { target: { value: "MV Nusantara" } });
     fireEvent.change(callSignInput, { target: { value: "PK-47A" } });
     fireEvent.change(imoInput, { target: { value: "1234567" } });
+    fireEvent.change(lastPortInput, { target: { value: "Singapore" } });
     fireEvent.change(loaInput, { target: { value: "280.0" } });
     fireEvent.change(draftInput, { target: { value: "10.20" } });
     fireEvent.change(depthInput, { target: { value: "11.50" } });
     fireEvent.change(ctnInput, { target: { value: "50" } });
     fireEvent.change(reeferInput, { target: { value: "5" } });
+    fireEvent.change(dgInput, { target: { value: "4.1" } });
     fireEvent.change(craneInput, { target: { value: "3" } });
 
     const submitBtn = screen.getByRole("button", {

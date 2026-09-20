@@ -24,11 +24,13 @@ export const initialCadetDossier: CadetDossier = {
   vesselName: "",
   callSign: "",
   imoNumber: "",
+  lastPort: "",
   loa: "",
   draftAft: "",
   requiredDepth: "",
   totalContainers: "",
   reeferUnits: "",
+  dgClass: "",
   minCranes: "",
   isSubmitted: false,
   score: 0,
@@ -95,23 +97,31 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
     const nameMatch = dossier.vesselName.toLowerCase().includes("nusantara");
     const callSignMatch = dossier.callSign.toLowerCase().replace(/[^a-z0-9]/g, "").includes("pk47");
     const imoMatch = dossier.imoNumber.trim().includes("1234567");
+    const portMatch =
+      dossier.lastPort.toLowerCase().includes("singapore") ||
+      dossier.lastPort.toLowerCase().includes("sgsin");
     if (nameMatch) earned += 1.5;
     if (callSignMatch) earned += 1.5;
     if (imoMatch) earned += 1.0;
+    if (portMatch) earned += 1.0;
 
     const loaVal = parseFloat(dossier.loa.replace(",", "."));
     const draftVal = parseFloat(dossier.draftAft.replace(",", "."));
-    if (loaVal === 280 || loaVal === 280.0) earned += 3.0;
-    if (draftVal === 10.2 || draftVal === 10.20) earned += 3.0;
+    if (loaVal === 280 || loaVal === 280.0) earned += 2.5;
+    if (draftVal === 10.2 || draftVal === 10.20) earned += 2.5;
 
     const depthVal = parseFloat(dossier.requiredDepth.replace(",", "."));
-    if (depthVal === 11.5 || depthVal === 11.50) earned += 6.0;
+    if (depthVal === 11.5 || depthVal === 11.50) earned += 5.0;
 
     const ctnVal = parseInt(dossier.totalContainers, 10);
     const reeferVal = parseInt(dossier.reeferUnits, 10);
+    const dgMatch =
+      dossier.dgClass.includes("4.1") ||
+      dossier.dgClass.toLowerCase().includes("flammable");
     const craneVal = parseInt(dossier.minCranes, 10);
     if (ctnVal === 50) earned += 1.5;
     if (reeferVal === 5) earned += 1.5;
+    if (dgMatch) earned += 1.0;
     if (craneVal >= 3 && craneVal <= 4) earned += 1.0;
 
     const finalScore = Math.round(earned);

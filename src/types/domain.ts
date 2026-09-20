@@ -64,14 +64,16 @@ export interface CadetDossier {
   vesselName: string;
   callSign: string;
   imoNumber: string;
+  lastPort: string;
   loa: string;
   draftAft: string;
   requiredDepth: string;
   totalContainers: string;
   reeferUnits: string;
+  dgClass: string;
   minCranes: string;
   isSubmitted: boolean;
-  score: number; // 0 - 20 pts
+  score: number;
 }
 
 export interface TrainingScenario {

@@ -11,8 +11,8 @@ import {
   Layers,
   FileText,
   ClipboardCheck,
-  Edit3,
   Lock,
+  Anchor,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -33,6 +33,7 @@ export function DocumentCenterScreen() {
   const [vesselName, setVesselName] = useState(cadetDossier.vesselName || "");
   const [callSign, setCallSign] = useState(cadetDossier.callSign || "");
   const [imoNumber, setImoNumber] = useState(cadetDossier.imoNumber || "");
+  const [lastPort, setLastPort] = useState(cadetDossier.lastPort || "");
   const [loa, setLoa] = useState(cadetDossier.loa || "");
   const [draftAft, setDraftAft] = useState(cadetDossier.draftAft || "");
   const [requiredDepth, setRequiredDepth] = useState(
@@ -42,6 +43,7 @@ export function DocumentCenterScreen() {
     cadetDossier.totalContainers || ""
   );
   const [reeferUnits, setReeferUnits] = useState(cadetDossier.reeferUnits || "");
+  const [dgClass, setDgClass] = useState(cadetDossier.dgClass || "");
   const [minCranes, setMinCranes] = useState(cadetDossier.minCranes || "");
 
   const [submissionFeedback, setSubmissionFeedback] = useState<{
@@ -73,15 +75,27 @@ export function DocumentCenterScreen() {
 
   const handleSubmitDossier = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (
+      typeof window !== "undefined" &&
+      !window.confirm(
+        "Kirim Berkas Pre-Arrival Clearance Dossier ke Syahbandar?\n\nPERINGATAN RESMI: Berkas yang sudah dikirim akan DIKUNCI SECARA PERMANEN dan langsung dinilai akurasinya. Anda TIDAK DAPAT mengubah data kembali."
+      )
+    ) {
+      return;
+    }
+
     const result = submitCadetDossier({
       vesselName,
       callSign,
       imoNumber,
+      lastPort,
       loa,
       draftAft,
       requiredDepth,
       totalContainers,
       reeferUnits,
+      dgClass,
       minCranes,
     });
 
@@ -290,7 +304,7 @@ export function DocumentCenterScreen() {
                   PRE-ARRIVAL CLEARANCE DOSSIER
                 </h2>
                 <p className="text-[10px] text-slate-400 mt-0.5">
-                  Formulir Pemeriksaan & Ekstraksi Data Kapal (Bobot: 20 Poin)
+                  Formulir Pemeriksaan Dokumen & Verifikasi Pra-Sandar Resmi (20 Pts)
                 </p>
               </div>
 
@@ -304,7 +318,7 @@ export function DocumentCenterScreen() {
             <form onSubmit={handleSubmitDossier} className="space-y-3.5 text-xs">
               <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                  A. Identifikasi Kapal (Notice of Arrival)
+                  1. Identitas & Pelayaran Kapal (Notice of Arrival)
                 </span>
 
                 <div className="space-y-2">
@@ -350,12 +364,26 @@ export function DocumentCenterScreen() {
                       />
                     </div>
                   </div>
+
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Pelabuhan Asal (Last Port of Call)
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={lastPort}
+                      onChange={(e) => setLastPort(e.target.value)}
+                      placeholder="cth: Singapore"
+                      className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                  B. Dimensi & Sarat Air Kapal (Vessel Particulars)
+                  2. Parameter Fisik Kapal (Vessel Particulars)
                 </span>
 
                 <div className="grid grid-cols-2 gap-2">
@@ -390,7 +418,7 @@ export function DocumentCenterScreen() {
 
               <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                  C. Kalkulasi Kedalaman Wajib (Draft + UKC 1.3m)
+                  3. Kalkulasi Kedalaman Wajib (Draft + UKC 1.3m)
                 </span>
 
                 <div>
@@ -402,24 +430,24 @@ export function DocumentCenterScreen() {
                     disabled={cadetDossier.isSubmitted}
                     value={requiredDepth}
                     onChange={(e) => setRequiredDepth(e.target.value)}
-                    placeholder="Hitung: Draft + 1.3m UKC"
+                    placeholder="Hitung: Draft + 1.3m UKC (cth: 11.50)"
                     className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-emerald-400 font-bold font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
                   />
                   <span className="text-[10px] text-slate-500 mt-1 block">
-                    Kedalaman minimal agar kapal tidak mengalami bahaya kandas.
+                    Kedalaman air minimal agar kapal tidak mengalami bahaya kandas.
                   </span>
                 </div>
               </div>
 
               <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                  D. Operasi Muatan (Cargo Manifest)
+                  4. Muatan & Kebutuhan Terminal (Cargo Manifest)
                 </span>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
-                      Total Box
+                      Total Box Kontainer
                     </label>
                     <input
                       type="text"
@@ -432,7 +460,7 @@ export function DocumentCenterScreen() {
                   </div>
                   <div>
                     <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
-                      Reefer 440V
+                      Reefer 440V Units
                     </label>
                     <input
                       type="text"
@@ -443,9 +471,25 @@ export function DocumentCenterScreen() {
                       className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
                     />
                   </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-1">
                   <div>
                     <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
-                      Min. Crane
+                      DG Class (Muatan Berbahaya)
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={dgClass}
+                      onChange={(e) => setDgClass(e.target.value)}
+                      placeholder="cth: 4.1"
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-amber-300 font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Permintaan Min. Crane
                     </label>
                     <input
                       type="text"
@@ -497,27 +541,14 @@ export function DocumentCenterScreen() {
                   <span>Submit Pre-Arrival Dossier</span>
                 </button>
               ) : (
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      useTrainingStore.setState((state) => ({
-                        cadetDossier: {
-                          ...state.cadetDossier,
-                          isSubmitted: false,
-                        },
-                      }));
-                      setSubmissionFeedback(null);
-                    }}
-                    className="flex-1 py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-700"
-                  >
-                    <Edit3 className="w-3.5 h-3.5" />
-                    <span>Revisi Isian Data</span>
-                  </button>
-
-                  <div className="text-emerald-400 font-mono text-[11px] font-bold flex items-center gap-1 px-2">
-                    <Lock className="w-3.5 h-3.5" /> Locked
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                    <Lock className="w-4 h-4" />
+                    <span>BERKAS RESMI DIKUNCI (FINAL SUBMISSION)</span>
                   </div>
+                  <span className="font-mono text-xs font-bold text-amber-400">
+                    {cadetDossier.score} / 20 Pts
+                  </span>
                 </div>
               )}
             </form>
@@ -537,7 +568,7 @@ export function DocumentCenterScreen() {
               </button>
               {!cadetDossier.isSubmitted && (
                 <span className="text-[10px] text-slate-500 block text-center mt-1.5 font-mono">
-                  Isi dan submit formulir dossier untuk membuka penetapan dermaga
+                  Submit berkas dossier terlebih dahulu untuk membuka tahap alokasi dermaga
                 </span>
               )}
             </div>
