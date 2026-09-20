@@ -23,14 +23,11 @@ export interface SimulationStoreState {
   vesselPosition: { x: number; y: number; rotation: number };
   craneSpreaderY: number;
 
-  // Active check point authorizations
   pendingCheckpoint: SimulationCheckpoint | null;
   approvedCheckpoints: SimulationCheckpointType[];
 
-  // Interactive element inspection
   selectedEquipment: EquipmentInspectionData | null;
 
-  // Actions
   play: () => void;
   pause: () => void;
   setSpeed: (speed: 1 | 2 | 4) => void;
@@ -47,8 +44,8 @@ const TOTAL_CONTAINERS = 50;
 const checkpointDefinitions: Record<SimulationCheckpointType, SimulationCheckpoint> = {
   MOORING_APPROVAL: {
     id: "MOORING_APPROVAL",
-    triggerMinute: 5,
-    timeString: "08:05 WIB",
+    triggerMinute: 10,
+    timeString: "08:10 WIB",
     title: "Otorisasi Sandar & Pengikatan Tali Tambat (Mooring Clearance)",
     sender: "Foreman Regu Kepil Dermaga (Dock Line Handling Crew)",
     description:
@@ -58,8 +55,8 @@ const checkpointDefinitions: Record<SimulationCheckpointType, SimulationCheckpoi
   },
   CRANE_START_APPROVAL: {
     id: "CRANE_START_APPROVAL",
-    triggerMinute: 8,
-    timeString: "08:08 WIB",
+    triggerMinute: 15,
+    timeString: "08:15 WIB",
     title: "Otorisasi Mulai Bongkar Muat Kontainer (Quay Crane Clearance)",
     sender: "Supervisor Terminal Petikemas (Quay Crane Superintendent)",
     description:
@@ -94,22 +91,22 @@ function getActiveEvent(minute: number): TimelineEvent {
 
 function calculateKPIs(minute: number, containers: number) {
   let productivity = 0;
-  if (minute >= 8 && containers > 0) {
-    const activeOperationMinutes = minute - 5;
+  if (minute >= 15 && containers > 0) {
+    const activeOperationMinutes = minute - 15;
     productivity = Number(
       ((containers / Math.max(1, activeOperationMinutes)) * 60).toFixed(1)
     );
   }
 
   let craneUtil = 0;
-  if (minute >= 8 && minute <= 40) {
+  if (minute >= 15 && minute <= 40) {
     craneUtil = 72;
   } else if (minute > 40) {
     craneUtil = 0;
   }
 
   let truckUtil = 0;
-  if (minute >= 5 && minute <= 40) {
+  if (minute >= 10 && minute <= 40) {
     truckUtil = 68;
   } else if (minute > 40) {
     truckUtil = 0;
@@ -143,7 +140,7 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
 
   play: () => {
     const { currentSimMinute, pendingCheckpoint } = get();
-    if (pendingCheckpoint) return; // Must approve checkpoint before running
+    if (pendingCheckpoint) return;
     if (currentSimMinute >= TOTAL_SIMULATION_MINUTES) {
       get().seek(0);
     }
@@ -196,13 +193,12 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
     const { currentSimMinute, approvedCheckpoints, seek } = get();
     const nextMinute = currentSimMinute + deltaMinutes;
 
-    // Checkpoint 1: T+05 Mooring Line Clearance
     if (
-      currentSimMinute < 5 &&
-      nextMinute >= 5 &&
+      currentSimMinute < 10 &&
+      nextMinute >= 10 &&
       !approvedCheckpoints.includes("MOORING_APPROVAL")
     ) {
-      seek(5);
+      seek(10);
       set({
         isPlaying: false,
         pendingCheckpoint: checkpointDefinitions.MOORING_APPROVAL,
@@ -210,13 +206,12 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
       return;
     }
 
-    // Checkpoint 2: T+08 Crane Start Operation Clearance
     if (
-      currentSimMinute < 8 &&
-      nextMinute >= 8 &&
+      currentSimMinute < 15 &&
+      nextMinute >= 15 &&
       !approvedCheckpoints.includes("CRANE_START_APPROVAL")
     ) {
-      seek(8);
+      seek(15);
       set({
         isPlaying: false,
         pendingCheckpoint: checkpointDefinitions.CRANE_START_APPROVAL,
@@ -234,7 +229,7 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
     set({
       approvedCheckpoints: [...approvedCheckpoints, pendingCheckpoint.id],
       pendingCheckpoint: null,
-      isPlaying: true, // Auto resume simulation
+      isPlaying: true,
     });
   },
 

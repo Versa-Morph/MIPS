@@ -16,8 +16,8 @@ export const simulationTimeline: TimelineEvent[] = [
     craneSpreaderY: 260,
   },
   {
-    timeOffsetMinutes: 3,
-    clockTime: "08:03",
+    timeOffsetMinutes: 5,
+    clockTime: "08:05",
     title: "Berth Allocation Validated",
     description:
       "Port Operations confirms Berth B-01 clearance and line handling crew dispatched.",
@@ -30,8 +30,8 @@ export const simulationTimeline: TimelineEvent[] = [
     craneSpreaderY: 260,
   },
   {
-    timeOffsetMinutes: 5,
-    clockTime: "08:05",
+    timeOffsetMinutes: 10,
+    clockTime: "08:10",
     title: "Vessel Berthed Alongside B-01",
     description:
       "Mooring lines made fast at forward and aft bollards. Gangway lowered and secured.",
@@ -44,8 +44,8 @@ export const simulationTimeline: TimelineEvent[] = [
     craneSpreaderY: 250,
   },
   {
-    timeOffsetMinutes: 8,
-    clockTime: "08:08",
+    timeOffsetMinutes: 15,
+    clockTime: "08:15",
     title: "Quay Cranes Positioned & Commenced",
     description:
       "QC-01 and QC-02 lower spreaders onto container bays 02 and 06. Safety checks cleared.",
@@ -58,13 +58,13 @@ export const simulationTimeline: TimelineEvent[] = [
     craneSpreaderY: 190,
   },
   {
-    timeOffsetMinutes: 10,
-    clockTime: "08:10",
-    title: "Cargo Discharge Operations Active",
+    timeOffsetMinutes: 20,
+    clockTime: "08:20",
+    title: "Cargo Handling In Progress",
     description:
       "Twin crane discharge cycle in progress. Internal transfer trucks shuttling to yard.",
     category: "TRUCK",
-    containersCompleted: 8,
+    containersCompleted: 10,
     vesselStatus: "OPERATING",
     craneStatus: "OPERATING",
     truckStatus: "CYCLING",
@@ -72,13 +72,13 @@ export const simulationTimeline: TimelineEvent[] = [
     craneSpreaderY: 220,
   },
   {
-    timeOffsetMinutes: 15,
-    clockTime: "08:15",
+    timeOffsetMinutes: 25,
+    clockTime: "08:25",
     title: "Peak Cargo Handling Pace (71 M/H)",
     description:
       "Quay cranes operating at 71.4 moves/hour. Reefer containers prepared for electrical connection.",
     category: "CRANE",
-    containersCompleted: 18,
+    containersCompleted: 22,
     vesselStatus: "OPERATING",
     craneStatus: "OPERATING",
     truckStatus: "CYCLING",
@@ -86,13 +86,13 @@ export const simulationTimeline: TimelineEvent[] = [
     craneSpreaderY: 190,
   },
   {
-    timeOffsetMinutes: 25,
-    clockTime: "08:25",
+    timeOffsetMinutes: 30,
+    clockTime: "08:30",
     title: "Import Discharge Completed",
     description:
       "30 import containers safely transferred to yard stacks. Commencing 20 export container loading.",
     category: "SYSTEM",
-    containersCompleted: 32,
+    containersCompleted: 30,
     vesselStatus: "OPERATING",
     craneStatus: "OPERATING",
     truckStatus: "CYCLING",

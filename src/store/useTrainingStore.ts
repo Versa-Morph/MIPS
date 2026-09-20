@@ -137,9 +137,7 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
     return {
       score: finalScore,
       feedback:
-        finalScore >= 18
-          ? "✓ PRE-ARRIVAL DOSSIER VERIFIED: Seluruh parameter kapal dan keselamatan navigasi tercatat akurat."
-          : `⚠ CATATAN VERIFIKASI: Skor evaluasi dokumen ${finalScore}/20. Beberapa data teknis tidak cocok dengan berkas resmi.`,
+        "Berkas Pre-Arrival Clearance Dossier telah diterima oleh Syahbandar & Otoritas Pelabuhan. Evaluasi nilai dan akurasi data Anda akan diberikan pada Laporan Akhir (Assessment).",
     };
   },
 

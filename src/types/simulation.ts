@@ -16,7 +16,7 @@ export type SimulationCheckpointType = "MOORING_APPROVAL" | "CRANE_START_APPROVA
 
 export interface SimulationCheckpoint {
   id: SimulationCheckpointType;
-  triggerMinute: number; // T+05 or T+08
+  triggerMinute: number;
   timeString: string;
   title: string;
   sender: string;

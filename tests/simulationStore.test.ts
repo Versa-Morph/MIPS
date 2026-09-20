@@ -21,11 +21,10 @@ describe("Simulation State Store & Clock Engine (Zustand 5)", () => {
     play();
     expect(useSimulationStore.getState().isPlaying).toBe(true);
 
-    // Advance by 5 simulated minutes (T+05)
-    tick(5);
+    tick(10);
     const state = useSimulationStore.getState();
-    expect(state.currentSimMinute).toBe(5);
-    expect(state.clockTime).toBe("08:05");
+    expect(state.currentSimMinute).toBe(10);
+    expect(state.clockTime).toBe("08:10");
     expect(state.currentEvent.title).toContain("Berthed Alongside B-01");
     expect(state.vesselPosition.x).toBe(380);
   });
@@ -55,9 +54,9 @@ describe("Simulation State Store & Clock Engine (Zustand 5)", () => {
 
   it("calculates real-time productivity and equipment utilization", () => {
     const { seek } = useSimulationStore.getState();
-    seek(15);
+    seek(25);
     const state = useSimulationStore.getState();
-    expect(state.containersHandled).toBe(18);
+    expect(state.containersHandled).toBe(22);
     expect(state.productivityMovesPerHour).toBeGreaterThan(0);
     expect(state.craneUtilization).toBeGreaterThan(0);
     expect(state.truckUtilization).toBeGreaterThan(0);
