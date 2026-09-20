@@ -60,6 +60,20 @@ export interface OperationalDocument {
   };
 }
 
+export interface CadetDossier {
+  vesselName: string;
+  callSign: string;
+  imoNumber: string;
+  loa: string;
+  draftAft: string;
+  requiredDepth: string;
+  totalContainers: string;
+  reeferUnits: string;
+  minCranes: string;
+  isSubmitted: boolean;
+  score: number; // 0 - 20 pts
+}
+
 export interface TrainingScenario {
   id: string;
   name: string;

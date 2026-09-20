@@ -7,10 +7,11 @@ export interface ScoreInputParams {
   selectedBerth: string | null;
   containersCompleted: number;
   totalContainers: number;
-  actualProductivity: number; // e.g. 71.4 moves/hr
-  craneUtilPercent: number; // e.g. 72%
-  truckUtilPercent: number; // e.g. 68%
-  elapsedOperationMinutes: number; // e.g. 42 mins
+  actualProductivity: number;
+  craneUtilPercent: number;
+  truckUtilPercent: number;
+  elapsedOperationMinutes: number;
+  dossierScore?: number;
 }
 
 export function calculateCadetScore(params: ScoreInputParams): CadetAssessment {
@@ -25,11 +26,16 @@ export function calculateCadetScore(params: ScoreInputParams): CadetAssessment {
     craneUtilPercent,
     truckUtilPercent,
     elapsedOperationMinutes,
+    dossierScore,
   } = params;
 
-  // 1. Document Review Score (Max 20 pts: 5 pts per viewed doc)
-  const docScorePerUnit = 20 / Math.max(1, totalDocumentCount);
-  const documentReviewScore = Math.round(viewedDocumentCount * docScorePerUnit);
+  let documentReviewScore = 0;
+  if (dossierScore !== undefined) {
+    documentReviewScore = Math.min(20, Math.max(0, dossierScore));
+  } else {
+    const docScorePerUnit = 20 / Math.max(1, totalDocumentCount);
+    documentReviewScore = Math.round(viewedDocumentCount * docScorePerUnit);
+  }
 
   // 2. Berth Decision Score (Max 40 pts)
   const isCorrectBerth = selectedBerth === "B-01";

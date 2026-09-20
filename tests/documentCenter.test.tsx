@@ -5,18 +5,19 @@ import { DocumentCenterScreen } from "../src/components/screens/04_DocumentCente
 import { useTrainingStore } from "../src/store/useTrainingStore";
 import { TrainingState } from "../src/types/simulation";
 
-describe("Screen 04: Document Center 3-Panel Workspace (PRD Image 3)", () => {
+describe("Screen 04: Document Center Pre-Arrival Clearance Dossier (PRD Image 3)", () => {
   beforeEach(() => {
     useTrainingStore.getState().resetTraining();
     useTrainingStore.getState().setStep(TrainingState.DOCUMENT_REVIEW);
   });
 
-  it("renders 3-panel workspace matching PRD Image 3 layout", () => {
+  it("renders 3-panel workspace with packages, PDF viewer, and Pre-Arrival Clearance Dossier", () => {
     render(<DocumentCenterScreen />);
     expect(screen.getByText(/CARGO & NOTICE PACKAGE/i)).toBeDefined();
-    expect(screen.getByText(/TECHNICAL SUMMARY/i)).toBeDefined();
-    expect(screen.getByText(/ANALYSIS PROGRESS/i)).toBeDefined();
-    expect(screen.getByText(/Key Insight Found/i)).toBeDefined();
+    expect(screen.getByText(/VERIFIED SHIP DOSSIER STATUS/i)).toBeDefined();
+    expect(
+      screen.getAllByText(/PRE-ARRIVAL CLEARANCE DOSSIER/i).length
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it("lists all 4 package documents in left panel and renders real PDF file in center panel", () => {
@@ -36,25 +37,47 @@ describe("Screen 04: Document Center 3-Panel Workspace (PRD Image 3)", () => {
     expect(iframe.getAttribute("src")).toContain("notice-of-arrival.pdf");
   });
 
-  it("requires completing analysis checklist before unlocking MAKE BERTHING DECISION", () => {
+  it("requires filling and submitting Pre-Arrival Dossier before unlocking PROCEED TO BERTH ASSIGNMENT", () => {
     render(<DocumentCenterScreen />);
-    const decisionBtn = screen.getByRole("button", {
-      name: /MAKE BERTHING DECISION/i,
+    const proceedBtn = screen.getByRole("button", {
+      name: /PROCEED TO BERTH ASSIGNMENT/i,
     });
 
-    expect(decisionBtn.hasAttribute("disabled")).toBe(true);
+    // Unlocked only after submission
+    expect(proceedBtn.hasAttribute("disabled")).toBe(true);
 
-    const draftBtn = screen.getByRole("button", { name: "Draft 10.20m" });
-    const loaBtn = screen.getByRole("button", { name: "LOA 280m" });
-    const ukcBtn = screen.getByRole("button", { name: "Kedalaman 11.5m" });
+    // Fill the real cadet verification dossier form
+    const nameInput = screen.getByPlaceholderText(/cth: MV Nusantara/i);
+    const callSignInput = screen.getByPlaceholderText(/cth: PK-47A/i);
+    const imoInput = screen.getByPlaceholderText(/cth: 1234567/i);
+    const loaInput = screen.getByPlaceholderText(/cth: 280\.0/i);
+    const draftInput = screen.getByPlaceholderText(/cth: 10\.20/i);
+    const depthInput = screen.getByPlaceholderText(/Hitung: Draft \+ 1\.3m UKC/i);
+    const ctnInput = screen.getByPlaceholderText(/cth: 50/i);
 
-    fireEvent.click(draftBtn);
-    fireEvent.click(loaBtn);
-    fireEvent.click(ukcBtn);
+    fireEvent.change(nameInput, { target: { value: "MV Nusantara" } });
+    fireEvent.change(callSignInput, { target: { value: "PK-47A" } });
+    fireEvent.change(imoInput, { target: { value: "1234567" } });
+    fireEvent.change(loaInput, { target: { value: "280.0" } });
+    fireEvent.change(draftInput, { target: { value: "10.20" } });
+    fireEvent.change(depthInput, { target: { value: "11.50" } });
+    fireEvent.change(ctnInput, { target: { value: "50" } });
 
-    expect(decisionBtn.hasAttribute("disabled")).toBe(false);
+    // Submit dossier
+    const submitBtn = screen.getByRole("button", {
+      name: /Submit Pre-Arrival Dossier/i,
+    });
+    fireEvent.click(submitBtn);
 
-    fireEvent.click(decisionBtn);
+    // Verified feedback shows high score
+    expect(screen.getByText(/PRE-ARRIVAL DOSSIER VERIFIED/i)).toBeDefined();
+    expect(useTrainingStore.getState().cadetDossier.isSubmitted).toBe(true);
+    expect(useTrainingStore.getState().cadetDossier.score).toBeGreaterThanOrEqual(18);
+
+    // PROCEED TO BERTH ASSIGNMENT is now unlocked
+    expect(proceedBtn.hasAttribute("disabled")).toBe(false);
+
+    fireEvent.click(proceedBtn);
     expect(useTrainingStore.getState().currentState).toBe(
       TrainingState.DECISION
     );

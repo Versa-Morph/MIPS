@@ -25,6 +25,7 @@ export function AssessmentViewScreen() {
     documents,
     selectedBerth,
     isFirstAttemptCorrect,
+    cadetDossier,
     resetTraining,
     setStep,
   } = useTrainingStore();
@@ -55,6 +56,7 @@ export function AssessmentViewScreen() {
       craneUtilPercent: craneUtilization > 0 ? craneUtilization : 72,
       truckUtilPercent: truckUtilization > 0 ? truckUtilization : 68,
       elapsedOperationMinutes: Math.max(42, currentSimMinute),
+      dossierScore: cadetDossier?.isSubmitted ? cadetDossier.score : undefined,
     });
   }, [
     viewedCount,
@@ -67,6 +69,7 @@ export function AssessmentViewScreen() {
     craneUtilization,
     truckUtilization,
     currentSimMinute,
+    cadetDossier,
   ]);
 
   const { score } = assessment;

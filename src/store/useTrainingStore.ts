@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { TrainingState } from "../types/simulation";
-import { DocumentType, OperationalDocument, TrainingScenario } from "../types/domain";
+import {
+  DocumentType,
+  OperationalDocument,
+  TrainingScenario,
+  CadetDossier,
+} from "../types/domain";
 import { initialDocuments } from "../data/documentsData";
 import {
   trainingScenario,
@@ -15,6 +20,20 @@ export interface DecisionResult {
   draftCompatible: boolean;
 }
 
+export const initialCadetDossier: CadetDossier = {
+  vesselName: "",
+  callSign: "",
+  imoNumber: "",
+  loa: "",
+  draftAft: "",
+  requiredDepth: "",
+  totalContainers: "",
+  reeferUnits: "",
+  minCranes: "",
+  isSubmitted: false,
+  score: 0,
+};
+
 export interface TrainingStoreState {
   currentState: TrainingState;
   scenario: TrainingScenario;
@@ -24,10 +43,15 @@ export interface TrainingStoreState {
   isFirstAttemptCorrect: boolean;
   cadetName: string;
   activeDocumentModal: DocumentType | null;
+  cadetDossier: CadetDossier;
 
   setStep: (step: TrainingState) => void;
   openDocumentModal: (type: DocumentType | null) => void;
   markDocumentViewed: (type: DocumentType, durationSeconds?: number) => void;
+  submitCadetDossier: (dossier: Omit<CadetDossier, "isSubmitted" | "score">) => {
+    score: number;
+    feedback: string;
+  };
   submitBerthDecision: (berthId: string) => DecisionResult;
   resetTraining: () => void;
 }
@@ -41,6 +65,7 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
   isFirstAttemptCorrect: false,
   cadetName: "Cadet",
   activeDocumentModal: null,
+  cadetDossier: { ...initialCadetDossier },
 
   setStep: (step: TrainingState) => {
     set({ currentState: step });
@@ -62,6 +87,50 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
           : doc
       ),
     }));
+  },
+
+  submitCadetDossier: (dossier) => {
+    let earned = 0;
+
+    const nameMatch = dossier.vesselName.toLowerCase().includes("nusantara");
+    const callSignMatch = dossier.callSign.toLowerCase().replace(/[^a-z0-9]/g, "").includes("pk47");
+    const imoMatch = dossier.imoNumber.trim().includes("1234567");
+    if (nameMatch) earned += 1.5;
+    if (callSignMatch) earned += 1.5;
+    if (imoMatch) earned += 1.0;
+
+    const loaVal = parseFloat(dossier.loa.replace(",", "."));
+    const draftVal = parseFloat(dossier.draftAft.replace(",", "."));
+    if (loaVal === 280 || loaVal === 280.0) earned += 3.0;
+    if (draftVal === 10.2 || draftVal === 10.20) earned += 3.0;
+
+    const depthVal = parseFloat(dossier.requiredDepth.replace(",", "."));
+    if (depthVal === 11.5 || depthVal === 11.50) earned += 6.0;
+
+    const ctnVal = parseInt(dossier.totalContainers, 10);
+    const reeferVal = parseInt(dossier.reeferUnits, 10);
+    const craneVal = parseInt(dossier.minCranes, 10);
+    if (ctnVal === 50) earned += 1.5;
+    if (reeferVal === 5) earned += 1.5;
+    if (craneVal >= 3 && craneVal <= 4) earned += 1.0;
+
+    const finalScore = Math.round(earned);
+
+    set({
+      cadetDossier: {
+        ...dossier,
+        isSubmitted: true,
+        score: finalScore,
+      },
+    });
+
+    return {
+      score: finalScore,
+      feedback:
+        finalScore >= 18
+          ? "✓ PRE-ARRIVAL DOSSIER VERIFIED: Seluruh parameter kapal dan keselamatan navigasi tercatat akurat."
+          : `⚠ CATATAN VERIFIKASI: Skor evaluasi dokumen ${finalScore}/20. Beberapa data teknis tidak cocok dengan berkas resmi.`,
+    };
   },
 
   submitBerthDecision: (berthId: string): DecisionResult => {
@@ -121,6 +190,7 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
       decisionAttempts: 0,
       isFirstAttemptCorrect: false,
       activeDocumentModal: null,
+      cadetDossier: { ...initialCadetDossier },
     });
   },
 }));

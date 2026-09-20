@@ -50,23 +50,46 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
       screen.getAllByText(/Notice of Arrival \(NOA\)/i).length
     ).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/CARGO & NOTICE PACKAGE/i)).toBeDefined();
-    expect(screen.getByText(/ANALYSIS PROGRESS/i)).toBeDefined();
+    expect(
+      screen.getAllByText(/PRE-ARRIVAL CLEARANCE DOSSIER/i).length
+    ).toBeGreaterThanOrEqual(1);
 
     fireEvent.click(screen.getAllByText(/Notice of Arrival \(NOA\)/i)[0]);
     fireEvent.click(screen.getByText(/Vessel Particulars & Registry/i));
     fireEvent.click(screen.getByText(/Dangerous Goods & Cargo Manifest/i));
     fireEvent.click(screen.getByText(/Port Bathymetry & Pelindo Master Berth Sheet/i));
 
-    const draftBtn = screen.getByRole("button", { name: "Draft 10.20m" });
-    const loaBtn = screen.getByRole("button", { name: "LOA 280m" });
-    const ukcBtn = screen.getByRole("button", { name: "Kedalaman 11.5m" });
+    expect(
+      screen.getAllByText(/PRE-ARRIVAL CLEARANCE DOSSIER/i).length
+    ).toBeGreaterThanOrEqual(1);
 
-    fireEvent.click(draftBtn);
-    fireEvent.click(loaBtn);
-    fireEvent.click(ukcBtn);
+    const nameInput = screen.getByPlaceholderText(/cth: MV Nusantara/i);
+    const callSignInput = screen.getByPlaceholderText(/cth: PK-47A/i);
+    const imoInput = screen.getByPlaceholderText(/cth: 1234567/i);
+    const loaInput = screen.getByPlaceholderText(/cth: 280\.0/i);
+    const draftInput = screen.getByPlaceholderText(/cth: 10\.20/i);
+    const depthInput = screen.getByPlaceholderText(/Hitung: Draft \+ 1\.3m UKC/i);
+    const ctnInput = screen.getByPlaceholderText("cth: 50");
+    const reeferInput = screen.getByPlaceholderText("cth: 5");
+    const craneInput = screen.getByPlaceholderText("cth: 3");
+
+    fireEvent.change(nameInput, { target: { value: "MV Nusantara" } });
+    fireEvent.change(callSignInput, { target: { value: "PK-47A" } });
+    fireEvent.change(imoInput, { target: { value: "1234567" } });
+    fireEvent.change(loaInput, { target: { value: "280.0" } });
+    fireEvent.change(draftInput, { target: { value: "10.20" } });
+    fireEvent.change(depthInput, { target: { value: "11.50" } });
+    fireEvent.change(ctnInput, { target: { value: "50" } });
+    fireEvent.change(reeferInput, { target: { value: "5" } });
+    fireEvent.change(craneInput, { target: { value: "3" } });
+
+    const submitBtn = screen.getByRole("button", {
+      name: /Submit Pre-Arrival Dossier/i,
+    });
+    fireEvent.click(submitBtn);
 
     const proceedToDecisionBtn = screen.getByRole("button", {
-      name: /MAKE BERTHING DECISION/i,
+      name: /PROCEED TO BERTH ASSIGNMENT/i,
     });
     fireEvent.click(proceedToDecisionBtn);
     expect(useTrainingStore.getState().currentState).toBe(

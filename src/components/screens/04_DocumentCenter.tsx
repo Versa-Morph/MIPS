@@ -6,27 +6,58 @@ import {
   XCircle,
   ArrowRight,
   ArrowLeft,
-  Lightbulb,
-  ExternalLink,
   Download,
+  ExternalLink,
   Layers,
   FileText,
-  HelpCircle,
   ClipboardCheck,
+  Edit3,
+  Lock,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { DocumentType } from "@/types/domain";
+import { sound } from "@/utils/audioEngine";
 
 export function DocumentCenterScreen() {
-  const { documents, markDocumentViewed, setStep } = useTrainingStore();
+  const {
+    documents,
+    markDocumentViewed,
+    setStep,
+    cadetDossier,
+    submitCadetDossier,
+  } = useTrainingStore();
 
   const [selectedType, setSelectedType] = useState<DocumentType>("ARRIVAL_NOTICE");
 
-  // Interactive Cadet Worksheet Answers (Real Assignment Task)
-  const [selectedDraft, setSelectedDraft] = useState<string>("");
-  const [selectedLoa, setSelectedLoa] = useState<string>("");
-  const [selectedUkcDepth, setSelectedUkcDepth] = useState<string>("");
+  const [vesselName, setVesselName] = useState(cadetDossier.vesselName || "");
+  const [callSign, setCallSign] = useState(cadetDossier.callSign || "");
+  const [imoNumber, setImoNumber] = useState(cadetDossier.imoNumber || "");
+  const [loa, setLoa] = useState(cadetDossier.loa || "");
+  const [draftAft, setDraftAft] = useState(cadetDossier.draftAft || "");
+  const [requiredDepth, setRequiredDepth] = useState(
+    cadetDossier.requiredDepth || ""
+  );
+  const [totalContainers, setTotalContainers] = useState(
+    cadetDossier.totalContainers || ""
+  );
+  const [reeferUnits, setReeferUnits] = useState(cadetDossier.reeferUnits || "");
+  const [minCranes, setMinCranes] = useState(cadetDossier.minCranes || "");
+
+  const [submissionFeedback, setSubmissionFeedback] = useState<{
+    score: number;
+    feedback: string;
+  } | null>(
+    cadetDossier.isSubmitted
+      ? {
+          score: cadetDossier.score,
+          feedback:
+            cadetDossier.score >= 18
+              ? "✓ PRE-ARRIVAL DOSSIER VERIFIED: Seluruh parameter kapal dan keselamatan navigasi tercatat akurat."
+              : `⚠ EVALUASI DOKUMEN: Skor ${cadetDossier.score}/20. Beberapa data teknis tidak cocok dengan berkas resmi.`,
+        }
+      : null
+  );
 
   useEffect(() => {
     markDocumentViewed(selectedType, 15);
@@ -40,21 +71,43 @@ export function DocumentCenterScreen() {
     markDocumentViewed(type, 15);
   };
 
-  // Correct answers from official documents
-  const isDraftCorrect = selectedDraft === "10.20";
-  const isLoaCorrect = selectedLoa === "280.0";
-  const isUkcDepthCorrect = selectedUkcDepth === "11.50";
+  const handleSubmitDossier = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = submitCadetDossier({
+      vesselName,
+      callSign,
+      imoNumber,
+      loa,
+      draftAft,
+      requiredDepth,
+      totalContainers,
+      reeferUnits,
+      minCranes,
+    });
 
-  const isAnalysisComplete =
-    isDraftCorrect && isLoaCorrect && isUkcDepthCorrect;
+    if (result.score >= 18) {
+      sound.playSuccessChime();
+    } else {
+      sound.playWarningAlarm();
+    }
+
+    setSubmissionFeedback(result);
+  };
 
   const handleProceed = () => {
     setStep(TrainingState.DECISION);
   };
 
+  const isFormFilled =
+    vesselName.trim() !== "" &&
+    callSign.trim() !== "" &&
+    loa.trim() !== "" &&
+    draftAft.trim() !== "" &&
+    requiredDepth.trim() !== "" &&
+    totalContainers.trim() !== "";
+
   return (
     <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 animate-fadeIn select-none">
-      {/* Top Navigation Bar */}
       <div className="rounded-xl bg-[#08182B] border border-slate-800 px-4 py-3 flex items-center justify-between shadow-md text-white text-xs">
         <div className="flex items-center gap-3">
           <button
@@ -66,7 +119,7 @@ export function DocumentCenterScreen() {
           </button>
           <span className="text-slate-600">/</span>
           <div className="flex items-center gap-2 font-bold tracking-wider text-amber-400">
-            <span>■ 02 ANALYSIS · DOCUMENT CENTER WORKSPACE</span>
+            <span>■ 02 ANALYSIS · PRE-ARRIVAL CLEARANCE DOSSIER</span>
           </div>
         </div>
 
@@ -79,9 +132,7 @@ export function DocumentCenterScreen() {
         </div>
       </div>
 
-      {/* 3-Panel Integrated Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-        {/* PANEL 1 (LEFT, 3 cols): Cargo & Notice Package Selector + Technical Summary */}
         <div className="lg:col-span-3 space-y-4">
           <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3 shadow-lg">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-300 border-b border-slate-800 pb-2.5 flex items-center gap-2">
@@ -127,54 +178,53 @@ export function DocumentCenterScreen() {
             </div>
           </div>
 
-          {/* Technical Summary Card (PRD Image 3) */}
           <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 shadow-lg space-y-3">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block border-b border-slate-800 pb-1.5">
-              TECHNICAL SUMMARY
+              VERIFIED SHIP DOSSIER STATUS
             </span>
             <div className="space-y-2 text-xs font-mono">
               <div className="flex justify-between py-1 border-b border-slate-950">
+                <span className="text-slate-400 font-sans">Ship Name:</span>
+                <span className="font-bold text-white">
+                  {cadetDossier.isSubmitted ? cadetDossier.vesselName : "--"}
+                </span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-slate-950">
                 <span className="text-slate-400 font-sans">Length (LOA):</span>
                 <span className="font-bold text-white">
-                  {isLoaCorrect ? "280.0 m" : "-- m"}
+                  {cadetDossier.isSubmitted ? `${cadetDossier.loa} m` : "-- m"}
                 </span>
               </div>
               <div className="flex justify-between py-1 border-b border-slate-950">
                 <span className="text-slate-400 font-sans">Arrival Draft:</span>
-                <span
-                  className={`font-bold px-1 rounded ${
-                    isDraftCorrect
-                      ? "text-red-400 bg-red-950/60"
-                      : "text-slate-500"
-                  }`}
-                >
-                  {isDraftCorrect ? "10.20 m" : "-- m"}
+                <span className="font-bold text-amber-400">
+                  {cadetDossier.isSubmitted
+                    ? `${cadetDossier.draftAft} m`
+                    : "-- m"}
                 </span>
               </div>
               <div className="flex justify-between py-1 border-b border-slate-950">
-                <span className="text-slate-400 font-sans">Controlling Depth:</span>
-                <span
-                  className={`font-bold px-1 rounded ${
-                    isUkcDepthCorrect
-                      ? "text-emerald-400 bg-emerald-950/60"
-                      : "text-slate-500"
-                  }`}
-                >
-                  {isUkcDepthCorrect ? "11.50 m (Req)" : "-- m"}
+                <span className="text-slate-400 font-sans">Required Depth:</span>
+                <span className="font-bold text-emerald-400">
+                  {cadetDossier.isSubmitted
+                    ? `${cadetDossier.requiredDepth} m`
+                    : "-- m"}
                 </span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-slate-400 font-sans">Cargo Lot:</span>
-                <span className="font-bold text-sky-400">50 Containers</span>
+                <span className="text-slate-400 font-sans">Dossier Score:</span>
+                <span className="font-bold text-[#F5B800]">
+                  {cadetDossier.isSubmitted
+                    ? `${cadetDossier.score} / 20 pts`
+                    : "Not Submitted"}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* PANEL 2 (CENTER, 6 cols): Real PDF Document Viewer (Direct File Render) */}
-        <div className="lg:col-span-6 space-y-3">
-          <div className="rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl p-4 flex flex-col min-h-[620px]">
-            {/* Header / Document Reference & File Actions */}
+        <div className="lg:col-span-5 space-y-3">
+          <div className="rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl p-4 flex flex-col min-h-[660px]">
             <div className="border-b border-slate-800 pb-3 mb-3 flex items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-[#F5B800] text-slate-950 flex items-center justify-center font-bold">
@@ -190,7 +240,6 @@ export function DocumentCenterScreen() {
                 </div>
               </div>
 
-              {/* Direct File Action Buttons */}
               <div className="flex items-center gap-1.5">
                 {activeDoc.pdfUrl && (
                   <>
@@ -216,12 +265,11 @@ export function DocumentCenterScreen() {
               </div>
             </div>
 
-            {/* Direct Real PDF Iframe Render */}
-            <div className="flex-1 w-full min-h-[540px] rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
+            <div className="flex-1 w-full min-h-[580px] rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
               {activeDoc.pdfUrl ? (
                 <iframe
                   src={`${activeDoc.pdfUrl}#toolbar=1`}
-                  className="w-full h-full min-h-[540px] border-0"
+                  className="w-full h-full min-h-[580px] border-0"
                   title={activeDoc.title}
                 />
               ) : (
@@ -233,239 +281,263 @@ export function DocumentCenterScreen() {
           </div>
         </div>
 
-        {/* PANEL 3 (RIGHT, 3 cols): Analysis Progress & Cadet Operational Worksheet */}
-        <div className="lg:col-span-3 space-y-4">
-          <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-4 shadow-lg">
-            <div className="border-b border-slate-800 pb-2.5">
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                <ClipboardCheck className="w-4 h-4 text-[#F5B800]" />
-                ANALYSIS PROGRESS
-              </h2>
-              <p className="text-[10px] text-slate-400 mt-1">
-                Tugas Analisis Taruna: Baca berkas PDF resmi di tengah, lalu temukan dan jawab parameter di bawah ini.
-              </p>
+        <div className="lg:col-span-4 space-y-4">
+          <div className="rounded-xl bg-slate-900 border border-slate-800 p-5 space-y-4 shadow-lg">
+            <div className="border-b border-slate-800 pb-2.5 flex items-center justify-between">
+              <div>
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-200 flex items-center gap-2">
+                  <ClipboardCheck className="w-4 h-4 text-[#F5B800]" />
+                  PRE-ARRIVAL CLEARANCE DOSSIER
+                </h2>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Formulir Pemeriksaan & Ekstraksi Data Kapal (Bobot: 20 Poin)
+                </p>
+              </div>
+
+              {cadetDossier.isSubmitted && (
+                <span className="font-mono text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  {cadetDossier.score}/20 pts
+                </span>
+              )}
             </div>
 
-            {/* Real Assignment Form Tasks */}
-            <div className="space-y-4 text-xs">
-              {/* Task 1: Identify Draft Requirement */}
-              <div
-                className={`p-3 rounded-xl border transition-all space-y-2 ${
-                  isDraftCorrect
-                    ? "bg-emerald-950/30 border-emerald-500/50 text-slate-200"
-                    : selectedDraft
-                    ? "bg-red-950/20 border-red-500/40 text-slate-300"
-                    : "bg-slate-950 border-slate-800 text-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs flex items-center gap-1.5">
-                    {isDraftCorrect ? (
+            <form onSubmit={handleSubmitDossier} className="space-y-3.5 text-xs">
+              <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                  A. Identifikasi Kapal (Notice of Arrival)
+                </span>
+
+                <div className="space-y-2">
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Nama Kapal (Vessel Name)
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={vesselName}
+                      onChange={(e) => setVesselName(e.target.value)}
+                      placeholder="cth: MV Nusantara"
+                      className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                        Call Sign
+                      </label>
+                      <input
+                        type="text"
+                        disabled={cadetDossier.isSubmitted}
+                        value={callSign}
+                        onChange={(e) => setCallSign(e.target.value)}
+                        placeholder="cth: PK-47A"
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                        IMO Number
+                      </label>
+                      <input
+                        type="text"
+                        disabled={cadetDossier.isSubmitted}
+                        value={imoNumber}
+                        onChange={(e) => setImoNumber(e.target.value)}
+                        placeholder="cth: 1234567"
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                  B. Dimensi & Sarat Air Kapal (Vessel Particulars)
+                </span>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Length Overall (LOA, m)
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={loa}
+                      onChange={(e) => setLoa(e.target.value)}
+                      placeholder="cth: 280.0"
+                      className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Arrival Draft Aft (m)
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={draftAft}
+                      onChange={(e) => setDraftAft(e.target.value)}
+                      placeholder="cth: 10.20"
+                      className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-amber-400 font-bold font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                  C. Kalkulasi Kedalaman Wajib (Draft + UKC 1.3m)
+                </span>
+
+                <div>
+                  <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                    Controlling Depth yang Disyaratkan (Meters)
+                  </label>
+                  <input
+                    type="text"
+                    disabled={cadetDossier.isSubmitted}
+                    value={requiredDepth}
+                    onChange={(e) => setRequiredDepth(e.target.value)}
+                    placeholder="Hitung: Draft + 1.3m UKC"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-emerald-400 font-bold font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                  />
+                  <span className="text-[10px] text-slate-500 mt-1 block">
+                    Kedalaman minimal agar kapal tidak mengalami bahaya kandas.
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                  D. Operasi Muatan (Cargo Manifest)
+                </span>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Total Box
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={totalContainers}
+                      onChange={(e) => setTotalContainers(e.target.value)}
+                      placeholder="cth: 50"
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Reefer 440V
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={reeferUnits}
+                      onChange={(e) => setReeferUnits(e.target.value)}
+                      placeholder="cth: 5"
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-slate-300 font-semibold block mb-0.5 text-[11px]">
+                      Min. Crane
+                    </label>
+                    <input
+                      type="text"
+                      disabled={cadetDossier.isSubmitted}
+                      value={minCranes}
+                      onChange={(e) => setMinCranes(e.target.value)}
+                      placeholder="cth: 3"
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:border-[#F5B800] outline-none disabled:opacity-60"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {submissionFeedback && (
+                <div
+                  className={`p-3 rounded-xl border text-xs leading-relaxed space-y-1 ${
+                    submissionFeedback.score >= 18
+                      ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-200"
+                      : "bg-amber-950/40 border-amber-500/50 text-amber-200"
+                  }`}
+                >
+                  <div className="font-bold flex items-center gap-1.5">
+                    {submissionFeedback.score >= 18 ? (
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    ) : selectedDraft ? (
-                      <XCircle className="w-4 h-4 text-red-400 shrink-0" />
                     ) : (
-                      <span className="w-4 h-4 rounded-full border border-slate-600 flex items-center justify-center text-[10px] text-slate-500">
-                        1
-                      </span>
+                      <XCircle className="w-4 h-4 text-amber-400 shrink-0" />
                     )}
-                    Identify Draft Requirement
-                  </span>
-                  {isDraftCorrect && (
-                    <span className="text-[10px] font-mono font-bold text-emerald-400">
-                      ✓ Valid
+                    <span>
+                      Dossier Score: {submissionFeedback.score} / 20 Poin
                     </span>
-                  )}
+                  </div>
+                  <p className="text-[11px] text-slate-300">
+                    {submissionFeedback.feedback}
+                  </p>
                 </div>
+              )}
 
-                <p className="text-[11px] text-slate-400 leading-snug">
-                  Berapa Maximum Arrival Draft (Aft) MV Nusantara pada dokumen NOA?
-                </p>
+              {!cadetDossier.isSubmitted ? (
+                <button
+                  type="submit"
+                  disabled={!isFormFilled}
+                  className={`w-full py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all ${
+                    isFormFilled
+                      ? "bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 shadow-amber-500/20 transform hover:scale-[1.02]"
+                      : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
+                  }`}
+                >
+                  <ClipboardCheck className="w-4 h-4" />
+                  <span>Submit Pre-Arrival Dossier</span>
+                </button>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      useTrainingStore.setState((state) => ({
+                        cadetDossier: {
+                          ...state.cadetDossier,
+                          isSubmitted: false,
+                        },
+                      }));
+                      setSubmissionFeedback(null);
+                    }}
+                    className="flex-1 py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-700"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                    <span>Revisi Isian Data</span>
+                  </button>
 
-                <div className="grid grid-cols-3 gap-1.5 pt-1">
-                  {[
-                    { val: "8.80", label: "Draft 8.80m" },
-                    { val: "10.20", label: "Draft 10.20m" },
-                    { val: "12.50", label: "Draft 12.50m" },
-                  ].map((opt) => (
-                    <button
-                      key={opt.val}
-                      type="button"
-                      onClick={() => setSelectedDraft(opt.val)}
-                      className={`py-1.5 px-2 rounded-lg font-mono text-[11px] font-bold border transition-all ${
-                        selectedDraft === opt.val
-                          ? opt.val === "10.20"
-                            ? "bg-emerald-600 text-white border-emerald-400"
-                            : "bg-red-600 text-white border-red-400"
-                          : "bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
+                  <div className="text-emerald-400 font-mono text-[11px] font-bold flex items-center gap-1 px-2">
+                    <Lock className="w-3.5 h-3.5" /> Locked
+                  </div>
                 </div>
-              </div>
+              )}
+            </form>
 
-              {/* Task 2: Verify Vessel Length */}
-              <div
-                className={`p-3 rounded-xl border transition-all space-y-2 ${
-                  isLoaCorrect
-                    ? "bg-emerald-950/30 border-emerald-500/50 text-slate-200"
-                    : selectedLoa
-                    ? "bg-red-950/20 border-red-500/40 text-slate-300"
-                    : "bg-slate-950 border-slate-800 text-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs flex items-center gap-1.5">
-                    {isLoaCorrect ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    ) : selectedLoa ? (
-                      <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                    ) : (
-                      <span className="w-4 h-4 rounded-full border border-slate-600 flex items-center justify-center text-[10px] text-slate-500">
-                        2
-                      </span>
-                    )}
-                    Verify Vessel Length
-                  </span>
-                  {isLoaCorrect && (
-                    <span className="text-[10px] font-mono font-bold text-emerald-400">
-                      ✓ Valid
-                    </span>
-                  )}
-                </div>
-
-                <p className="text-[11px] text-slate-400 leading-snug">
-                  Berapa Length Overall (LOA) MV Nusantara pada sertifikat kapal?
-                </p>
-
-                <div className="grid grid-cols-3 gap-1.5 pt-1">
-                  {[
-                    { val: "210.0", label: "LOA 210m" },
-                    { val: "280.0", label: "LOA 280m" },
-                    { val: "300.0", label: "LOA 300m" },
-                  ].map((opt) => (
-                    <button
-                      key={opt.val}
-                      type="button"
-                      onClick={() => setSelectedLoa(opt.val)}
-                      className={`py-1.5 px-2 rounded-lg font-mono text-[11px] font-bold border transition-all ${
-                        selectedLoa === opt.val
-                          ? opt.val === "280.0"
-                            ? "bg-emerald-600 text-white border-emerald-400"
-                            : "bg-red-600 text-white border-red-400"
-                          : "bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Task 3: Check Berth Availability & Required Depth */}
-              <div
-                className={`p-3 rounded-xl border transition-all space-y-2 ${
-                  isUkcDepthCorrect
-                    ? "bg-emerald-950/30 border-emerald-500/50 text-slate-200"
-                    : selectedUkcDepth
-                    ? "bg-red-950/20 border-red-500/40 text-slate-300"
-                    : "bg-slate-950 border-slate-800 text-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs flex items-center gap-1.5">
-                    {isUkcDepthCorrect ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    ) : selectedUkcDepth ? (
-                      <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                    ) : (
-                      <span className="w-4 h-4 rounded-full border border-slate-600 flex items-center justify-center text-[10px] text-slate-500">
-                        3
-                      </span>
-                    )}
-                    Check Berth Availability
-                  </span>
-                  {isUkcDepthCorrect && (
-                    <span className="text-[10px] font-mono font-bold text-emerald-400">
-                      ✓ Valid
-                    </span>
-                  )}
-                </div>
-
-                <p className="text-[11px] text-slate-400 leading-snug">
-                  Dengan Draft 10.20m + UKC wajib 1.30m, berapa kedalaman minimal yang dibutuhkan?
-                </p>
-
-                <div className="grid grid-cols-3 gap-1.5 pt-1">
-                  {[
-                    { val: "9.00", label: "Kedalaman 9.0m" },
-                    { val: "10.20", label: "Kedalaman 10.2m" },
-                    { val: "11.50", label: "Kedalaman 11.5m" },
-                  ].map((opt) => (
-                    <button
-                      key={opt.val}
-                      type="button"
-                      onClick={() => setSelectedUkcDepth(opt.val)}
-                      className={`py-1.5 px-2 rounded-lg font-mono text-[11px] font-bold border transition-all ${
-                        selectedUkcDepth === opt.val
-                          ? opt.val === "11.50"
-                            ? "bg-emerald-600 text-white border-emerald-400"
-                            : "bg-red-600 text-white border-red-400"
-                          : "bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Key Insight Found Callout Box (PRD Image 3) */}
-            <div
-              className={`rounded-xl border-2 p-3.5 space-y-1.5 text-xs transition-all ${
-                isAnalysisComplete
-                  ? "bg-amber-500/10 border-amber-500/50"
-                  : "bg-slate-950 border-slate-800 opacity-60"
-              }`}
-            >
-              <div className="flex items-center gap-1.5 font-bold text-[#F5B800] uppercase text-[11px]">
-                <Lightbulb className="w-4 h-4" />
-                <span>Key Insight Found:</span>
-              </div>
-              <p className="text-slate-300 text-[11px] leading-relaxed">
-                {isAnalysisComplete ? (
-                  <span>
-                    Draft of <strong className="text-amber-300">10.20m</strong> requires berths with clear water depth under chart datum exceeding{" "}
-                    <strong className="text-white">11.50m</strong> (+1.3m UKC). Berth B-02 (-9.0m) has a 2.5m deficit (Grounding risk!). Berth B-01 (-12.0m) is compliant.
-                  </span>
-                ) : (
-                  <span className="italic text-slate-500">
-                    Selesaikan ketiga pertanyaan analisis di atas untuk membuka temuan kunci operasional.
-                  </span>
-                )}
-              </p>
-            </div>
-
-            {/* Primary Action Button (PRD Image 3) */}
-            <div className="pt-2">
+            <div className="pt-2 border-t border-slate-800">
               <button
                 onClick={handleProceed}
-                disabled={!isAnalysisComplete}
+                disabled={!cadetDossier.isSubmitted}
                 className={`w-full py-3.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg ${
-                  isAnalysisComplete
+                  cadetDossier.isSubmitted
                     ? "bg-[#08182B] hover:bg-[#0E2239] text-[#F5B800] border-2 border-[#F5B800] shadow-amber-500/20 transform hover:scale-[1.02]"
                     : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
                 }`}
               >
-                <span>MAKE BERTHING DECISION</span>
+                <span>PROCEED TO BERTH ASSIGNMENT</span>
                 <ArrowRight className="w-4 h-4 stroke-[3]" />
               </button>
-              {!isAnalysisComplete && (
+              {!cadetDossier.isSubmitted && (
                 <span className="text-[10px] text-slate-500 block text-center mt-1.5 font-mono">
-                  Lengkapi 3 data ekstraksi untuk membuka keputusan
+                  Isi dan submit formulir dossier untuk membuka penetapan dermaga
                 </span>
               )}
             </div>
