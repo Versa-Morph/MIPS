@@ -60,8 +60,43 @@ export function PortCanvas() {
           </linearGradient>
         </defs>
 
-        {/* 1. Water Basin (Top half: y = 0 to 220) */}
+        {/* 1. Water Basin (Top half: y = 0 to 220: Teluk Jakarta / Tanjung Priok Approach) */}
         <rect x="0" y="0" width="1000" height="220" fill="url(#waterGrad)" />
+
+        {/* Peta RBI 1209-444 Tanjung Priok / Teluk Jakarta Geospatial Reference Overlay */}
+        <g opacity="0.4">
+          <text x="25" y="25" fill="#38BDF8" fontSize="10" fontWeight="bold" fontFamily="monospace">
+            TELUK JAKARTA (JAKARTA BAY) · PETA RBI 1209-444 (1:25.000)
+          </text>
+          <text x="25" y="38" fill="#64748B" fontSize="8" fontFamily="monospace">
+            COORD: 106°53&apos;15&quot;E, 06°05&apos;40&quot;S · HARBOR ENTRANCE CHANNEL (-14.0m LWS)
+          </text>
+        </g>
+
+        {/* Breakwaters of Tanjung Priok (West Breakwater & East Breakwater from Peta RBI) */}
+        <g>
+          {/* West Breakwater rubble mound */}
+          <path
+            d="M 20,20 L 140,20 L 180,50 L 175,56 L 135,28 L 20,28 Z"
+            fill="#334155"
+            stroke="#475569"
+            strokeWidth="1"
+          />
+          <text x="50" y="16" fill="#94A3B8" fontSize="8" fontFamily="monospace">
+            WEST BREAKWATER (TANGGUL BARAT)
+          </text>
+
+          {/* East Breakwater rubble mound */}
+          <path
+            d="M 320,50 L 360,20 L 480,20 L 480,28 L 365,28 L 325,56 Z"
+            fill="#334155"
+            stroke="#475569"
+            strokeWidth="1"
+          />
+          <text x="370" y="16" fill="#94A3B8" fontSize="8" fontFamily="monospace">
+            EAST BREAKWATER (TANGGUL TIMUR)
+          </text>
+        </g>
 
         {/* Radar Range Rings (Concentric circles centered at Fairway Channel) */}
         <g opacity="0.15">
@@ -97,20 +132,23 @@ export function PortCanvas() {
           <line x1="480" y1="0" x2="480" y2="220" stroke="#38BDF8" strokeWidth="0.5" />
         </g>
 
-        {/* Approach Fairway Navigation Buoys */}
-        <g opacity="0.8">
-          <circle cx="80" cy="50" r="3.5" fill="#10B981" />
-          <circle cx="80" cy="90" r="3.5" fill="#EF4444" />
+        {/* Approach Fairway Navigation Buoys flanking the channel between breakwaters */}
+        <g opacity="0.85">
+          <circle cx="210" cy="65" r="4" fill="#10B981" stroke="#064E3B" strokeWidth="1" />
+          <circle cx="290" cy="65" r="4" fill="#EF4444" stroke="#991B1B" strokeWidth="1" />
           <line
-            x1="80"
-            y1="70"
-            x2="350"
+            x1="250"
+            y1="65"
+            x2="380"
             y2="150"
             stroke="#F5B800"
             strokeWidth="1"
             strokeDasharray="5,5"
-            opacity="0.35"
+            opacity="0.4"
           />
+          <text x="250" y="55" textAnchor="middle" fill="#F5B800" fontSize="8" fontFamily="monospace">
+            FAIRWAY ENTRANCE CHANNEL
+          </text>
         </g>
 
         {/* 2. Quay Wall Structure (y = 220 to 230) */}

@@ -46,23 +46,27 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
       TrainingState.DOCUMENT_REVIEW
     );
 
-    expect(screen.getByText(/Notice of Arrival \(NOA\)/i)).toBeDefined();
-    const docTitles = [
-      /Notice of Arrival \(NOA\)/i,
-      /Vessel Particulars & Registry/i,
-      /Cargo Manifest/i,
-      /Berth Specification Sheet/i,
-    ];
+    expect(
+      screen.getAllByText(/Notice of Arrival \(NOA\)/i).length
+    ).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/CARGO & NOTICE PACKAGE/i)).toBeDefined();
+    expect(screen.getByText(/ANALYSIS PROGRESS/i)).toBeDefined();
 
-    for (const title of docTitles) {
-      const card = screen.getByText(title);
-      fireEvent.click(card);
-      const closeBtn = screen.getByText(/Close Viewer/i);
-      fireEvent.click(closeBtn);
-    }
+    fireEvent.click(screen.getAllByText(/Notice of Arrival \(NOA\)/i)[0]);
+    fireEvent.click(screen.getByText(/Vessel Particulars & Registry/i));
+    fireEvent.click(screen.getByText(/Dangerous Goods & Cargo Manifest/i));
+    fireEvent.click(screen.getByText(/Port Bathymetry & Pelindo Master Berth Sheet/i));
+
+    const task1 = screen.getByText(/Identify Draft Requirement/i);
+    const task2 = screen.getByText(/Verify Vessel Length/i);
+    const task3 = screen.getByText(/Check Berth Availability/i);
+
+    fireEvent.click(task1);
+    fireEvent.click(task2);
+    fireEvent.click(task3);
 
     const proceedToDecisionBtn = screen.getByRole("button", {
-      name: /Proceed to Berth Assignment/i,
+      name: /MAKE BERTHING DECISION/i,
     });
     fireEvent.click(proceedToDecisionBtn);
     expect(useTrainingStore.getState().currentState).toBe(

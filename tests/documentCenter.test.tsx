@@ -5,61 +5,54 @@ import { DocumentCenterScreen } from "../src/components/screens/04_DocumentCente
 import { useTrainingStore } from "../src/store/useTrainingStore";
 import { TrainingState } from "../src/types/simulation";
 
-describe("Screen 04: Document Center & Modal Viewer", () => {
+describe("Screen 04: Document Center 3-Panel Workspace (PRD Image 3)", () => {
   beforeEach(() => {
     useTrainingStore.getState().resetTraining();
     useTrainingStore.getState().setStep(TrainingState.DOCUMENT_REVIEW);
   });
 
-  it("renders all 4 mandatory operational documents", () => {
+  it("renders 3-panel workspace matching PRD Image 3 layout", () => {
     render(<DocumentCenterScreen />);
-    expect(screen.getByText(/Notice of Arrival \(NOA\)/i)).toBeDefined();
+    expect(screen.getByText(/CARGO & NOTICE PACKAGE/i)).toBeDefined();
+    expect(screen.getByText(/TECHNICAL SUMMARY/i)).toBeDefined();
+    expect(screen.getByText(/ANALYSIS PROGRESS/i)).toBeDefined();
+    expect(screen.getByText(/Key Insight Found/i)).toBeDefined();
+  });
+
+  it("lists all 4 package documents in left panel and renders document sheet in center", () => {
+    render(<DocumentCenterScreen />);
+    expect(
+      screen.getAllByText(/Notice of Arrival \(NOA\)/i).length
+    ).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/Vessel Particulars & Registry/i)).toBeDefined();
-    expect(screen.getByText(/Cargo Manifest/i)).toBeDefined();
-    expect(screen.getByText(/Berth Specification Sheet/i)).toBeDefined();
-  });
-
-  it("tracks document inspection and updates status to VERIFIED upon opening", () => {
-    render(<DocumentCenterScreen />);
-
-    const unreviewedBadges = screen.getAllByText(/UNREVIEWED/i);
-    expect(unreviewedBadges.length).toBe(4);
-
-    const noaCard = screen.getByText(/Notice of Arrival \(NOA\)/i);
-    fireEvent.click(noaCard);
-
-    const pdfIframe = screen.getByTitle(/Notice of Arrival \(NOA\)/i);
-    expect(pdfIframe).toBeDefined();
-    expect(pdfIframe.getAttribute("src")).toContain("notice-of-arrival.pdf");
-
-    const dataSheetTab = screen.getByRole("button", { name: /Data Sheet/i });
-    fireEvent.click(dataSheetTab);
-
+    expect(screen.getByText(/Dangerous Goods & Cargo Manifest/i)).toBeDefined();
     expect(
-      screen.getByText(/CRITICAL NAUTICAL PARAMETERS DECLARED/i)
+      screen.getByText(/Port Bathymetry & Pelindo Master Berth Sheet/i)
     ).toBeDefined();
-    expect(screen.getAllByText(/10\.20/i).length).toBeGreaterThanOrEqual(1);
 
-    const doc = useTrainingStore
-      .getState()
-      .documents.find((d) => d.type === "ARRIVAL_NOTICE");
-    expect(doc?.isViewed).toBe(true);
-
-    const closeButton = screen.getByRole("button", { name: /Close Viewer/i });
-    fireEvent.click(closeButton);
-
-    expect(
-      screen.queryByTitle(/Notice of Arrival \(NOA\)/i)
-    ).toBeNull();
+    expect(screen.getByText(/VESSEL DIMENSIONS & LOAD CONDITION/i)).toBeDefined();
+    expect(screen.getAllByText(/10\.20 Meters/i).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("advances to DECISION state when proceeding to berth assignment", () => {
+  it("requires completing analysis checklist before unlocking MAKE BERTHING DECISION", () => {
     render(<DocumentCenterScreen />);
-    const proceedButton = screen.getByRole("button", {
-      name: /Proceed to Berth Assignment/i,
+    const decisionBtn = screen.getByRole("button", {
+      name: /MAKE BERTHING DECISION/i,
     });
-    fireEvent.click(proceedButton);
 
+    expect(decisionBtn.hasAttribute("disabled")).toBe(true);
+
+    const task1 = screen.getByText(/Identify Draft Requirement/i);
+    const task2 = screen.getByText(/Verify Vessel Length/i);
+    const task3 = screen.getByText(/Check Berth Availability/i);
+
+    fireEvent.click(task1);
+    fireEvent.click(task2);
+    fireEvent.click(task3);
+
+    expect(decisionBtn.hasAttribute("disabled")).toBe(false);
+
+    fireEvent.click(decisionBtn);
     expect(useTrainingStore.getState().currentState).toBe(
       TrainingState.DECISION
     );
