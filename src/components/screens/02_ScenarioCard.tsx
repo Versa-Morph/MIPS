@@ -190,51 +190,51 @@ export function ScenarioCardScreen() {
               {/* Tabular Monospace Technical Specs */}
               <div className="space-y-2 font-mono text-xs">
                 <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-400 uppercase text-[11px]">Vessel Name</span>
-                  <span className="text-white font-bold text-sm">{vessel.name}</span>
+                  <span className="text-slate-400 uppercase text-xs font-bold">Vessel Name</span>
+                  <span className="text-slate-100 font-black font-mono text-base sm:text-lg">{vessel.name}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                    <span className="text-slate-400 uppercase text-[10px] block">Length Overall (LOA)</span>
-                    <span className="text-tactical-cyan font-bold text-sm block mt-0.5">{vessel.loa} m</span>
+                    <span className="text-slate-400 uppercase text-xs font-bold block">Length Overall (LOA)</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-slate-100 block mt-0.5">{vessel.loa} m</span>
                   </div>
                   <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                    <span className="text-slate-400 uppercase text-[10px] block">Max Arrival Draft</span>
-                    <span className="text-electric-amber font-bold text-sm block mt-0.5">{vessel.draft} m</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                    <span className="text-slate-400 uppercase text-[10px] block">Moulded Beam</span>
-                    <span className="text-slate-200 font-bold text-sm block mt-0.5">{vessel.beam} m</span>
-                  </div>
-                  <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                    <span className="text-slate-400 uppercase text-[10px] block">Fwd / Aft Draft</span>
-                    <span className="text-slate-200 font-bold text-sm block mt-0.5">{vessel.fwdDraft}m / {vessel.aftDraft}m</span>
+                    <span className="text-slate-400 uppercase text-xs font-bold block">Max Arrival Draft</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-slate-100 block mt-0.5">{vessel.draft} m</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                    <span className="text-slate-400 uppercase text-[10px] block">Estimated Arrival</span>
-                    <span className="text-electric-amber font-bold text-sm block mt-0.5">{vessel.eta} WIB</span>
+                    <span className="text-slate-400 uppercase text-xs font-bold block">Moulded Beam</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-slate-100 block mt-0.5">{vessel.beam} m</span>
                   </div>
                   <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                    <span className="text-slate-400 uppercase text-[10px] block">Target Cargo Lot</span>
-                    <span className="text-tactical-cyan font-bold text-sm block mt-0.5">{vessel.totalCargoCount} ISO Containers</span>
+                    <span className="text-slate-400 uppercase text-xs font-bold block">Fwd / Aft Draft</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-slate-100 block mt-0.5">{vessel.fwdDraft}m / {vessel.aftDraft}m</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
+                    <span className="text-slate-400 uppercase text-xs font-bold block">Estimated Arrival</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-slate-100 block mt-0.5">{vessel.eta} WIB</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
+                    <span className="text-slate-400 uppercase text-xs font-bold block">Target Cargo Lot</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-slate-100 block mt-0.5">{vessel.totalCargoCount} ISO Containers</span>
                   </div>
                 </div>
 
                 <div className="p-3 rounded-lg bg-abyssal/70 border border-slate-800">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                    <span>REGISTRY / CALLSIGN</span>
-                    <span className="text-slate-200 font-semibold">{vessel.flag} · {vessel.callSign}</span>
+                  <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+                    <span className="font-bold">REGISTRY / CALLSIGN</span>
+                    <span className="text-slate-200 font-semibold font-mono">{vessel.flag} · {vessel.callSign}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
-                    <span>IMO IDENTIFIER</span>
-                    <span className="text-slate-200 font-semibold">IMO {vessel.imo}</span>
+                  <div className="flex items-center justify-between text-xs text-slate-400">
+                    <span className="font-bold">IMO IDENTIFIER</span>
+                    <span className="text-slate-200 font-semibold font-mono">IMO {vessel.imo}</span>
                   </div>
                 </div>
               </div>

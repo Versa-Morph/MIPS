@@ -151,23 +151,23 @@ export function SimulationViewScreen() {
               </div>
 
               <div className="space-y-2 text-slate-300 text-xs">
-                <div className="flex justify-between py-1 border-b border-slate-900 font-mono">
-                  <span className="text-slate-400">Berth:</span>
-                  <span className="text-safety-emerald font-bold">
+                <div className="flex justify-between items-center py-1 border-b border-slate-900 font-mono">
+                  <span className="text-slate-400 font-bold">Berth:</span>
+                  <span className="text-sm font-bold font-mono text-slate-100">
                     {assignedBerth?.id || "B-01"}
                   </span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-900 font-mono">
-                  <span className="text-slate-400">Vessel:</span>
-                  <span className="text-white font-semibold">{vessel.name}</span>
+                <div className="flex justify-between items-center py-1 border-b border-slate-900 font-mono">
+                  <span className="text-slate-400 font-bold">Vessel:</span>
+                  <span className="text-sm font-bold font-mono text-slate-100">{vessel.name}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-900 font-mono">
-                  <span className="text-slate-400">Dimensions:</span>
-                  <span className="text-slate-200">LOA {vessel.loa}m · Draft {vessel.draft}m</span>
+                <div className="flex justify-between items-center py-1 border-b border-slate-900 font-mono">
+                  <span className="text-slate-400 font-bold">Dimensions:</span>
+                  <span className="text-sm font-bold font-mono text-slate-100">LOA {vessel.loa}m · Draft {vessel.draft}m</span>
                 </div>
-                <div className="flex justify-between py-1 font-mono">
-                  <span className="text-slate-400">Equipment:</span>
-                  <span className="text-tactical-cyan font-semibold">2x Cranes · 3x Trucks</span>
+                <div className="flex justify-between items-center py-1 font-mono">
+                  <span className="text-slate-400 font-bold">Equipment:</span>
+                  <span className="text-sm font-bold font-mono text-tactical-cyan">2x Cranes · 3x Trucks</span>
                 </div>
               </div>
             </div>

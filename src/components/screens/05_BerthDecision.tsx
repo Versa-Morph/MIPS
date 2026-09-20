@@ -181,39 +181,39 @@ export function BerthDecisionScreen() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
             {/* Metric 1: LOA */}
             <div className="p-3.5 rounded-xl bg-abyssal/90 border border-slate-800/80 hover:border-slate-700 transition-colors">
-              <span className="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider block mb-1">
+              <span className="text-xs uppercase font-bold text-slate-400 font-mono tracking-wider block mb-1">
                 Panjang Kapal (LOA)
               </span>
-              <span className="text-lg font-black text-white font-mono block">
+              <span className="text-base sm:text-lg font-black text-white font-mono block">
                 {displayLoa} Meters
               </span>
-              <span className="text-[10px] text-slate-500 font-mono block mt-0.5">
+              <span className="text-xs text-slate-400 font-mono block mt-0.5">
                 Length Overall Terisi
               </span>
             </div>
 
             {/* Metric 2: Draft Aft */}
             <div className="p-3.5 rounded-xl bg-abyssal/90 border border-slate-800/80 hover:border-slate-700 transition-colors">
-              <span className="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider block mb-1">
+              <span className="text-xs uppercase font-bold text-slate-400 font-mono tracking-wider block mb-1">
                 Sarat Air (Draft Aft)
               </span>
-              <span className="text-lg font-black text-electric-amber font-mono block">
+              <span className="text-base sm:text-lg font-black text-electric-amber font-mono block">
                 {displayDraft} Meters
               </span>
-              <span className="text-[10px] text-slate-500 font-mono block mt-0.5">
+              <span className="text-xs text-slate-400 font-mono block mt-0.5">
                 Kedalaman Lambung Terisi
               </span>
             </div>
 
             {/* Metric 3: Required UKC Depth */}
             <div className="p-3.5 rounded-xl bg-abyssal/90 border border-slate-800/80 hover:border-slate-700 transition-colors">
-              <span className="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider block mb-1">
+              <span className="text-xs uppercase font-bold text-slate-400 font-mono tracking-wider block mb-1">
                 Kedalaman Wajib (UKC Safe)
               </span>
-              <span className="text-lg font-black text-tactical-cyan font-mono block">
+              <span className="text-base sm:text-lg font-black text-tactical-cyan font-mono block">
                 {displayDepth} Meters
               </span>
-              <span className="text-[10px] text-slate-500 font-mono block mt-0.5">
+              <span className="text-xs text-slate-400 font-mono block mt-0.5">
                 Batas Aman Minimal (Draft + 1.3m UKC)
               </span>
             </div>
@@ -307,11 +307,11 @@ export function BerthDecisionScreen() {
                     <div className="flex items-center justify-between py-1 border-b border-slate-800/80">
                       <span className="text-slate-400">Maximum Length (LOA):</span>
                       <div className="text-right">
-                        <span className="font-mono font-bold text-white text-sm">
+                        <span className="font-mono font-black text-white text-base sm:text-lg">
                           {berth.maxLoa} m
                         </span>
                         <span
-                          className={`font-mono text-[10px] ml-2 ${
+                          className={`font-mono text-xs ml-2 font-semibold ${
                             loaDifference >= 0 ? "text-safety-emerald" : "text-hazard-crimson"
                           }`}
                         >
@@ -323,11 +323,11 @@ export function BerthDecisionScreen() {
                     <div className="flex items-center justify-between py-1 border-b border-slate-800/80">
                       <span className="text-slate-400">Controlling Depth (LWS):</span>
                       <div className="text-right">
-                        <span className="font-mono font-bold text-white text-sm">
+                        <span className="font-mono font-black text-white text-base sm:text-lg">
                           {berth.maxDraft} m
                         </span>
                         <span
-                          className={`font-mono text-[10px] ml-2 font-semibold ${
+                          className={`font-mono text-xs ml-2 font-semibold ${
                             depthDifference >= 0 ? "text-safety-emerald" : "text-hazard-crimson"
                           }`}
                         >
@@ -345,14 +345,14 @@ export function BerthDecisionScreen() {
                   </div>
 
                   {/* Tactical Depth Gauge Visual */}
-                  <div className="rounded-xl bg-abyssal-surface/60 p-3 border border-slate-800/70 space-y-2">
-                    <div className="flex items-center justify-between text-[11px] font-mono">
-                      <span className="text-slate-400 flex items-center gap-1">
-                        <Gauge className="w-3.5 h-3.5 text-tactical-cyan" />
+                  <div className="rounded-xl bg-abyssal-surface/60 p-3.5 border border-slate-800/70 space-y-2">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="text-slate-400 flex items-center gap-1.5 font-bold">
+                        <Gauge className="w-4 h-4 text-tactical-cyan" />
                         <span>Depth Clearance Gauge:</span>
                       </span>
                       <span
-                        className={`font-bold ${
+                        className={`font-black ${
                           isB01 ? "text-safety-emerald" : "text-hazard-crimson"
                         }`}
                       >
@@ -362,7 +362,7 @@ export function BerthDecisionScreen() {
 
                     {/* Progress representation of depth */}
                     <div className="space-y-1">
-                      <div className="w-full h-3 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800 flex">
+                      <div className="w-full h-3.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800 flex">
                         {isB01 ? (
                           <>
                             {/* Vessel Draft portion: 10.2 / 12 = 85% */}
@@ -402,11 +402,11 @@ export function BerthDecisionScreen() {
                         )}
                       </div>
 
-                      <div className="flex justify-between text-[9px] font-mono text-slate-500 px-1">
+                      <div className="flex justify-between text-xs font-mono text-slate-400 px-1">
                         <span>0m LAT</span>
                         <span>Draft {displayDraft}m</span>
                         <span>Req {displayDepth}m</span>
-                        <span className={isB01 ? "text-safety-emerald" : "text-hazard-crimson"}>
+                        <span className={`font-bold ${isB01 ? "text-safety-emerald" : "text-hazard-crimson"}`}>
                           Berth {berth.maxDraft}m
                         </span>
                       </div>
