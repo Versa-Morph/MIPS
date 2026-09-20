@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
+import { getAssetPath } from "@/utils/assetPath";
 
 export function DashboardScreen() {
   const { setStep, cadetName } = useTrainingStore();
@@ -21,7 +22,7 @@ export function DashboardScreen() {
         {/* Terminal panorama backdrop with vignette */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <img
-            src="/images/terminal-panorama.png"
+            src={getAssetPath("/images/terminal-panorama.png")}
             alt="Terminal Panorama Backdrop"
             className="w-full h-full object-cover opacity-20 mix-blend-luminosity filter saturate-150"
           />
@@ -69,7 +70,7 @@ export function DashboardScreen() {
           {/* vessel-hero.png Backdrop with dark vignette */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
-              src="/images/vessel-hero.png"
+              src={getAssetPath("/images/vessel-hero.png")}
               alt="Vessel Hero Backdrop"
               className="w-full h-full object-cover object-center opacity-30 group-hover:scale-105 group-hover:opacity-40 transition-all duration-700 filter contrast-125"
             />

@@ -22,6 +22,7 @@ import { useSimulationStore } from "@/store/useSimulationStore";
 import { TrainingState } from "@/types/simulation";
 import { calculateCadetScore } from "@/utils/scoringCalculator";
 import { sound } from "@/utils/audioEngine";
+import { getAssetPath } from "@/utils/assetPath";
 
 export function AssessmentViewScreen() {
   const {
@@ -123,7 +124,7 @@ export function AssessmentViewScreen() {
             {/* Gold Seal of Competency */}
             <div className="relative shrink-0 flex items-center justify-center p-2 rounded-2xl bg-gradient-to-br from-amber-400/20 via-slate-900/90 to-abyssal border border-electric-amber/60 shadow-amber-glow">
               <img
-                src="/images/seal-competency.png"
+                src={getAssetPath("/images/seal-competency.png")}
                 alt="Competency Seal"
                 className="w-20 h-20 sm:w-24 sm:h-24 object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"
               />

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
+import { getAssetPath } from "@/utils/assetPath";
 
 export function ScenarioCardScreen() {
   const { scenario, setStep } = useTrainingStore();
@@ -45,7 +46,7 @@ export function ScenarioCardScreen() {
           {/* Backdrop with dark gradient vignette */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
-              src="/images/vessel-hero.png"
+              src={getAssetPath("/images/vessel-hero.png")}
               alt="Vessel Hero Banner"
               className="w-full h-full object-cover object-center opacity-30 filter contrast-125 saturate-110"
             />

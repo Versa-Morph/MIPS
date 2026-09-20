@@ -1,4 +1,5 @@
 import { OperationalDocument } from "../types/domain";
+import { getAssetPath } from "../utils/assetPath";
 
 export const initialDocuments: OperationalDocument[] = [
   {
@@ -9,7 +10,7 @@ export const initialDocuments: OperationalDocument[] = [
     isViewed: false,
     viewDurationSeconds: 0,
     summary: "Vessel arrival declaration, King Ocean format, draft & dimensions.",
-    pdfUrl: "/documents/notice-of-arrival.pdf",
+    pdfUrl: getAssetPath("/documents/notice-of-arrival.pdf"),
     content: {
       header: "NOTICE OF ARRIVAL (NOA) — JAKARTA PORT AUTHORITY",
       issuer: "Marine Operations & Harbor Master Department",
@@ -45,7 +46,7 @@ export const initialDocuments: OperationalDocument[] = [
     isViewed: false,
     viewDurationSeconds: 0,
     summary: "BKI / Lloyd's Register ship particulars, engine & thruster specs.",
-    pdfUrl: "/documents/vessel-particulars.pdf",
+    pdfUrl: getAssetPath("/documents/vessel-particulars.pdf"),
     content: {
       header: "LLOYD'S REGISTER / BIRO KLASIFIKASI INDONESIA — SHIP PARTICULARS",
       issuer: "Marine Survey & Ship Classification Office",
@@ -78,7 +79,7 @@ export const initialDocuments: OperationalDocument[] = [
     isViewed: false,
     viewDurationSeconds: 0,
     summary: "Official IMO 14-column Dangerous Goods and container manifest.",
-    pdfUrl: "/documents/cargo-manifest.pdf",
+    pdfUrl: getAssetPath("/documents/cargo-manifest.pdf"),
     content: {
       header: "IMO DANGEROUS GOODS & CONTAINER MANIFEST (14 COLUMNS)",
       issuer: "Marine Department / Directorate General of Customs",
@@ -108,7 +109,7 @@ export const initialDocuments: OperationalDocument[] = [
     isViewed: false,
     viewDurationSeconds: 0,
     summary: "Pelindo Tanjung Priok wharf master data, Peta RBI 1209-444 depth limits.",
-    pdfUrl: "/documents/berth-specifications.pdf",
+    pdfUrl: getAssetPath("/documents/berth-specifications.pdf"),
     content: {
       header: "PELINDO REGION 2 TANJUNG PRIOK — FASILITAS DERMAGA & BATIMETRI",
       issuer: "Port Engineering & Hydrography Department",

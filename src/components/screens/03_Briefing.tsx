@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
+import { getAssetPath } from "@/utils/assetPath";
 
 export function BriefingScreen() {
   const { scenario, setStep } = useTrainingStore();
@@ -100,7 +101,7 @@ export function BriefingScreen() {
               <div className="flex items-center gap-4">
                 <div className="relative shrink-0">
                   <img
-                    src="/images/officer-gunawan.png"
+                    src={getAssetPath("/images/officer-gunawan.png")}
                     alt="Capt. H. Gunawan"
                     className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-tactical-cyan/60 shadow-cyan-glow bg-slate-800"
                   />
