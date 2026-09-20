@@ -36,7 +36,8 @@ describe("Screen 05: Berth Allocation Decision & Validation", () => {
       screen.getByText(/Berth B-01 \(Deepwater Terminal\)/i)
     ).toBeDefined();
     expect(screen.getByText(/Berth B-02 \(Feeder Quay\)/i)).toBeDefined();
-    expect(screen.getByText(/11\.50 m/i)).toBeDefined();
+    expect(screen.getByText(/10\.2 Meters/i)).toBeDefined();
+    expect(screen.getByText(/\+1\.3 Meters/i)).toBeDefined();
   });
 
   it("approves B-01 decision and unlocks START SIMULATION button", () => {

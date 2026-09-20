@@ -15,6 +15,7 @@ export function PortCanvas() {
     containersHandled,
     totalContainers,
     currentEvent,
+    inspectEquipment,
   } = useSimulationStore();
 
   const isOperating = currentEvent.vesselStatus === "OPERATING";
@@ -258,21 +259,45 @@ export function PortCanvas() {
           </g>
         </g>
 
-        {/* 5. Animated Vessel: MV Nusantara */}
-        <VesselGraphic
-          x={vesselPosition.x}
-          y={vesselPosition.y}
-          rotation={vesselPosition.rotation}
-          vesselName="MV NUSANTARA"
-          containersCompleted={containersHandled}
-          totalContainers={totalContainers}
-          isOperating={isOperating}
-        />
+        <g
+          onClick={() =>
+            inspectEquipment({
+              type: "VESSEL",
+              id: "MV-NUSANTARA",
+              name: "MV Nusantara",
+              status: isOperating
+                ? "Bongkar Muat Petikemas Aktif (Bay 02 & 06)"
+                : isDocked
+                ? "Bersandar Rapat di Berth B-01"
+                : "Olah Gerak Alur Masuk Pelabuhan",
+              metrics: [
+                { label: "IMO Number", value: "1234567" },
+                { label: "Length Overall (LOA)", value: "280.00 Meters" },
+                { label: "Arrival Draft (Aft)", value: "10.20 Meters" },
+                { label: "Draft Forward", value: "9.80 Meters" },
+                { label: "Under Keel Clearance", value: "+1.80m (Clear of Seabed)" },
+                { label: "Gross Tonnage", value: "54,200 GT" },
+                { label: "Mooring Lines", value: "4 Fore / 4 Aft Secured" },
+              ],
+              operationalNotes:
+                "Kapal merapat sempurna sejajar garis dermaga B-01. Tidak ada deviasi kemiringan (list: 0.1° STBD). Kondisi stabilitas aman.",
+            })
+          }
+          className="cursor-pointer"
+        >
+          <VesselGraphic
+            x={vesselPosition.x}
+            y={vesselPosition.y}
+            rotation={vesselPosition.rotation}
+            vesselName="MV NUSANTARA"
+            containersCompleted={containersHandled}
+            totalContainers={totalContainers}
+            isOperating={isOperating}
+          />
+        </g>
 
-        {/* 5.1 Harbor Tugs Assisting Maneuver (PRD Image 5: Tug Bima & Tug Arjuna) */}
         {currentSimMinute <= 10 && (
           <g className="transition-all duration-700">
-            {/* Towing / Pushing lines from Tug Bima to Vessel Bow */}
             <line
               x1={vesselPosition.x + 70}
               y1={vesselPosition.y - 10}
@@ -291,7 +316,6 @@ export function PortCanvas() {
               isPushing={currentSimMinute >= 3 && currentSimMinute <= 8}
             />
 
-            {/* Towing / Pushing lines from Tug Arjuna to Vessel Stern */}
             <line
               x1={vesselPosition.x - 70}
               y1={vesselPosition.y - 10}
@@ -312,41 +336,125 @@ export function PortCanvas() {
           </g>
         )}
 
-        {/* 6. Rail-Mounted Quay Cranes QC-01 & QC-02 */}
-        <CraneGraphic
-          id="QC-01"
-          x={550}
-          y={235}
-          spreaderY={craneSpreaderY}
-          isOperating={isOperating}
-        />
-        <CraneGraphic
-          id="QC-02"
-          x={720}
-          y={235}
-          spreaderY={craneSpreaderY}
-          isOperating={isOperating}
-        />
+        <g
+          onClick={() =>
+            inspectEquipment({
+              type: "CRANE",
+              id: "QC-01",
+              name: "Quay Crane QC-01 (Super Post-Panamax)",
+              status: isOperating ? "Active Discharging Bay 02" : "Standby Positioning",
+              metrics: [
+                { label: "Outreach Capacity", value: "52 Meters (18 Rows)" },
+                { label: "Safe Working Load (SWL)", value: "65 Metric Tons" },
+                { label: "Current Hoist Pace", value: "36.2 Moves / Hour" },
+                { label: "Spreader Elevation", value: `${Math.round(craneSpreaderY)} px (Dynamic)` },
+                { label: "Assigned Target", value: "Bay 02 - 40ft Import Boxes" },
+              ],
+              operationalNotes:
+                "Sistem interlocking hoist dan sensor anti-sway beroperasi normal. Pendaratan spreader di atas sasis truk aman.",
+            })
+          }
+          className="cursor-pointer"
+        >
+          <CraneGraphic
+            id="QC-01"
+            x={550}
+            y={235}
+            spreaderY={craneSpreaderY}
+            isOperating={isOperating}
+          />
+        </g>
 
-        {/* 7. Animated Terminal Trucks shuttling containers */}
+        <g
+          onClick={() =>
+            inspectEquipment({
+              type: "CRANE",
+              id: "QC-02",
+              name: "Quay Crane QC-02 (Super Post-Panamax)",
+              status: isOperating ? "Active Loading Bay 06 & 10" : "Standby Positioning",
+              metrics: [
+                { label: "Outreach Capacity", value: "52 Meters (18 Rows)" },
+                { label: "Safe Working Load (SWL)", value: "65 Metric Tons" },
+                { label: "Current Hoist Pace", value: "35.2 Moves / Hour" },
+                { label: "Spreader Elevation", value: `${Math.round(craneSpreaderY)} px (Dynamic)` },
+                { label: "Assigned Target", value: "Bay 06 - Reefer & Export Boxes" },
+              ],
+              operationalNotes:
+                "Siklus pemindahan twin-lift beroperasi sinkron. Komunikasi radio dengan tim tali darat berjalan di Channel 14.",
+            })
+          }
+          className="cursor-pointer"
+        >
+          <CraneGraphic
+            id="QC-02"
+            x={720}
+            y={235}
+            spreaderY={craneSpreaderY}
+            isOperating={isOperating}
+          />
+        </g>
+
         {isDocked && (
           <>
-            <TruckGraphic
-              id="TT-01"
-              x={truck1X}
-              y={295}
-              direction={truck1Dir}
-              hasContainer={isOperating}
-              containerColor="#0284C7"
-            />
-            <TruckGraphic
-              id="TT-02"
-              x={truck2X}
-              y={308}
-              direction={truck2Dir}
-              hasContainer={isOperating}
-              containerColor="#F59E0B"
-            />
+            <g
+              onClick={() =>
+                inspectEquipment({
+                  type: "TRUCK",
+                  id: "TT-01",
+                  name: "Internal Transfer Vehicle TT-01",
+                  status: "Shuttling Quay Apron ↔ Yard Block A",
+                  metrics: [
+                    { label: "Vehicle Type", value: "Terminal Tractor 4x2 Heavy" },
+                    { label: "Payload Capacity", value: "45 Metric Tons (1x40ft or 2x20ft)" },
+                    { label: "Current Payload", value: isOperating ? "ISO 40ft Import Container" : "Empty Flatbed" },
+                    { label: "Cycle Speed", value: "18 km/h Apron Lane" },
+                    { label: "Destination", value: "Yard Stacks Block A (Import)" },
+                  ],
+                  operationalNotes:
+                    "Penerimaan kontainer dari spreader QC-01 tercatat pada sistem TOS. Waktu tunggu transfer di bawah 90 detik.",
+                })
+              }
+              className="cursor-pointer"
+            >
+              <TruckGraphic
+                id="TT-01"
+                x={truck1X}
+                y={295}
+                direction={truck1Dir}
+                hasContainer={isOperating}
+                containerColor="#0284C7"
+              />
+            </g>
+
+            <g
+              onClick={() =>
+                inspectEquipment({
+                  type: "TRUCK",
+                  id: "TT-02",
+                  name: "Internal Transfer Vehicle TT-02",
+                  status: "Shuttling Quay Apron ↔ Yard Block C",
+                  metrics: [
+                    { label: "Vehicle Type", value: "Terminal Tractor 4x2 Heavy" },
+                    { label: "Payload Capacity", value: "45 Metric Tons" },
+                    { label: "Current Payload", value: isOperating ? "ISO 20ft Reefer Unit (440V)" : "Empty Flatbed" },
+                    { label: "Cycle Speed", value: "16 km/h Apron Lane" },
+                    { label: "Destination", value: "Yard Block C (Reefer Stacking Tower)" },
+                  ],
+                  operationalNotes:
+                    "Membawa kontainer reefer dengan instruksi prioritas colok daya listrik < 45 menit pasca pembongkaran.",
+                })
+              }
+              className="cursor-pointer"
+            >
+              <TruckGraphic
+                id="TT-02"
+                x={truck2X}
+                y={308}
+                direction={truck2Dir}
+                hasContainer={isOperating}
+                containerColor="#F59E0B"
+              />
+            </g>
           </>
         )}
       </svg>

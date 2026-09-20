@@ -12,6 +12,28 @@ export enum TrainingState {
   TRAINING_COMPLETED = "TRAINING_COMPLETED",
 }
 
+export type SimulationCheckpointType = "MOORING_APPROVAL" | "CRANE_START_APPROVAL";
+
+export interface SimulationCheckpoint {
+  id: SimulationCheckpointType;
+  triggerMinute: number; // T+05 or T+08
+  timeString: string;
+  title: string;
+  sender: string;
+  description: string;
+  actionButtonText: string;
+  isApproved: boolean;
+}
+
+export interface EquipmentInspectionData {
+  type: "VESSEL" | "CRANE" | "TRUCK";
+  id: string;
+  name: string;
+  status: string;
+  metrics: { label: string; value: string }[];
+  operationalNotes: string;
+}
+
 export interface TimelineEvent {
   timeOffsetMinutes: number;
   clockTime: string;

@@ -6,6 +6,13 @@ import {
   Compass,
   ShieldCheck,
   ArrowRight,
+  AlertCircle,
+  Radio,
+  CheckCircle2,
+  X,
+  Layers,
+  Truck,
+  Ship,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
@@ -14,12 +21,21 @@ import { PortCanvas } from "@/components/simulation/PortCanvas";
 import { SimulationControls } from "@/components/simulation/SimulationControls";
 import { EventTimeline } from "@/components/simulation/EventTimeline";
 import { KPIDashboard } from "@/components/simulation/KPIDashboard";
+import { Modal } from "@/components/common/Modal";
 import { sound } from "@/utils/audioEngine";
 
 export function SimulationViewScreen() {
   const { scenario, selectedBerth, setStep } = useTrainingStore();
-  const { isCompleted, containersHandled, currentSimMinute, play } =
-    useSimulationStore();
+  const {
+    isCompleted,
+    containersHandled,
+    currentSimMinute,
+    play,
+    pendingCheckpoint,
+    approveCheckpoint,
+    selectedEquipment,
+    inspectEquipment,
+  } = useSimulationStore();
 
   const vessel = scenario.vessel;
   const assignedBerth = scenario.availableBerths.find(
@@ -27,12 +43,12 @@ export function SimulationViewScreen() {
   );
 
   useEffect(() => {
-    if (currentSimMinute === 0) {
+    if (currentSimMinute === 0 && !pendingCheckpoint) {
       play();
     } else if (currentSimMinute === 5) {
       sound.playFoghorn();
     }
-  }, [currentSimMinute, play]);
+  }, [currentSimMinute, play, pendingCheckpoint]);
 
   useEffect(() => {
     if (containersHandled > 0 && containersHandled <= 50) {
@@ -40,9 +56,20 @@ export function SimulationViewScreen() {
     }
   }, [containersHandled]);
 
+  useEffect(() => {
+    if (pendingCheckpoint) {
+      sound.playWarningAlarm();
+    }
+  }, [pendingCheckpoint]);
+
   const handleProceedToAssessment = () => {
     sound.playSuccessChime();
     setStep(TrainingState.ASSESSMENT);
+  };
+
+  const handleApprove = () => {
+    sound.playSuccessChime();
+    approveCheckpoint();
   };
 
   return (
@@ -83,7 +110,7 @@ export function SimulationViewScreen() {
                 : "bg-slate-800 hover:bg-slate-700 text-slate-300"
             }`}
           >
-            <span>{isCompleted ? "Complete Operation" : "Complete Operation"}</span>
+            <span>Complete Operation</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -124,6 +151,13 @@ export function SimulationViewScreen() {
           </div>
 
           <SimulationControls />
+
+          <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2">
+            <Compass className="w-4 h-4 text-[#F5B800] shrink-0 mt-0.5" />
+            <span>
+              Tip: Klik pada <strong>Kapal MV Nusantara</strong>, <strong>Crane QC</strong>, atau <strong>Truk Terminal</strong> pada layar pelabuhan untuk menginspeksi telemetri operasional.
+            </span>
+          </div>
         </div>
 
         <div className="lg:col-span-8 flex flex-col min-h-[420px] lg:min-h-[520px]">
@@ -140,6 +174,103 @@ export function SimulationViewScreen() {
           <KPIDashboard />
         </div>
       </div>
+
+      {pendingCheckpoint && (
+        <Modal
+          isOpen={true}
+          onClose={() => {}}
+          title="DISPATCH OTORISASI OPERASI PELABUHAN"
+          referenceNumber={pendingCheckpoint.timeString}
+        >
+          <div className="space-y-6 text-slate-100 font-sans">
+            <div className="p-4 rounded-xl bg-amber-500/10 border-2 border-amber-500/50 flex items-start gap-3.5">
+              <Radio className="w-6 h-6 text-[#F5B800] shrink-0 mt-0.5 animate-pulse" />
+              <div className="space-y-1">
+                <div className="text-[11px] font-mono uppercase font-bold text-amber-300">
+                  Dari: {pendingCheckpoint.sender}
+                </div>
+                <h3 className="text-base font-bold text-white">
+                  {pendingCheckpoint.title}
+                </h3>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-300 leading-relaxed bg-slate-900 p-4 rounded-xl border border-slate-800">
+              {pendingCheckpoint.description}
+            </p>
+
+            <div className="pt-2 border-t border-slate-800 flex justify-end">
+              <button
+                onClick={handleApprove}
+                className="px-6 py-3 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all transform hover:scale-[1.02]"
+              >
+                <CheckCircle2 className="w-4 h-4 stroke-[3]" />
+                <span>{pendingCheckpoint.actionButtonText}</span>
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {selectedEquipment && (
+        <Modal
+          isOpen={true}
+          onClose={() => inspectEquipment(null)}
+          title={`INSPEKSI TELEMETRI OPERASIONAL: ${selectedEquipment.name}`}
+          referenceNumber={selectedEquipment.id}
+        >
+          <div className="space-y-6 text-slate-100 font-sans">
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-[#F5B800] border border-slate-700 font-bold">
+                  {selectedEquipment.type === "VESSEL" ? (
+                    <Ship className="w-5 h-5" />
+                  ) : selectedEquipment.type === "CRANE" ? (
+                    <Layers className="w-5 h-5" />
+                  ) : (
+                    <Truck className="w-5 h-5" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">
+                    {selectedEquipment.name}
+                  </h3>
+                  <div className="text-[11px] font-mono text-slate-400">
+                    ID: {selectedEquipment.id}
+                  </div>
+                </div>
+              </div>
+
+              <span className="text-xs font-bold font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                {selectedEquipment.status}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              {selectedEquipment.metrics.map((m, idx) => (
+                <div
+                  key={idx}
+                  className="p-3 rounded-lg bg-slate-950 border border-slate-800/80 flex justify-between items-center"
+                >
+                  <span className="text-slate-400">{m.label}:</span>
+                  <span className="font-mono font-bold text-slate-200">
+                    {m.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5 text-xs">
+              <span className="font-bold text-slate-400 uppercase text-[10px] tracking-wider block">
+                Catatan Pengawas Lapangan
+              </span>
+              <p className="text-slate-300 leading-relaxed italic">
+                &quot;{selectedEquipment.operationalNotes}&quot;
+              </p>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { TimelineEvent } from "../types/simulation";
+import {
+  TimelineEvent,
+  SimulationCheckpoint,
+  SimulationCheckpointType,
+  EquipmentInspectionData,
+} from "../types/simulation";
 import { simulationTimeline } from "../data/simulationTimeline";
 
 export interface SimulationStoreState {
@@ -18,16 +23,51 @@ export interface SimulationStoreState {
   vesselPosition: { x: number; y: number; rotation: number };
   craneSpreaderY: number;
 
+  // Active check point authorizations
+  pendingCheckpoint: SimulationCheckpoint | null;
+  approvedCheckpoints: SimulationCheckpointType[];
+
+  // Interactive element inspection
+  selectedEquipment: EquipmentInspectionData | null;
+
+  // Actions
   play: () => void;
   pause: () => void;
   setSpeed: (speed: 1 | 2 | 4) => void;
   seek: (minute: number) => void;
   tick: (deltaMinutes?: number) => void;
+  approveCheckpoint: () => void;
+  inspectEquipment: (data: EquipmentInspectionData | null) => void;
   resetSimulation: () => void;
 }
 
 const TOTAL_SIMULATION_MINUTES = 45;
 const TOTAL_CONTAINERS = 50;
+
+const checkpointDefinitions: Record<SimulationCheckpointType, SimulationCheckpoint> = {
+  MOORING_APPROVAL: {
+    id: "MOORING_APPROVAL",
+    triggerMinute: 5,
+    timeString: "08:05 WIB",
+    title: "Otorisasi Sandar & Pengikatan Tali Tambat (Mooring Clearance)",
+    sender: "Foreman Regu Kepil Dermaga (Dock Line Handling Crew)",
+    description:
+      "Kapal MV Nusantara telah bermanuver sejajar dengan dermaga Berth B-01. Petugas kepil meminta otorisasi untuk mengencangkan tali tambat haluan/buritan pada bollard serta menurunkan tangga pandu (gangway) untuk pemeriksaan Syahbandar.",
+    actionButtonText: "Beri Otorisasi Sandar & Ikat Tali",
+    isApproved: false,
+  },
+  CRANE_START_APPROVAL: {
+    id: "CRANE_START_APPROVAL",
+    triggerMinute: 8,
+    timeString: "08:08 WIB",
+    title: "Otorisasi Mulai Bongkar Muat Kontainer (Quay Crane Clearance)",
+    sender: "Supervisor Terminal Petikemas (Quay Crane Superintendent)",
+    description:
+      "Twin crane QC-01 dan QC-02 telah berada di atas Bay 02 & 06 kapal. Uji keselamatan spreader selesai dan twistlock palka siap dilepas. Berikan otorisasi resmi untuk memulai siklus pembongkaran 50 kontainer?",
+    actionButtonText: "Otorisasi Mulai Siklus Bongkar Muat",
+    isApproved: false,
+  },
+};
 
 function formatClockTime(minuteOffset: number): string {
   const startHour = 8;
@@ -97,9 +137,14 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
   eventsHistory: [simulationTimeline[0]],
   vesselPosition: simulationTimeline[0].vesselPosition,
   craneSpreaderY: simulationTimeline[0].craneSpreaderY,
+  pendingCheckpoint: null,
+  approvedCheckpoints: [],
+  selectedEquipment: null,
 
   play: () => {
-    if (get().currentSimMinute >= TOTAL_SIMULATION_MINUTES) {
+    const { currentSimMinute, pendingCheckpoint } = get();
+    if (pendingCheckpoint) return; // Must approve checkpoint before running
+    if (currentSimMinute >= TOTAL_SIMULATION_MINUTES) {
       get().seek(0);
     }
     set({ isPlaying: true });
@@ -148,9 +193,53 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
   },
 
   tick: (deltaMinutes = 1) => {
-    const { currentSimMinute, seek } = get();
+    const { currentSimMinute, approvedCheckpoints, seek } = get();
     const nextMinute = currentSimMinute + deltaMinutes;
+
+    // Checkpoint 1: T+05 Mooring Line Clearance
+    if (
+      currentSimMinute < 5 &&
+      nextMinute >= 5 &&
+      !approvedCheckpoints.includes("MOORING_APPROVAL")
+    ) {
+      seek(5);
+      set({
+        isPlaying: false,
+        pendingCheckpoint: checkpointDefinitions.MOORING_APPROVAL,
+      });
+      return;
+    }
+
+    // Checkpoint 2: T+08 Crane Start Operation Clearance
+    if (
+      currentSimMinute < 8 &&
+      nextMinute >= 8 &&
+      !approvedCheckpoints.includes("CRANE_START_APPROVAL")
+    ) {
+      seek(8);
+      set({
+        isPlaying: false,
+        pendingCheckpoint: checkpointDefinitions.CRANE_START_APPROVAL,
+      });
+      return;
+    }
+
     seek(nextMinute);
+  },
+
+  approveCheckpoint: () => {
+    const { pendingCheckpoint, approvedCheckpoints } = get();
+    if (!pendingCheckpoint) return;
+
+    set({
+      approvedCheckpoints: [...approvedCheckpoints, pendingCheckpoint.id],
+      pendingCheckpoint: null,
+      isPlaying: true, // Auto resume simulation
+    });
+  },
+
+  inspectEquipment: (data: EquipmentInspectionData | null) => {
+    set({ selectedEquipment: data });
   },
 
   resetSimulation: () => {
@@ -168,6 +257,9 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
       eventsHistory: [simulationTimeline[0]],
       vesselPosition: simulationTimeline[0].vesselPosition,
       craneSpreaderY: simulationTimeline[0].craneSpreaderY,
+      pendingCheckpoint: null,
+      approvedCheckpoints: [],
+      selectedEquipment: null,
     });
   },
 }));
