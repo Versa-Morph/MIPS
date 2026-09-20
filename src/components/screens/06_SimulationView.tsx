@@ -14,15 +14,27 @@ import {
   Truck,
   Ship,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
 import { TrainingState } from "@/types/simulation";
-import { PortCanvas } from "@/components/simulation/PortCanvas";
 import { SimulationControls } from "@/components/simulation/SimulationControls";
 import { EventTimeline } from "@/components/simulation/EventTimeline";
 import { KPIDashboard } from "@/components/simulation/KPIDashboard";
 import { Modal } from "@/components/common/Modal";
 import { sound } from "@/utils/audioEngine";
+
+const InteractivePortMap = dynamic(
+  () => import("@/components/simulation/InteractivePortMap"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full min-h-[440px] flex items-center justify-center bg-slate-900 text-slate-400 font-mono text-xs rounded-2xl border border-slate-800">
+        Loading Peta RBI 1209-444 Tanjung Priok GIS Engine...
+      </div>
+    ),
+  }
+);
 
 export function SimulationViewScreen() {
   const { scenario, selectedBerth, setStep } = useTrainingStore();
@@ -160,8 +172,8 @@ export function SimulationViewScreen() {
           </div>
         </div>
 
-        <div className="lg:col-span-8 flex flex-col min-h-[420px] lg:min-h-[520px]">
-          <PortCanvas />
+        <div className="lg:col-span-8 flex flex-col min-h-[440px] lg:min-h-[520px]">
+          <InteractivePortMap />
         </div>
       </div>
 
