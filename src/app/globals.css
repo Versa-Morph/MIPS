@@ -5,31 +5,56 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #030712;
+  --foreground: #f8fafc;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: radial-gradient(ellipse at 50% 0%, #0c1c38 0%, #030712 70%);
+  background-attachment: fixed;
   font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+.glass-panel {
+  background: rgba(13, 27, 49, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.glass-panel-interactive {
+  background: rgba(13, 27, 49, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-interactive:hover {
+  border-color: rgba(0, 229, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(0, 229, 255, 0.15);
 }
 
 /* Custom scrollbars for telemetry feeds and logs */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #030712;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: #1e293b;
+  border-radius: 9999px;
+  border: 1px solid #334155;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #00e5ff;
 }
