@@ -55,7 +55,7 @@ export function DashboardScreen() {
             onClick={() => setStep(TrainingState.SCENARIO_SELECTION)}
             className="w-full py-3 px-4 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-bold text-sm shadow-md shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
           >
-            <span>Continue</span>
+            <span>Start Training</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </button>
         </div>

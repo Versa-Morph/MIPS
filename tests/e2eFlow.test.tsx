@@ -19,7 +19,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
       screen.getByText(/Container Vessel Arrival & Berthing Operation/i)
     ).toBeDefined();
     const launchScenarioBtn = screen.getByRole("button", {
-      name: /Continue/i,
+      name: /Start Training/i,
     });
     fireEvent.click(launchScenarioBtn);
     expect(useTrainingStore.getState().currentState).toBe(

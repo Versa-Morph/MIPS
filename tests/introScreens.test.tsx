@@ -19,7 +19,7 @@ describe("Introductory Screens (Screens 01, 02, 03)", () => {
     ).toBeDefined();
 
     const launchButton = screen.getByRole("button", {
-      name: /Continue/i,
+      name: /Start Training/i,
     });
     fireEvent.click(launchButton);
 
