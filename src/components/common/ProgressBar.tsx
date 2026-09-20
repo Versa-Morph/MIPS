@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Check } from "lucide-react";
 import { TrainingState } from "@/types/simulation";
 
@@ -64,17 +63,20 @@ export function ProgressBar({ currentState }: ProgressBarProps) {
     step.associatedStates.includes(currentState)
   );
 
-  return (
-    <div className="w-full bg-[#0A192F] border-b border-slate-800/80 py-3 px-4 sm:px-8 select-none">
-      <div className="max-w-5xl mx-auto flex items-center justify-between relative">
-        {/* Background connecting track */}
-        <div className="absolute top-1/2 left-4 right-4 -translate-y-1/2 h-0.5 bg-slate-800 -z-0"></div>
+  const progressPercent =
+    activeStepIndex < 0 ? 0 : (activeStepIndex / (steps.length - 1)) * 100;
 
-        {/* Dynamic active connecting track */}
+  return (
+    <div className="w-full bg-abyssal/95 backdrop-blur-md border-b border-glass-border py-3.5 px-4 sm:px-8 select-none">
+      <div className="max-w-5xl mx-auto flex items-center justify-between relative">
+        {/* Background base connecting track */}
+        <div className="absolute top-4 left-6 right-6 h-1 bg-slate-800/90 rounded-full -z-0"></div>
+
+        {/* Dynamic active connecting track with tactical glow */}
         <div
-          className="absolute top-1/2 left-4 -translate-y-1/2 h-0.5 bg-amber-500 transition-all duration-500 -z-0"
+          className="absolute top-4 left-6 h-1 bg-gradient-to-r from-safety-emerald via-tactical-cyan to-tactical-cyan rounded-full transition-all duration-500 shadow-cyan-glow -z-0"
           style={{
-            width: `${(Math.max(0, activeStepIndex) / (steps.length - 1)) * 100}%`,
+            width: `calc(${progressPercent}% * 0.94)`,
           }}
         ></div>
 
@@ -88,12 +90,12 @@ export function ProgressBar({ currentState }: ProgressBarProps) {
               className="flex flex-col items-center gap-1.5 relative z-10"
             >
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-mono font-bold text-xs transition-all duration-300 ${
                   isCompleted
-                    ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 ring-2 ring-emerald-500/30"
+                    ? "bg-safety-emerald text-abyssal font-extrabold shadow-emerald-glow ring-2 ring-safety-emerald/40"
                     : isActive
-                    ? "bg-[#F5B800] text-slate-950 font-black shadow-lg shadow-amber-500/30 ring-4 ring-amber-500/20 scale-110"
-                    : "bg-slate-900 border border-slate-700 text-slate-500"
+                    ? "bg-tactical-cyan text-abyssal font-black shadow-cyan-glow ring-4 ring-tactical-cyan/40 scale-110"
+                    : "bg-abyssal-surface border border-slate-700/80 text-slate-500"
                 }`}
               >
                 {isCompleted ? (
@@ -103,9 +105,9 @@ export function ProgressBar({ currentState }: ProgressBarProps) {
                 )}
               </div>
               <span
-                className={`text-[10px] sm:text-xs font-bold tracking-wider transition-colors ${
+                className={`text-[10px] sm:text-xs font-mono font-bold tracking-wider transition-colors ${
                   isActive
-                    ? "text-[#F5B800]"
+                    ? "text-tactical-cyan"
                     : isCompleted
                     ? "text-slate-300"
                     : "text-slate-600"
