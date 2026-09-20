@@ -192,7 +192,7 @@ export function ScenarioCardScreen() {
             onClick={() => setStep(TrainingState.BRIEFING)}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-bold text-sm shadow-md shadow-amber-500/20 transition-all transform hover:scale-[1.02]"
           >
-            <span>Proceed to Mission Briefing</span>
+            <span>START TRAINING</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </button>
         </div>

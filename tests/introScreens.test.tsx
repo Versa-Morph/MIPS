@@ -35,7 +35,7 @@ describe("Introductory Screens (Screens 01, 02, 03)", () => {
     expect(screen.getByText(/10.2 m/i)).toBeDefined();
 
     const proceedButton = screen.getByRole("button", {
-      name: /Proceed to Mission Briefing/i,
+      name: /START TRAINING/i,
     });
     fireEvent.click(proceedButton);
 
@@ -50,7 +50,7 @@ describe("Introductory Screens (Screens 01, 02, 03)", () => {
     expect(screen.getByText(/11\.5 meters/i)).toBeDefined();
 
     const docCenterButton = screen.getByRole("button", {
-      name: /Proceed to Document Center/i,
+      name: /Review Documents/i,
     });
     fireEvent.click(docCenterButton);
 

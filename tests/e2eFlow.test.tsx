@@ -29,7 +29,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     // SCREEN 02: SCENARIO CARD
     expect(screen.getByText(/Target Vessel Particulars/i)).toBeDefined();
     const proceedToBriefingBtn = screen.getByRole("button", {
-      name: /Proceed to Mission Briefing/i,
+      name: /START TRAINING/i,
     });
     fireEvent.click(proceedToBriefingBtn);
     expect(useTrainingStore.getState().currentState).toBe(
@@ -39,7 +39,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     // SCREEN 03: BRIEFING
     expect(screen.getByText(/Capt\. H\. Gunawan/i)).toBeDefined();
     const proceedToDocCenterBtn = screen.getByRole("button", {
-      name: /Proceed to Document Center/i,
+      name: /Review Documents/i,
     });
     fireEvent.click(proceedToDocCenterBtn);
     expect(useTrainingStore.getState().currentState).toBe(
