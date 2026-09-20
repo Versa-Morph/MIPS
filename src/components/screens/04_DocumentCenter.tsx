@@ -12,11 +12,13 @@ import {
   FileText,
   ClipboardCheck,
   Lock,
-  Anchor,
+  AlertTriangle,
+  ShieldCheck,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { DocumentType } from "@/types/domain";
+import { Modal } from "@/components/common/Modal";
 import { sound } from "@/utils/audioEngine";
 
 export function DocumentCenterScreen() {
@@ -29,6 +31,7 @@ export function DocumentCenterScreen() {
   } = useTrainingStore();
 
   const [selectedType, setSelectedType] = useState<DocumentType>("ARRIVAL_NOTICE");
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const [vesselName, setVesselName] = useState(cadetDossier.vesselName || "");
   const [callSign, setCallSign] = useState(cadetDossier.callSign || "");
@@ -73,17 +76,13 @@ export function DocumentCenterScreen() {
     markDocumentViewed(type, 15);
   };
 
-  const handleSubmitDossier = (e: React.FormEvent) => {
+  const handleOpenConfirm = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsConfirmModalOpen(true);
+  };
 
-    if (
-      typeof window !== "undefined" &&
-      !window.confirm(
-        "Kirim Berkas Pre-Arrival Clearance Dossier ke Syahbandar?\n\nPERINGATAN RESMI: Berkas yang sudah dikirim akan DIKUNCI SECARA PERMANEN dan langsung dinilai akurasinya. Anda TIDAK DAPAT mengubah data kembali."
-      )
-    ) {
-      return;
-    }
+  const handleExecuteSubmit = () => {
+    setIsConfirmModalOpen(false);
 
     const result = submitCadetDossier({
       vesselName,
@@ -315,7 +314,7 @@ export function DocumentCenterScreen() {
               )}
             </div>
 
-            <form onSubmit={handleSubmitDossier} className="space-y-3.5 text-xs">
+            <form onSubmit={handleOpenConfirm} className="space-y-3.5 text-xs">
               <div className="space-y-2 p-3 rounded-xl bg-slate-950 border border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                   1. Identitas & Pelayaran Kapal (Notice of Arrival)
@@ -575,6 +574,70 @@ export function DocumentCenterScreen() {
           </div>
         </div>
       </div>
+
+      {isConfirmModalOpen && (
+        <Modal
+          isOpen={true}
+          onClose={() => setIsConfirmModalOpen(false)}
+          title="KONFIRMASI PENYERAHAN BERKAS PRE-ARRIVAL KE SYAHBANDAR"
+          referenceNumber="DISPATCH-CLEARANCE-NOA"
+        >
+          <div className="space-y-6 text-slate-100 font-sans">
+            <div className="p-4 rounded-xl bg-amber-500/10 border-2 border-amber-500/50 flex items-start gap-3.5">
+              <AlertTriangle className="w-6 h-6 text-[#F5B800] shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <strong className="text-sm font-bold text-white block">
+                  PERINGATAN RESMI: PENGUNCIAN BERKAS OPERASIONAL
+                </strong>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Berkas Pre-Arrival Clearance Dossier yang Anda serahkan ke Otoritas Pelabuhan & Syahbandar bersifat mengikat dan akan langsung dievaluasi nilainya. Berkas akan <strong>DIKUNCI SECARA PERMANEN</strong> dan Anda tidak dapat mengubah data kembali.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2 text-xs font-mono">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block border-b border-slate-800 pb-1.5 font-sans">
+                Ringkasan Berkas yang Akan Dikirim:
+              </span>
+              <div className="flex justify-between py-1 border-b border-slate-950">
+                <span className="text-slate-400 font-sans">Nama Kapal & Call Sign:</span>
+                <span className="font-bold text-white">{vesselName} ({callSign})</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-slate-950">
+                <span className="text-slate-400 font-sans">Dimensi & Draft Aft:</span>
+                <span className="font-bold text-amber-400">LOA {loa}m · Draft {draftAft}m</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-slate-950">
+                <span className="text-slate-400 font-sans">Controlling Depth Wajib:</span>
+                <span className="font-bold text-emerald-400">{requiredDepth} Meters (UKC Safe)</span>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-400 font-sans">Muatan & Kebutuhan Crane:</span>
+                <span className="font-bold text-sky-400">{totalContainers} Box · {minCranes} Cranes</span>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => setIsConfirmModalOpen(false)}
+                className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+              >
+                Periksa Kembali Berkas
+              </button>
+
+              <button
+                type="button"
+                onClick={handleExecuteSubmit}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 font-black text-xs uppercase shadow-md shadow-amber-500/20 transition-all"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                <span>Ya, Kirim & Kunci Berkas Resmi</span>
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

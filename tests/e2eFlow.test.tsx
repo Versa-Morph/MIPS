@@ -93,6 +93,11 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     });
     fireEvent.click(submitBtn);
 
+    const confirmSubmitBtn = screen.getByRole("button", {
+      name: /Ya, Kirim & Kunci Berkas Resmi/i,
+    });
+    fireEvent.click(confirmSubmitBtn);
+
     const proceedToDecisionBtn = screen.getByRole("button", {
       name: /PROCEED TO BERTH ASSIGNMENT/i,
     });

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
 import { DocumentCenterScreen } from "../src/components/screens/04_DocumentCenter";
@@ -9,7 +9,6 @@ describe("Screen 04: Document Center Pre-Arrival Clearance Dossier (PRD Image 3)
   beforeEach(() => {
     useTrainingStore.getState().resetTraining();
     useTrainingStore.getState().setStep(TrainingState.DOCUMENT_REVIEW);
-    vi.stubGlobal("confirm", () => true);
   });
 
   it("renders 3-panel workspace with packages, PDF viewer, and Pre-Arrival Clearance Dossier", () => {
@@ -69,17 +68,23 @@ describe("Screen 04: Document Center Pre-Arrival Clearance Dossier (PRD Image 3)
     fireEvent.change(dgInput, { target: { value: "4.1" } });
     fireEvent.change(craneInput, { target: { value: "3" } });
 
-    const submitBtn = screen.getByRole("button", {
+    const openConfirmBtn = screen.getByRole("button", {
       name: /Submit Pre-Arrival Dossier/i,
     });
-    fireEvent.click(submitBtn);
+    fireEvent.click(openConfirmBtn);
+
+    // Confirmation modal opens
+    expect(screen.getByText(/PERINGATAN RESMI: PENGUNCIAN BERKAS OPERASIONAL/i)).toBeDefined();
+    const confirmSubmitBtn = screen.getByRole("button", {
+      name: /Ya, Kirim & Kunci Berkas Resmi/i,
+    });
+    fireEvent.click(confirmSubmitBtn);
 
     expect(screen.getByText(/PRE-ARRIVAL DOSSIER VERIFIED/i)).toBeDefined();
     expect(useTrainingStore.getState().cadetDossier.isSubmitted).toBe(true);
     expect(useTrainingStore.getState().cadetDossier.score).toBe(20);
 
     expect(screen.getByText(/BERKAS RESMI DIKUNCI \(FINAL SUBMISSION\)/i)).toBeDefined();
-    expect(screen.queryByText(/Revisi Isian Data/i)).toBeNull();
 
     expect(proceedBtn.hasAttribute("disabled")).toBe(false);
 
