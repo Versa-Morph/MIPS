@@ -44,13 +44,13 @@ describe("Screen 04: Document Center 3-Panel Workspace (PRD Image 3)", () => {
 
     expect(decisionBtn.hasAttribute("disabled")).toBe(true);
 
-    const task1 = screen.getByText(/Identify Draft Requirement/i);
-    const task2 = screen.getByText(/Verify Vessel Length/i);
-    const task3 = screen.getByText(/Check Berth Availability/i);
+    const draftBtn = screen.getByRole("button", { name: "Draft 10.20m" });
+    const loaBtn = screen.getByRole("button", { name: "LOA 280m" });
+    const ukcBtn = screen.getByRole("button", { name: "Kedalaman 11.5m" });
 
-    fireEvent.click(task1);
-    fireEvent.click(task2);
-    fireEvent.click(task3);
+    fireEvent.click(draftBtn);
+    fireEvent.click(loaBtn);
+    fireEvent.click(ukcBtn);
 
     expect(decisionBtn.hasAttribute("disabled")).toBe(false);
 

@@ -57,13 +57,13 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     fireEvent.click(screen.getByText(/Dangerous Goods & Cargo Manifest/i));
     fireEvent.click(screen.getByText(/Port Bathymetry & Pelindo Master Berth Sheet/i));
 
-    const task1 = screen.getByText(/Identify Draft Requirement/i);
-    const task2 = screen.getByText(/Verify Vessel Length/i);
-    const task3 = screen.getByText(/Check Berth Availability/i);
+    const draftBtn = screen.getByRole("button", { name: "Draft 10.20m" });
+    const loaBtn = screen.getByRole("button", { name: "LOA 280m" });
+    const ukcBtn = screen.getByRole("button", { name: "Kedalaman 11.5m" });
 
-    fireEvent.click(task1);
-    fireEvent.click(task2);
-    fireEvent.click(task3);
+    fireEvent.click(draftBtn);
+    fireEvent.click(loaBtn);
+    fireEvent.click(ukcBtn);
 
     const proceedToDecisionBtn = screen.getByRole("button", {
       name: /MAKE BERTHING DECISION/i,
