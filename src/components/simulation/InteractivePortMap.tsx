@@ -341,9 +341,8 @@ export default function InteractivePortMap() {
   };
 
   return (
-    <div className="w-full h-full min-h-[440px] lg:min-h-[520px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl relative flex flex-col select-none">
-      {/* Map Interactive Toolbar */}
-      <div className="absolute top-3 left-3 z-[400] flex flex-wrap items-center gap-2 bg-[#08182B]/90 backdrop-blur-md border border-slate-700/80 p-1.5 rounded-xl shadow-xl text-xs text-white">
+    <div className="w-full h-full min-h-[440px] lg:min-h-[520px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl relative isolate flex flex-col select-none">
+      <div className="absolute top-3 left-3 z-30 flex flex-wrap items-center gap-2 bg-[#08182B]/90 backdrop-blur-md border border-slate-700/80 p-1.5 rounded-xl shadow-xl text-xs text-white">
         <div className="flex items-center gap-1.5 px-2 py-0.5 border-r border-slate-700 font-bold text-amber-400">
           <MapIcon className="w-4 h-4" />
           <span className="hidden sm:inline">Peta RBI 1209-444 Tanjungpriok</span>
@@ -386,8 +385,7 @@ export default function InteractivePortMap() {
         </div>
       </div>
 
-      {/* Map Zoom Controls (Top Right) */}
-      <div className="absolute top-3 right-3 z-[400] flex flex-col gap-1 bg-[#08182B]/90 backdrop-blur-md border border-slate-700 p-1 rounded-xl shadow-xl">
+      <div className="absolute top-3 right-3 z-30 flex flex-col gap-1 bg-[#08182B]/90 backdrop-blur-md border border-slate-700 p-1 rounded-xl shadow-xl">
         <button
           onClick={() => mapInstanceRef.current?.zoomIn()}
           className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition-colors"
@@ -404,11 +402,9 @@ export default function InteractivePortMap() {
         </button>
       </div>
 
-      {/* Leaflet Map Div Container */}
       <div ref={mapContainerRef} className="w-full h-full flex-1 z-0 bg-[#06101E]" />
 
-      {/* Bottom Map Footnote Bar */}
-      <div className="absolute bottom-2 left-3 right-3 z-[400] flex items-center justify-between pointer-events-none text-[10px] text-slate-400 font-mono bg-[#08182B]/85 backdrop-blur-sm px-3 py-1 rounded-lg border border-slate-800">
+      <div className="absolute bottom-2 left-3 right-3 z-30 flex items-center justify-between pointer-events-none text-[10px] text-slate-400 font-mono bg-[#08182B]/85 backdrop-blur-sm px-3 py-1 rounded-lg border border-slate-800">
         <span>TELUK JAKARTA · LAT: 06°05&apos;40&quot;S, LNG: 106°53&apos;15&quot;E</span>
         <span>DATUM: WGS 84 / UTM ZONE 48S · SKALA 1:25.000</span>
       </div>
