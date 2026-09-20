@@ -19,7 +19,7 @@ describe("Screen 04: Document Center 3-Panel Workspace (PRD Image 3)", () => {
     expect(screen.getByText(/Key Insight Found/i)).toBeDefined();
   });
 
-  it("lists all 4 package documents in left panel and renders document sheet in center", () => {
+  it("lists all 4 package documents in left panel and renders real PDF file in center panel", () => {
     render(<DocumentCenterScreen />);
     expect(
       screen.getAllByText(/Notice of Arrival \(NOA\)/i).length
@@ -30,8 +30,10 @@ describe("Screen 04: Document Center 3-Panel Workspace (PRD Image 3)", () => {
       screen.getByText(/Port Bathymetry & Pelindo Master Berth Sheet/i)
     ).toBeDefined();
 
-    expect(screen.getByText(/VESSEL DIMENSIONS & LOAD CONDITION/i)).toBeDefined();
-    expect(screen.getAllByText(/10\.20 Meters/i).length).toBeGreaterThanOrEqual(1);
+    // Center panel renders the real PDF iframe
+    const iframe = screen.getByTitle(/Notice of Arrival \(NOA\)/i);
+    expect(iframe).toBeDefined();
+    expect(iframe.getAttribute("src")).toContain("notice-of-arrival.pdf");
   });
 
   it("requires completing analysis checklist before unlocking MAKE BERTHING DECISION", () => {

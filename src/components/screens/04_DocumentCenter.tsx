@@ -2,20 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  FileText,
   CheckCircle2,
   Circle,
   ArrowRight,
   ArrowLeft,
-  Anchor,
-  Ship,
-  MapPin,
-  AlertTriangle,
   Lightbulb,
   ExternalLink,
   Download,
-  Stamp,
   Layers,
+  FileText,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -25,21 +20,18 @@ export function DocumentCenterScreen() {
   const { documents, markDocumentViewed, setStep } = useTrainingStore();
 
   const [selectedType, setSelectedType] = useState<DocumentType>("ARRIVAL_NOTICE");
-  const [showPdfEmbed, setShowPdfEmbed] = useState<boolean>(false);
 
   // Analysis Checklist State (PRD Image 3)
   const [taskDraftIdentified, setTaskDraftIdentified] = useState(false);
   const [taskLengthVerified, setTaskLengthVerified] = useState(false);
   const [taskBerthChecked, setTaskBerthChecked] = useState(false);
 
-  // Track viewing on select
   useEffect(() => {
     markDocumentViewed(selectedType, 15);
   }, [selectedType, markDocumentViewed]);
 
   const activeDoc = documents.find((d) => d.type === selectedType) || documents[0];
 
-  // Auto-progress checklist as cadet reviews relevant documents
   const handleSelectDoc = (type: DocumentType) => {
     setSelectedType(type);
     markDocumentViewed(type, 15);
@@ -55,7 +47,8 @@ export function DocumentCenterScreen() {
     }
   };
 
-  const isAnalysisComplete = taskDraftIdentified && taskLengthVerified && taskBerthChecked;
+  const isAnalysisComplete =
+    taskDraftIdentified && taskLengthVerified && taskBerthChecked;
 
   const handleProceed = () => {
     setStep(TrainingState.DECISION);
@@ -63,7 +56,7 @@ export function DocumentCenterScreen() {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 animate-fadeIn select-none">
-      {/* Top Breadcrumb Header Bar */}
+      {/* Top Navigation Bar */}
       <div className="rounded-xl bg-[#08182B] border border-slate-800 px-4 py-3 flex items-center justify-between shadow-md text-white text-xs">
         <div className="flex items-center gap-3">
           <button
@@ -88,7 +81,7 @@ export function DocumentCenterScreen() {
         </div>
       </div>
 
-      {/* 3-Panel Main Workspace Grid (PRD Image 3) */}
+      {/* 3-Panel Integrated Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
         {/* PANEL 1 (LEFT, 3 cols): Cargo & Notice Package Selector + Technical Summary */}
         <div className="lg:col-span-3 space-y-4">
@@ -136,7 +129,7 @@ export function DocumentCenterScreen() {
             </div>
           </div>
 
-          {/* Bottom Pinned Widget: Technical Summary (PRD Image 3) */}
+          {/* Technical Summary Card (PRD Image 3) */}
           <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 shadow-lg space-y-3">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block border-b border-slate-800 pb-1.5">
               TECHNICAL SUMMARY
@@ -162,162 +155,69 @@ export function DocumentCenterScreen() {
           </div>
         </div>
 
-        {/* PANEL 2 (CENTER, 6 cols): Formal Document Viewer Sheet (PRD Image 3) */}
+        {/* PANEL 2 (CENTER, 6 cols): Real PDF Document Viewer (Direct File Render) */}
         <div className="lg:col-span-6 space-y-3">
-          <div className="rounded-2xl bg-white text-slate-900 border border-slate-300 shadow-2xl p-6 sm:p-8 space-y-5 font-sans min-h-[580px] relative overflow-hidden">
-            {/* Header / Reference */}
-            <div className="border-b-2 border-slate-900 pb-3 flex flex-wrap items-start justify-between gap-2">
-              <div>
-                <h1 className="text-base sm:text-lg font-black uppercase tracking-tight text-slate-900">
-                  {activeDoc.content.header}
-                </h1>
-                <div className="text-[11px] text-slate-600 font-mono mt-0.5">
-                  REF: {activeDoc.referenceNumber} · {activeDoc.content.date}
+          <div className="rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl p-4 flex flex-col min-h-[620px]">
+            {/* Header / Document Reference & File Actions */}
+            <div className="border-b border-slate-800 pb-3 mb-3 flex items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-[#F5B800] text-slate-950 flex items-center justify-center font-bold">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div>
+                  <h1 className="text-sm font-bold text-white uppercase tracking-tight">
+                    {activeDoc.title}
+                  </h1>
+                  <span className="font-mono text-[11px] text-slate-400">
+                    REF: {activeDoc.referenceNumber}
+                  </span>
                 </div>
               </div>
 
-              <div className="text-right">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-700 block">
-                  JAKARTA PORT AUTHORITY
-                </span>
-                <span className="text-[9px] text-slate-500 uppercase font-mono">
-                  OPERATIONAL DEPT
-                </span>
-              </div>
-            </div>
-
-            {/* Toggle Real PDF view option */}
-            <div className="flex items-center justify-between bg-slate-100 p-2 rounded-lg text-xs">
-              <span className="text-slate-600 font-medium">
-                Official Regulatory Document Sheet
-              </span>
-              <button
-                onClick={() => setShowPdfEmbed(!showPdfEmbed)}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-900 text-white font-semibold text-[11px] transition-colors"
-              >
-                {showPdfEmbed ? (
-                  <span>View Structured Sheet</span>
-                ) : (
+              {/* Direct File Action Buttons */}
+              <div className="flex items-center gap-1.5">
+                {activeDoc.pdfUrl && (
                   <>
-                    <ExternalLink className="w-3 h-3" />
-                    <span>View Official PDF</span>
+                    <a
+                      href={activeDoc.pdfUrl}
+                      download
+                      className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                      title="Download original PDF file"
+                    >
+                      <Download className="w-4 h-4" />
+                    </a>
+                    <a
+                      href={activeDoc.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                      title="Open PDF in new browser tab"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
                   </>
                 )}
-              </button>
+              </div>
             </div>
 
-            {showPdfEmbed && activeDoc.pdfUrl ? (
-              <div className="w-full h-[450px] rounded-lg overflow-hidden border border-slate-300 bg-slate-100">
+            {/* Direct Real PDF Iframe Render */}
+            <div className="flex-1 w-full min-h-[540px] rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
+              {activeDoc.pdfUrl ? (
                 <iframe
-                  src={`${activeDoc.pdfUrl}#toolbar=0`}
-                  className="w-full h-full border-0"
+                  src={`${activeDoc.pdfUrl}#toolbar=1`}
+                  className="w-full h-full min-h-[540px] border-0"
                   title={activeDoc.title}
                 />
-              </div>
-            ) : (
-              /* Structured Document Representation matching Image 3 */
-              <div className="space-y-4 text-xs">
-                {/* 2x2 Grid: Vessel Identification */}
-                <div className="grid grid-cols-2 gap-2.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-500 block">
-                      VESSEL NAME
-                    </span>
-                    <strong className="text-sm font-black text-slate-900">
-                      MV NUSANTARA
-                    </strong>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-500 block">
-                      VESSEL TYPE
-                    </span>
-                    <strong className="text-xs font-bold text-slate-800">
-                      Container Vessel (Fully Cellular)
-                    </strong>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-500 block">
-                      CALL SIGN
-                    </span>
-                    <strong className="text-xs font-mono font-bold text-slate-800">
-                      PK-47A (IMO 1234567)
-                    </strong>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-500 block">
-                      ESTIMATED TIME OF ARRIVAL (ETA)
-                    </span>
-                    <strong className="text-xs font-mono font-bold text-amber-700">
-                      2026-10-14 08:00 WIB
-                    </strong>
-                  </div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">
+                  Document file unavailable.
                 </div>
-
-                {/* Section 2: Dimensions and Load condition (PRD Image 3) */}
-                <div className="space-y-2">
-                  <div className="bg-slate-200 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider text-slate-700">
-                    VESSEL DIMENSIONS & LOAD CONDITION
-                  </div>
-
-                  <div className="divide-y divide-slate-200 border border-slate-200 rounded-lg overflow-hidden">
-                    <div className="flex justify-between px-3 py-2 bg-white">
-                      <span className="text-slate-600">Length Overall (LOA):</span>
-                      <strong className="font-mono text-slate-900 font-bold">
-                        280.00 Meters
-                      </strong>
-                    </div>
-                    <div className="flex justify-between px-3 py-2 bg-white">
-                      <span className="text-slate-600">Breadth Moulded (Beam):</span>
-                      <strong className="font-mono text-slate-900 font-bold">
-                        42.50 Meters
-                      </strong>
-                    </div>
-                    {/* CRITICAL HIGHLIGHT IN RED: Arrival Draft (Aft) */}
-                    <div className="flex justify-between px-3 py-2 bg-red-50">
-                      <span className="text-red-900 font-bold flex items-center gap-1">
-                        <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
-                        Current Arrival Draft (Aft):
-                      </span>
-                      <strong className="font-mono text-red-600 font-black text-sm">
-                        10.20 Meters (CRITICAL)
-                      </strong>
-                    </div>
-                    <div className="flex justify-between px-3 py-2 bg-white">
-                      <span className="text-slate-600">Current Arrival Draft (Fwd):</span>
-                      <strong className="font-mono text-slate-800">8.80 Meters</strong>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Section 3: Berth Request Details (PRD Image 3) */}
-                <div className="space-y-1.5">
-                  <div className="bg-slate-200 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider text-slate-700">
-                    BERTH REQUEST DETAILS & RESTRICTIONS
-                  </div>
-                  <p className="text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
-                    &quot;Requesting immediate berthing for priority discharge of 1,200 TEUs. Dangerous Goods (Class 4.1) present on deck sector 03. Requires minimum 3 Shore Cranes with outreach &gt; 40m.&quot;
-                  </p>
-                </div>
-
-                {/* Document Footer Signatures */}
-                <div className="pt-4 border-t border-slate-300 flex justify-between items-end text-[11px] text-slate-600">
-                  <div>
-                    <div className="w-32 border-b border-slate-400 mb-1"></div>
-                    <span>Master&apos;s Signature: Capt. Bambang S.</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="border border-dashed border-emerald-700 text-emerald-800 font-mono font-bold text-[9px] px-2 py-0.5 rounded inline-block mb-1">
-                      PORT AGENT STAMP: VERIFIED
-                    </div>
-                    <div>KSOP Tanjung Priok Duty Officer</div>
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
-        {/* PANEL 3 (RIGHT, 3 cols): Analysis Progress & Decision Action (PRD Image 3) */}
+        {/* PANEL 3 (RIGHT, 3 cols): Analysis Progress & Action */}
         <div className="lg:col-span-3 space-y-4">
           <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-4 shadow-lg">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-300 border-b border-slate-800 pb-2.5 flex items-center gap-2">
@@ -327,7 +227,6 @@ export function DocumentCenterScreen() {
 
             {/* Interactive Checklist Tasks */}
             <div className="space-y-3">
-              {/* Task 1: Draft Requirement */}
               <div
                 onClick={() => setTaskDraftIdentified(true)}
                 className={`cursor-pointer p-3 rounded-xl border transition-all flex items-start gap-3 ${
@@ -353,7 +252,6 @@ export function DocumentCenterScreen() {
                 </div>
               </div>
 
-              {/* Task 2: Verify Vessel Length */}
               <div
                 onClick={() => setTaskLengthVerified(true)}
                 className={`cursor-pointer p-3 rounded-xl border transition-all flex items-start gap-3 ${
@@ -379,7 +277,6 @@ export function DocumentCenterScreen() {
                 </div>
               </div>
 
-              {/* Task 3: Check Berth Availability */}
               <div
                 onClick={() => setTaskBerthChecked(true)}
                 className={`cursor-pointer p-3 rounded-xl border transition-all flex items-start gap-3 ${
@@ -406,7 +303,7 @@ export function DocumentCenterScreen() {
               </div>
             </div>
 
-            {/* Key Insight Found Callout Box (PRD Image 3) */}
+            {/* Key Insight Found Callout Box */}
             <div className="rounded-xl bg-amber-500/10 border-2 border-amber-500/40 p-3.5 space-y-1.5 text-xs">
               <div className="flex items-center gap-1.5 font-bold text-[#F5B800] uppercase text-[11px]">
                 <Lightbulb className="w-4 h-4" />
@@ -417,7 +314,7 @@ export function DocumentCenterScreen() {
               </p>
             </div>
 
-            {/* Primary Action Button (PRD Image 3) */}
+            {/* Primary Action Button */}
             <div className="pt-2">
               <button
                 onClick={handleProceed}
