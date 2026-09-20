@@ -54,7 +54,11 @@ export default function Home() {
       {currentState !== TrainingState.DASHBOARD && (
         <ProgressBar currentState={currentState} />
       )}
-      <main className="flex-1 overflow-y-auto">{renderActiveScreen()}</main>
+      <main className="flex-1 overflow-y-auto flex flex-col">
+        <div key={currentState} className="flex-1 flex flex-col animate-page-enter">
+          {renderActiveScreen()}
+        </div>
+      </main>
     </div>
   );
 }
