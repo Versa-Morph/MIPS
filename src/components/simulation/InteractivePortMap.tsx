@@ -118,15 +118,11 @@ export default function InteractivePortMap() {
       zoomControl: false,
     });
 
-    // Dark Matter Nautical Base Tile Layer
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, Peta RBI BIG Lembar 1209-444',
-        maxZoom: 19,
-      }
-    ).addTo(map);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Peta RBI BIG Lembar 1209-444',
+      maxZoom: 19,
+    }).addTo(map);
 
     // Georeferenced Peta RBI Image Overlay (BIG Lembar 1209-444 Tanjungpriok)
     const rbiOverlay = L.imageOverlay(
