@@ -9,21 +9,19 @@ import {
   ZoomIn,
   ZoomOut,
   MapPin,
-  ShieldCheck,
+  Layers,
+  Map as MapIcon,
 } from "lucide-react";
 import { useSimulationStore } from "@/store/useSimulationStore";
 
 // Calibrated Coordinates for Pelabuhan Tanjung Priok & Teluk Jakarta
 const PORT_CENTER: [number, number] = [-6.0950, 106.8860];
 
-// Actual Quaysides of Tanjung Priok:
-// Berth B-01: Deepwater International Container Terminal (JICT Basin)
+// Quaysides of Tanjung Priok:
 const BERTH_B01_COORDS: [number, number] = [-6.1015, 106.8935];
-
-// Berth B-02: Dermaga Nusantara II (West Inner Basin, Pelindo -9 mLWS)
 const BERTH_B02_COORDS: [number, number] = [-6.0980, 106.8815];
 
-// Calibrated Breakwater Alignments (Tanggul Pemecah Gelombang Tanjung Priok)
+// Calibrated Breakwater Alignments
 const WEST_BREAKWATER: [number, number][] = [
   [-6.0865, 106.8785],
   [-6.0900, 106.8760],
@@ -37,12 +35,16 @@ const EAST_BREAKWATER: [number, number][] = [
 
 // Fairway Channel Waypoints (Approaching from Teluk Jakarta into Tanjung Priok Basin)
 const FAIRWAY_TRACK: [number, number][] = [
-  [-6.0650, 106.8850], // Outer Fairway Buoy (Teluk Jakarta)
-  [-6.0760, 106.8850], // Mid-Fairway Approach
-  [-6.0860, 106.8850], // Entrance Gate between Breakwaters
-  [-6.0950, 106.8880], // Harbor Turning Basin
-  [-6.1015, 106.8935], // Berth B-01 Quayside (Docked alongside)
+  [-6.0650, 106.8850],
+  [-6.0760, 106.8850],
+  [-6.0860, 106.8850],
+  [-6.0950, 106.8880],
+  [-6.1015, 106.8935],
 ];
+
+const BIG_RBI_TILE_URL =
+  "https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}";
+const OSM_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 function interpolatePosition(minute: number): {
   lat: number;
@@ -95,7 +97,10 @@ export default function InteractivePortMap() {
   const vesselMarkerRef = useRef<L.Marker | null>(null);
   const tugBimaMarkerRef = useRef<L.Marker | null>(null);
   const tugArjunaMarkerRef = useRef<L.Marker | null>(null);
+  const rbiLayerRef = useRef<L.TileLayer | null>(null);
+  const osmLayerRef = useRef<L.TileLayer | null>(null);
 
+  const [activeLayer, setActiveLayer] = useState<"RBI" | "OSM">("RBI");
   const isOperating = currentSimMinute >= 8;
 
   useEffect(() => {
@@ -109,14 +114,22 @@ export default function InteractivePortMap() {
       zoomControl: false,
     });
 
-    // Clean, crisp, high-resolution OpenStreetMap tile layer (100% sharp vector rendering)
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    const rbiLayer = L.tileLayer(BIG_RBI_TILE_URL, {
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · Pelabuhan Tanjung Priok',
-      maxZoom: 19,
-    }).addTo(map);
+        '&copy; <a href="https://sinergik.big.go.id/" target="_blank">Badan Informasi Geospasial (BIG)</a> · Peta Rupabumi Indonesia',
+      maxZoom: 18,
+    });
+    rbiLayerRef.current = rbiLayer;
 
-    // Draw Tanjung Priok Breakwaters on real coordinates
+    const osmLayer = L.tileLayer(OSM_TILE_URL, {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19,
+    });
+    osmLayerRef.current = osmLayer;
+
+    rbiLayer.addTo(map);
+
     L.polyline(WEST_BREAKWATER, {
       color: "#0F172A",
       weight: 6,
@@ -133,7 +146,6 @@ export default function InteractivePortMap() {
       .addTo(map)
       .bindTooltip("Breakwater Timur (Tanggul Pemecah Gelombang)", { permanent: false });
 
-    // Draw Fairway Approach Channel Polyline
     L.polyline(FAIRWAY_TRACK, {
       color: "#F5B800",
       weight: 2.5,
@@ -143,7 +155,6 @@ export default function InteractivePortMap() {
       .addTo(map)
       .bindTooltip("Alur Pelayaran Masuk Tanjung Priok (-14.0m LWS)");
 
-    // Fairway Buoy Markers (Flanking entrance gate)
     const greenBuoyIcon = L.divIcon({
       className: "custom-buoy",
       html: `<div style="width:14px;height:14px;border-radius:50%;background:#10B981;border:2px solid #064E3B;box-shadow:0 0 8px #10B981;"></div>`,
@@ -162,7 +173,6 @@ export default function InteractivePortMap() {
       .addTo(map)
       .bindPopup("<strong>Port Fairway Buoy #2</strong><br>Karakteristik: Fl.R.4s (Merah/Kiri)");
 
-    // Berth B-01 Marker & Area (Deepwater International Container Pier)
     L.circleMarker(BERTH_B01_COORDS, {
       radius: 11,
       fillColor: "#10B981",
@@ -175,7 +185,6 @@ export default function InteractivePortMap() {
         "<strong>BERTH B-01 (DEEPWATER CONTAINER TERMINAL)</strong><br>Panjang LOA: 300.0m<br>Kedalaman: -12.0m LWS<br>Alat: 4x Super Post-Panamax Cranes<br>Status: <strong>LOLOS & DISETUJUI</strong>"
       );
 
-    // Berth B-02 Marker & Area (Dermaga Nusantara II - Pelindo Master -9 mLWS)
     L.circleMarker(BERTH_B02_COORDS, {
       radius: 9,
       fillColor: "#EF4444",
@@ -188,7 +197,6 @@ export default function InteractivePortMap() {
         "<strong>BERTH B-02 (PELINDO DERMAGA NUSANTARA II)</strong><br>Panjang LOA: 250.0m<br>Kedalaman: -9.0m LWS (RESTRICTED)<br>Bahaya: Grounding Hazard (Defisit kedalaman 2.5m)"
       );
 
-    // Initial Vessel Marker
     const pos = interpolatePosition(0);
     const vesselIcon = L.divIcon({
       className: "vessel-div-icon",
@@ -229,7 +237,6 @@ export default function InteractivePortMap() {
       });
     vesselMarkerRef.current = vesselMarker;
 
-    // Tugboat Bima
     const tugIcon = L.divIcon({
       className: "tug-icon",
       html: `<div style="width: 14px; height: 14px; border-radius: 50%; background: #F5B800; border: 2px solid #08182B; box-shadow: 0 0 6px #F5B800;"></div>`,
@@ -242,7 +249,6 @@ export default function InteractivePortMap() {
       .bindTooltip("Tug Bima (Pandu Haluan)");
     tugBimaMarkerRef.current = tugBimaMarker;
 
-    // Tugboat Arjuna
     const tugArjunaMarker = L.marker([pos.lat - 0.0015, pos.lng - 0.0015], {
       icon: tugIcon,
     })
@@ -257,6 +263,24 @@ export default function InteractivePortMap() {
       mapInstanceRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!mapInstanceRef.current || !rbiLayerRef.current || !osmLayerRef.current)
+      return;
+
+    const map = mapInstanceRef.current;
+    if (activeLayer === "RBI") {
+      map.removeLayer(osmLayerRef.current);
+      if (!map.hasLayer(rbiLayerRef.current)) {
+        rbiLayerRef.current.addTo(map);
+      }
+    } else {
+      map.removeLayer(rbiLayerRef.current);
+      if (!map.hasLayer(osmLayerRef.current)) {
+        osmLayerRef.current.addTo(map);
+      }
+    }
+  }, [activeLayer]);
 
   useEffect(() => {
     if (!vesselMarkerRef.current || !mapInstanceRef.current) return;
@@ -315,13 +339,38 @@ export default function InteractivePortMap() {
           <span>Peta Alur Pelabuhan Tanjung Priok</span>
         </div>
 
+        <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+          <button
+            onClick={() => setActiveLayer("RBI")}
+            className={`px-2 py-1 rounded text-[11px] font-bold transition-colors ${
+              activeLayer === "RBI"
+                ? "bg-[#F5B800] text-slate-950 shadow-sm"
+                : "text-slate-400 hover:text-white"
+            }`}
+            title="Muat Peta Rupabumi Indonesia (Resmi Badan Informasi Geospasial)"
+          >
+            Peta RBI (BIG)
+          </button>
+          <button
+            onClick={() => setActiveLayer("OSM")}
+            className={`px-2 py-1 rounded text-[11px] font-bold transition-colors ${
+              activeLayer === "OSM"
+                ? "bg-sky-500 text-slate-950 shadow-sm"
+                : "text-slate-400 hover:text-white"
+            }`}
+            title="Muat Peta Kartografi Standar OpenStreetMap"
+          >
+            OpenStreetMap
+          </button>
+        </div>
+
         <button
           onClick={handleCenterVessel}
           className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold flex items-center gap-1 transition-colors"
           title="Kunci Kamera ke Kapal MV Nusantara"
         >
           <Crosshair className="w-3.5 h-3.5 text-amber-400" />
-          <span>Track Ship</span>
+          <span className="hidden sm:inline">Track Ship</span>
         </button>
 
         <button
@@ -330,7 +379,7 @@ export default function InteractivePortMap() {
           title="Kamera ke Dermaga B-01"
         >
           <Anchor className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Berth B-01</span>
+          <span className="hidden sm:inline">Berth B-01</span>
         </button>
       </div>
 
@@ -354,8 +403,12 @@ export default function InteractivePortMap() {
       <div ref={mapContainerRef} className="w-full h-full flex-1 z-0 bg-[#06101E]" />
 
       <div className="absolute bottom-2 left-3 right-3 z-30 flex items-center justify-between pointer-events-none text-[10px] text-slate-400 font-mono bg-[#08182B]/90 backdrop-blur-sm px-3 py-1 rounded-lg border border-slate-800">
-        <span>TELUK JAKARTA · LAT: 06°05&apos;40&quot;S, LNG: 106°53&apos;15&quot;E</span>
-        <span>KEDALAMAN ALUR: -14.0m LWS · KOORDINAT WGS 84</span>
+        <span>
+          {activeLayer === "RBI"
+            ? "SUMBER: BADAN INFORMASI GEOSPASIAL (BIG) · PETA RUPABUMI INDONESIA (RBI)"
+            : "SUMBER: OPENSTREETMAP CARTOGRAPHY"}
+        </span>
+        <span>TELUK JAKARTA · 06°05&apos;40&quot;S, 106°53&apos;15&quot;E</span>
       </div>
     </div>
   );
