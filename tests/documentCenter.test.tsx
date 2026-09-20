@@ -80,7 +80,7 @@ describe("Screen 04: Document Center Pre-Arrival Clearance Dossier (PRD Image 3)
     });
     fireEvent.click(confirmSubmitBtn);
 
-    expect(screen.getByText(/PRE-ARRIVAL DOSSIER VERIFIED/i)).toBeDefined();
+    expect(screen.getByText(/STATUS: BERKAS PRE-ARRIVAL DIKUNCI/i)).toBeDefined();
     expect(useTrainingStore.getState().cadetDossier.isSubmitted).toBe(true);
     expect(useTrainingStore.getState().cadetDossier.score).toBe(20);
 
