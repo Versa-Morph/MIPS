@@ -27,7 +27,7 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     );
 
     // SCREEN 02: SCENARIO CARD
-    expect(screen.getByText(/Target Vessel Particulars/i)).toBeDefined();
+    expect(screen.getByText(/Target Vessel Overview/i)).toBeDefined();
     const proceedToBriefingBtn = screen.getByRole("button", {
       name: /START TRAINING/i,
     });

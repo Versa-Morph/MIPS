@@ -53,7 +53,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       <Header />
-      <ProgressBar currentState={currentState} />
+      {currentState !== TrainingState.DASHBOARD && (
+        <ProgressBar currentState={currentState} />
+      )}
       <main className="flex-1 overflow-y-auto">{renderActiveScreen()}</main>
     </div>
   );

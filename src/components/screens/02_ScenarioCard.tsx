@@ -92,56 +92,63 @@ export function ScenarioCardScreen() {
             </div>
           </div>
 
-          {/* Target Vessel Snapshot */}
+          {/* Target Vessel Overview Card */}
           <div className="rounded-xl bg-slate-950 border border-slate-800 p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <Anchor className="w-5 h-5 text-[#F5B800]" />
                 <span className="text-sm font-bold text-slate-200">
-                  Target Vessel Particulars ({vessel.name})
+                  Target Vessel Overview ({vessel.name})
                 </span>
               </div>
               <span className="text-xs font-mono text-slate-400">
-                IMO {vessel.imo} · Call Sign: {vessel.callSign}
+                ETA: {vessel.eta} WIB · Scheduled Inbound
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Length (LOA)
+                  Vessel Designation
                 </span>
-                <span className="text-lg font-black text-white font-mono">
-                  {vessel.loa} m
+                <span className="text-sm font-bold text-white font-mono">
+                  {vessel.name}
+                </span>
+                <span className="text-[11px] text-slate-400 block mt-0.5">
+                  Fully Cellular Container Ship
                 </span>
               </div>
 
               <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Arrival Draft (Max)
+                  Arrival Schedule
                 </span>
-                <span className="text-lg font-black text-red-400 font-mono">
-                  {vessel.draft} m
+                <span className="text-sm font-bold text-amber-400 font-mono">
+                  Today, {vessel.eta} WIB
                 </span>
-              </div>
-
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Beam (Breadth)
-                </span>
-                <span className="text-lg font-black text-white font-mono">
-                  {vessel.beam} m
+                <span className="text-[11px] text-slate-400 block mt-0.5">
+                  Fairway Pilot Station
                 </span>
               </div>
 
               <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Scheduled ETA
+                  Cargo Operation
                 </span>
-                <span className="text-lg font-black text-amber-400 font-mono">
-                  {vessel.eta} WIB
+                <span className="text-sm font-bold text-sky-400 font-mono">
+                  {vessel.totalCargoCount} Containers
+                </span>
+                <span className="text-[11px] text-slate-400 block mt-0.5">
+                  Discharge & Loading Lot
                 </span>
               </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
+              <Compass className="w-4 h-4 text-[#F5B800] shrink-0" />
+              <span>
+                Catatan Misi: Rincian sarat air (draft), panjang kapal (LOA), dan manifes muatan tertera lengkap di dalam berkas resmi pada Document Center.
+              </span>
             </div>
           </div>
 

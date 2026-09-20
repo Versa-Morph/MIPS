@@ -21,7 +21,6 @@ const steps: StepItem[] = [
     label: "BRIEFING",
     phaseNumber: "01",
     associatedStates: [
-      TrainingState.DASHBOARD,
       TrainingState.SCENARIO_SELECTION,
       TrainingState.BRIEFING,
     ],

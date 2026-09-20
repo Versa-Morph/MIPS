@@ -28,11 +28,10 @@ describe("Introductory Screens (Screens 01, 02, 03)", () => {
     );
   });
 
-  it("renders Screen 02 (Scenario Card) with vessel dimensions and transitions to BRIEFING", () => {
+  it("renders Screen 02 (Scenario Card) with target vessel and transitions to BRIEFING", () => {
     render(<ScenarioCardScreen />);
-    expect(screen.getByText(/Target Vessel Particulars/i)).toBeDefined();
-    expect(screen.getByText(/280 m/i)).toBeDefined();
-    expect(screen.getByText(/10.2 m/i)).toBeDefined();
+    expect(screen.getByText(/Target Vessel Overview/i)).toBeDefined();
+    expect(screen.getAllByText(/MV Nusantara/i).length).toBeGreaterThanOrEqual(1);
 
     const proceedButton = screen.getByRole("button", {
       name: /START TRAINING/i,
@@ -47,7 +46,7 @@ describe("Introductory Screens (Screens 01, 02, 03)", () => {
   it("renders Screen 03 (Briefing) with instructor directive and transitions to DOCUMENT_REVIEW", () => {
     render(<BriefingScreen />);
     expect(screen.getByText(/Capt\. H\. Gunawan/i)).toBeDefined();
-    expect(screen.getByText(/11\.5 meters/i)).toBeDefined();
+    expect(screen.getByText(/Operational Training Task/i)).toBeDefined();
 
     const docCenterButton = screen.getByRole("button", {
       name: /Review Documents/i,

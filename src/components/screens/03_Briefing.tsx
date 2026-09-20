@@ -60,57 +60,34 @@ export function BriefingScreen() {
         </div>
 
         <div className="p-6 sm:p-8 space-y-8">
-          {/* Target Vessel Snapshot Grid */}
-          <div className="rounded-xl bg-slate-950 border border-slate-800 p-5 space-y-4">
+          {/* Training Task Directives Card (PRD Section 11) */}
+          <div className="rounded-xl bg-slate-950 border border-slate-800 p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                <Ship className="w-4 h-4 text-[#F5B800]" /> Inbound Vessel Particulars
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                <Ship className="w-4 h-4 text-[#F5B800]" /> Operational Training Task
               </span>
               <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                Inbound Fairway Active
+                Inbound ETA: 08:00 WIB
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Length Overall (LOA)
-                </span>
-                <span className="text-lg font-black text-white font-mono">
-                  {vessel.loa} m
-                </span>
-              </div>
-
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 border-l-2 border-l-red-500">
-                <span className="text-[10px] uppercase font-bold text-red-300 block mb-1">
-                  Arrival Draft (Max Aft)
-                </span>
-                <span className="text-lg font-black text-red-400 font-mono">
-                  {vessel.draft} m
-                </span>
-              </div>
-
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Beam (Width)
-                </span>
-                <span className="text-lg font-black text-white font-mono">
-                  {vessel.beam} m
-                </span>
-              </div>
-
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                  Cargo Discharge
-                </span>
-                <span className="text-lg font-black text-sky-400 font-mono">
-                  {vessel.totalCargoCount} Units
+            <div className="space-y-3 text-sm text-slate-300 leading-relaxed">
+              <p>
+                Container vessel <strong className="text-white">MV Nusantara</strong> is scheduled to arrive at the port at <strong className="text-amber-300 font-mono">08:00 WIB</strong>.
+              </p>
+              <p>
+                Your task is to examine the available operational document package (<em className="text-slate-200">Notice of Arrival, Vessel Manifest, Cargo Manifest, and Berth Specifications</em>), determine the appropriate berth according to physical restrictions, and oversee the vessel cargo operation to completion.
+              </p>
+              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Instruksi Pengawas:</strong> Perhatikan dengan teliti dimensi fisik kapal, batasan kedalaman air dermaga (Under Keel Clearance), dan informasi muatan di dalam dokumen sebelum mengambil keputusan sandar.
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Instructor Advisory Directive (Capt. H. Gunawan) */}
+          {/* Instructor Advisory Directive (Capt. H. Gunawan - PRD Image 2) */}
           <div className="rounded-xl bg-[#08182B] border-2 border-amber-500/40 p-5 space-y-3 relative overflow-hidden">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#F5B800] text-slate-950 flex items-center justify-center font-bold shrink-0">
@@ -124,7 +101,7 @@ export function BriefingScreen() {
                   </span>
                 </h3>
                 <p className="text-[11px] text-slate-400">
-                  Mission Operational Advisory · Mandatory Reading
+                  Mission Operational Directive · Mandatory Reading
                 </p>
               </div>
             </div>
@@ -132,17 +109,9 @@ export function BriefingScreen() {
             <div className="text-sm text-slate-200 leading-relaxed pl-13 border-l-2 border-amber-500/50 my-2 italic">
               &quot;Cadet, pay close attention to the draft specifications in the manifest.{" "}
               <strong className="text-amber-300 not-italic">
-                MV Nusantara is heavily loaded with an arrival draft of 10.2 meters.
+                MV Nusantara is heavily loaded. Not all berths can accommodate her currently.
               </strong>{" "}
-              Not all berths can accommodate her currently. Port safety standard
-              requires a minimum{" "}
-              <strong className="text-white not-italic">
-                Under Keel Clearance (UKC) of +1.3m
-              </strong>
-              , making the minimum controlling depth requirement{" "}
-              <strong className="text-red-400 not-italic">11.5 meters</strong>.
-              Review the Berth Information sheet thoroughly before submitting your
-              berth allocation.&quot;
+              Review the Berth Information sheet thoroughly before submitting your berth allocation.&quot;
             </div>
           </div>
 
