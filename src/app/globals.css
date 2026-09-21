@@ -17,26 +17,51 @@ body {
 }
 
 .glass-panel {
-  background: rgba(13, 27, 49, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(51, 65, 85, 0.6);
-  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  background: linear-gradient(180deg, rgba(15, 29, 53, 0.72) 0%, rgba(8, 19, 37, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .glass-panel-interactive {
-  background: rgba(13, 27, 49, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(51, 65, 85, 0.6);
-  border-top: 1px solid rgba(148, 163, 184, 0.3);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(180deg, rgba(15, 29, 53, 0.7) 0%, rgba(8, 19, 37, 0.8) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel-interactive:hover {
-  border-color: rgba(0, 229, 255, 0.4);
+  border-color: rgba(56, 189, 248, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(0, 229, 255, 0.15);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.08);
+}
+
+.bg-subtle-grid {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.cta-amber {
+  background: linear-gradient(180deg, #FBBF24 0%, #F59E0B 40%, #D97706 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 10px 20px -5px rgba(245, 158, 11, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-amber:hover {
+  background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 40%, #B45309 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 12px 25px -4px rgba(245, 158, 11, 0.5);
+  transform: translateY(-1px);
+}
+
+.cta-amber:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px -2px rgba(245, 158, 11, 0.3);
 }
 
 /* Custom scrollbars for telemetry feeds and logs */

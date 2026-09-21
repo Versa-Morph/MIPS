@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Volume2,
   VolumeX,
+  Radio,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -26,56 +27,76 @@ export function Header() {
   const isLiveSimulation = currentState === TrainingState.SIMULATION_RUNNING;
 
   return (
-    <header className="w-full bg-abyssal/90 backdrop-blur-xl border-b border-glass-border text-white shadow-glass select-none sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand Emblem & Name */}
-        <div className="flex items-center gap-3">
+    <header className="w-full bg-[#060D1A]/90 backdrop-blur-2xl border-b border-slate-800/80 text-white shadow-2xl select-none sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        {/* Left: Brand Insignia & Station Identification */}
+        <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/"
             onClick={() => setStep(TrainingState.DASHBOARD)}
             className="cursor-pointer flex items-center gap-3 group"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-electric-amber to-amber-600 flex items-center justify-center text-slate-950 font-black shadow-amber-glow transition-transform group-hover:scale-105">
-              <Anchor className="w-5 h-5 stroke-[2.5]" />
+            {/* Precision Maritime Anchor Emblem */}
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-slate-800 via-[#0B1728] to-[#040912] border border-amber-500/40 flex items-center justify-center text-electric-amber shadow-[0_0_15px_rgba(245,158,11,0.15)] transition-all duration-300 group-hover:scale-105 group-hover:border-electric-amber group-hover:shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+              <Anchor className="w-5 h-5 stroke-[2.3] text-electric-amber transition-transform group-hover:rotate-6" />
+              <div className="absolute inset-0 rounded-xl bg-amber-400/5 pointer-events-none" />
             </div>
+
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold tracking-tight text-white text-base font-sans group-hover:text-tactical-cyan transition-colors">
+                <span className="font-extrabold tracking-tight text-white text-sm sm:text-base font-sans group-hover:text-tactical-cyan transition-colors">
                   MIPS TRAINING CENTER
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-mono hidden sm:block">
-                Maritime Integrated Port Simulator · VTS Bridge
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono tracking-wider hidden sm:block">
+                PORT SIMULATOR · VTS BRIDGE PRIOK
               </p>
             </div>
           </Link>
         </div>
 
-        {/* Tactical Telemetry Badge */}
-        {isLiveSimulation ? (
-          <div className="hidden md:flex items-center gap-2 px-3.5 py-1 rounded-full bg-safety-emerald/15 border border-safety-emerald/40 text-safety-emerald text-xs font-mono font-semibold shadow-emerald-glow animate-pulse">
-            <span className="w-2 h-2 rounded-full bg-safety-emerald"></span>
-            <span>SIMULATION STATUS: RUNNING</span>
-          </div>
-        ) : (
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full glass-panel border border-glass-border text-slate-400 text-xs font-mono">
-            <span className="w-1.5 h-1.5 rounded-full bg-tactical-cyan shadow-cyan-glow"></span>
-            <span>VTS BRIDGE CONSOLE · ACTIVE</span>
-          </div>
-        )}
+        {/* Center: Tactical Operational Context & VHF Radio Ribbon */}
+        <div className="hidden md:flex items-center">
+          <div className="flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-abyssal/90 border border-slate-800 shadow-inner font-mono text-xs">
+            {isLiveSimulation ? (
+              <div className="flex items-center gap-2 text-safety-emerald font-bold animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-safety-emerald shadow-[0_0_8px_#10B981]" />
+                <span>SIMULATION ACTIVE</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-slate-300 font-semibold">
+                <span className="w-2 h-2 rounded-full bg-tactical-cyan shadow-[0_0_8px_#00E5FF] animate-pulse" />
+                <span>VTS BRIDGE CONSOLE</span>
+              </div>
+            )}
 
-        {/* Right Controls & Cadet Profile */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Sound Toggle */}
+            <span className="h-3 w-px bg-slate-800" />
+
+            <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
+              <Radio className="w-3.5 h-3.5 text-electric-amber" />
+              <span>VHF CH 12 · HARBOR CONTROL</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Integrated Operator Controls & Cadet Profile */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Audio Monitor Chip */}
           <button
             onClick={handleToggleSound}
-            title={isMuted ? "Unmute Sound" : "Mute Sound"}
-            className="p-2 rounded-lg glass-panel border border-glass-border hover:border-tactical-cyan/40 text-slate-400 hover:text-white transition-all shadow-sm"
+            title={isMuted ? "Audio System: Muted (Click to Unmute)" : "Audio System: Active (Click to Mute)"}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-abyssal/80 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white transition-all font-mono text-xs cursor-pointer shadow-sm"
           >
             {isMuted ? (
-              <VolumeX className="w-4 h-4 text-slate-500" />
+              <>
+                <VolumeX className="w-3.5 h-3.5 text-slate-500" />
+                <span className="text-[10px] text-slate-500 hidden sm:inline">MUTED</span>
+              </>
             ) : (
-              <Volume2 className="w-4 h-4 text-safety-emerald" />
+              <>
+                <Volume2 className="w-3.5 h-3.5 text-safety-emerald" />
+                <span className="text-[10px] text-safety-emerald font-bold hidden sm:inline">AUDIO ON</span>
+              </>
             )}
           </button>
 
@@ -91,20 +112,21 @@ export function Header() {
               }
             }}
             title="Reset Simulation / Return to Dashboard"
-            className="p-2 rounded-lg glass-panel border border-glass-border hover:border-electric-amber/40 text-slate-400 hover:text-electric-amber transition-all shadow-sm"
+            className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg bg-abyssal/80 hover:bg-slate-800/80 border border-slate-800 hover:border-electric-amber/40 text-slate-400 hover:text-electric-amber transition-all font-mono text-xs cursor-pointer shadow-sm flex items-center gap-1.5"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span className="text-[10px] text-slate-400 hidden sm:inline">RESET</span>
           </button>
 
-          <div className="h-6 w-px bg-slate-800/80"></div>
+          <div className="h-5 w-px bg-slate-800" />
 
-          {/* Cadet Profile Pill */}
-          <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-full glass-panel border border-glass-border shadow-sm">
-            <div className="w-7 h-7 rounded-full bg-abyssal-surface border border-electric-amber/40 flex items-center justify-center text-electric-amber shadow-inner">
+          {/* Cadet Operator Identity Chip */}
+          <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-abyssal/90 border border-slate-800 shadow-inner">
+            <div className="w-6 h-6 rounded-full bg-[#081325] border border-amber-500/40 flex items-center justify-center text-electric-amber shadow-inner">
               <User className="w-3.5 h-3.5" />
             </div>
-            <div className="text-left hidden sm:block">
-              <div className="text-xs font-semibold text-slate-200 flex items-center gap-1.5 font-sans">
+            <div className="text-left font-sans">
+              <div className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
                 <span>Welcome, {cadetName}</span>
                 <ShieldCheck className="w-3.5 h-3.5 text-safety-emerald" />
               </div>

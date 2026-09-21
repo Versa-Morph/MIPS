@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   CheckCircle2,
   ArrowRight,
@@ -14,6 +14,12 @@ import {
   AlertTriangle,
   ShieldCheck,
   Table,
+  Check,
+  Anchor,
+  Compass,
+  FileCheck2,
+  HelpCircle,
+  Calculator,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -118,28 +124,53 @@ export function DocumentCenterScreen() {
     requiredDepth.trim() !== "" &&
     totalContainers.trim() !== "";
 
+  // Calculated helper for UKC guidance
+  const calculatedUKCDepth = useMemo(() => {
+    const parsed = parseFloat(draftAft.replace(",", "."));
+    if (!isNaN(parsed) && parsed > 0) {
+      return (parsed + 1.3).toFixed(2);
+    }
+    return "11.50";
+  }, [draftAft]);
+
+  const getDocIcon = (type: DocumentType) => {
+    switch (type) {
+      case "ARRIVAL_NOTICE":
+        return <FileText className="w-4 h-4 text-amber-400" />;
+      case "VESSEL_MANIFEST":
+        return <Anchor className="w-4 h-4 text-cyan-400" />;
+      case "CARGO_MANIFEST":
+        return <Layers className="w-4 h-4 text-emerald-400" />;
+      case "BERTH_INFORMATION":
+        return <Compass className="w-4 h-4 text-purple-400" />;
+      default:
+        return <FileCheck2 className="w-4 h-4 text-slate-400" />;
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 animate-fadeIn select-none font-sans">
+    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 font-sans select-none">
       {/* Top Breadcrumb & Status Strip */}
-      <div className="rounded-xl glass-panel border border-glass-border px-4 py-3 flex items-center justify-between shadow-glass text-white text-xs">
+      <div className="rounded-xl bg-slate-900/80 border border-slate-800/80 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-md text-white text-xs">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setStep(TrainingState.BRIEFING)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-abyssal/80 border border-slate-700/60 text-slate-300 hover:text-tactical-cyan hover:border-tactical-cyan/40 transition-colors font-mono"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-400 transition-colors font-mono"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Briefing</span>
           </button>
-          <span className="text-slate-600">/</span>
-          <div className="flex items-center gap-2 font-bold tracking-wider text-electric-amber font-mono">
+          <span className="text-slate-700">/</span>
+          <div className="flex items-center gap-2 font-bold tracking-wider text-amber-400 font-mono text-[11px] sm:text-xs">
             <span>■ 02 ANALYSIS · PRE-ARRIVAL CLEARANCE DOSSIER</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3 text-slate-400 font-mono text-[11px]">
-          <span>Scenario: SCN-001</span>
-          <span className="text-slate-600">|</span>
-          <span className="text-safety-emerald font-bold">
+          <span className="hidden sm:inline text-slate-500">Scenario: SCN-001</span>
+          <span className="hidden sm:inline text-slate-700">|</span>
+          <span className="text-emerald-400 font-bold flex items-center gap-1.5 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/20">
+            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
             {documents.filter((d) => d.isViewed).length} / {documents.length} Docs Inspected
           </span>
         </div>
@@ -150,11 +181,14 @@ export function DocumentCenterScreen() {
         {/* Left Panel: Col 1-3 (25% Width) */}
         <div className="lg:col-span-3 space-y-4">
           {/* Document Package Selector */}
-          <div className="rounded-2xl glass-panel border border-glass-border p-4 space-y-3 shadow-glass">
-            <h2 className="text-xs font-black uppercase tracking-wider text-white border-b border-glass-border pb-2.5 flex items-center gap-2 font-mono">
-              <Layers className="w-4 h-4 text-electric-amber" />
-              CARGO & NOTICE PACKAGE
-            </h2>
+          <div className="rounded-2xl bg-slate-900/70 border border-slate-800/80 p-4 space-y-3 shadow-xl backdrop-blur-xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+              <h2 className="text-xs font-black uppercase tracking-wider text-slate-200 flex items-center gap-2 font-mono">
+                <Layers className="w-4 h-4 text-amber-400" />
+                CARGO & NOTICE PACKAGE
+              </h2>
+              <span className="text-[10px] font-mono text-slate-500 font-semibold">4 FILES</span>
+            </div>
 
             <div className="space-y-2">
               {documents.map((doc, idx) => {
@@ -163,30 +197,35 @@ export function DocumentCenterScreen() {
                   <div
                     key={doc.id}
                     onClick={() => handleSelectDoc(doc.type)}
-                    className={`cursor-pointer rounded-xl p-3 border transition-all text-xs flex flex-col justify-between ${
+                    className={`cursor-pointer rounded-xl p-3 border transition-all text-xs flex flex-col justify-between group ${
                       isActive
-                        ? "bg-abyssal-surface/90 border-l-4 border-l-electric-amber border-slate-700 shadow-md ring-1 ring-electric-amber/20"
-                        : "bg-abyssal/60 border-slate-800/80 hover:border-slate-700 hover:bg-abyssal-surface/60"
+                        ? "bg-slate-950 border-l-4 border-l-amber-400 border-slate-700 shadow-md ring-1 ring-amber-400/20"
+                        : "bg-slate-950/50 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/80"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-[10px] text-slate-500 font-semibold">
-                        DOC 0{idx + 1}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        {getDocIcon(doc.type)}
+                        <span className="font-mono text-[10px] text-slate-400 font-semibold">
+                          DOC 0{idx + 1}
+                        </span>
+                      </div>
                       {doc.isViewed ? (
-                        <span className="text-[10px] font-bold text-safety-emerald flex items-center gap-1 font-mono">
+                        <span className="text-[10px] font-bold text-emerald-400 flex items-center gap-1 font-mono bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
                           <CheckCircle2 className="w-3 h-3" /> VERIFIED
                         </span>
                       ) : (
-                        <span className="text-[10px] text-slate-500 font-mono">UNREVIEWED</span>
+                        <span className="text-[10px] text-slate-500 font-mono bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                          UNREVIEWED
+                        </span>
                       )}
                     </div>
 
-                    <div className="font-bold text-slate-100 group-hover:text-electric-amber">
+                    <div className={`font-bold transition-colors text-xs leading-snug ${isActive ? "text-white" : "text-slate-300 group-hover:text-slate-100"}`}>
                       {doc.title}
                     </div>
-                    <div className="text-[11px] text-slate-400 truncate mt-1 font-mono">
-                      {doc.referenceNumber}
+                    <div className="text-[10px] text-slate-500 truncate mt-1 font-mono">
+                      REF: {doc.referenceNumber}
                     </div>
                   </div>
                 );
@@ -195,10 +234,16 @@ export function DocumentCenterScreen() {
           </div>
 
           {/* Technical Summary Card */}
-          <div className="rounded-2xl glass-panel border border-glass-border p-4 shadow-glass space-y-3">
-            <span className="text-[10px] font-black uppercase tracking-widest text-tactical-cyan block border-b border-glass-border pb-1.5 font-mono">
-              VERIFIED SHIP DOSSIER STATUS
-            </span>
+          <div className="rounded-2xl bg-slate-900/70 border border-slate-800/80 p-4 shadow-xl backdrop-blur-xl space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400 font-mono">
+                VERIFIED SHIP DOSSIER STATUS
+              </span>
+              <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">
+                {cadetDossier.isSubmitted ? "LOCKED" : "DRAFT"}
+              </span>
+            </div>
+
             <div className="space-y-2 text-xs font-mono">
               <div className="flex justify-between py-1 border-b border-slate-800/60">
                 <span className="text-slate-400 font-sans">Ship Name:</span>
@@ -214,7 +259,7 @@ export function DocumentCenterScreen() {
               </div>
               <div className="flex justify-between py-1 border-b border-slate-800/60">
                 <span className="text-slate-400 font-sans">Arrival Draft:</span>
-                <span className="font-bold text-electric-amber">
+                <span className="font-bold text-amber-400">
                   {cadetDossier.isSubmitted
                     ? `${cadetDossier.draftAft} m`
                     : "-- m"}
@@ -222,7 +267,7 @@ export function DocumentCenterScreen() {
               </div>
               <div className="flex justify-between py-1 border-b border-slate-800/60">
                 <span className="text-slate-400 font-sans">Required Depth:</span>
-                <span className="font-bold text-safety-emerald">
+                <span className="font-bold text-emerald-400">
                   {cadetDossier.isSubmitted
                     ? `${cadetDossier.requiredDepth} m`
                     : "-- m"}
@@ -230,7 +275,7 @@ export function DocumentCenterScreen() {
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-slate-400 font-sans">Dossier State:</span>
-                <span className="font-bold text-tactical-cyan">
+                <span className="font-bold text-cyan-400">
                   {cadetDossier.isSubmitted
                     ? "SUBMITTED & LOCKED"
                     : "NOT SUBMITTED"}
@@ -240,13 +285,13 @@ export function DocumentCenterScreen() {
           </div>
         </div>
 
-        {/* Center Panel: Col 4-8 (45% Width) */}
+        {/* Center Panel: Col 4-8 (42% Width) */}
         <div className="lg:col-span-5 space-y-3">
-          <div className="rounded-2xl glass-panel border border-glass-border shadow-glass p-4 flex flex-col min-h-[660px]">
+          <div className="rounded-2xl bg-slate-900/70 border border-slate-800/80 shadow-xl backdrop-blur-xl p-4 flex flex-col min-h-[660px]">
             {/* Center Panel Header & Tab Controls */}
-            <div className="border-b border-glass-border pb-3 mb-3 flex flex-wrap items-center justify-between gap-3 shrink-0">
+            <div className="border-b border-slate-800 pb-3 mb-3 flex flex-wrap items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-electric-amber text-slate-950 flex items-center justify-center font-bold shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-bold shrink-0 shadow-sm">
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
@@ -261,12 +306,12 @@ export function DocumentCenterScreen() {
 
               <div className="flex items-center gap-2">
                 {/* PDF vs Data Sheet Mode Switch */}
-                <div className="flex items-center gap-1 bg-abyssal p-1 rounded-xl border border-slate-800">
+                <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
                   <button
                     onClick={() => setViewMode("pdf")}
                     className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
                       viewMode === "pdf"
-                        ? "bg-electric-amber text-slate-950 font-bold shadow-sm"
+                        ? "bg-amber-400 text-slate-950 font-bold shadow-sm"
                         : "text-slate-400 hover:text-white"
                     }`}
                     title="Render official PDF document"
@@ -278,7 +323,7 @@ export function DocumentCenterScreen() {
                     onClick={() => setViewMode("sheet")}
                     className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
                       viewMode === "sheet"
-                        ? "bg-electric-amber text-slate-950 font-bold shadow-sm"
+                        ? "bg-amber-400 text-slate-950 font-bold shadow-sm"
                         : "text-slate-400 hover:text-white"
                     }`}
                     title="Render digital telemetry data sheet"
@@ -293,7 +338,7 @@ export function DocumentCenterScreen() {
                     <a
                       href={activeDoc.pdfUrl}
                       download
-                      className="p-1.5 rounded-lg bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700/60 transition-colors"
+                      className="p-1.5 rounded-lg bg-slate-950 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800 transition-colors"
                       title="Download original PDF file"
                     >
                       <Download className="w-4 h-4" />
@@ -302,7 +347,7 @@ export function DocumentCenterScreen() {
                       href={activeDoc.pdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700/60 transition-colors"
+                      className="p-1.5 rounded-lg bg-slate-950 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800 transition-colors"
                       title="Open PDF in new browser tab"
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -313,7 +358,7 @@ export function DocumentCenterScreen() {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 w-full min-h-[580px] rounded-xl overflow-hidden border border-slate-800 bg-abyssal shadow-inner">
+            <div className="flex-1 w-full min-h-[580px] rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
               {viewMode === "pdf" ? (
                 activeDoc.pdfUrl ? (
                   <iframe
@@ -329,8 +374,8 @@ export function DocumentCenterScreen() {
               ) : (
                 /* Data Sheet View */
                 <div className="p-5 space-y-4 overflow-y-auto max-h-[600px] text-xs font-mono text-slate-200">
-                  <div className="p-4 rounded-xl bg-abyssal-surface/80 border border-glass-border space-y-1">
-                    <div className="text-tactical-cyan font-bold text-sm font-sans">
+                  <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                    <div className="text-cyan-400 font-bold text-sm font-sans">
                       {activeDoc.content.header}
                     </div>
                     <div className="text-slate-400 text-xs flex items-center justify-between">
@@ -339,11 +384,11 @@ export function DocumentCenterScreen() {
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-glass-border overflow-hidden">
-                    <div className="bg-abyssal-surface/90 px-4 py-2 text-slate-300 font-bold border-b border-glass-border">
+                  <div className="rounded-xl border border-slate-800 overflow-hidden">
+                    <div className="bg-slate-900 px-4 py-2 text-slate-300 font-bold border-b border-slate-800">
                       OPERATIONAL SPECIFICATIONS & EXTRACTED ATTRIBUTES
                     </div>
-                    <div className="divide-y divide-slate-800/60 bg-abyssal/60">
+                    <div className="divide-y divide-slate-800/80 bg-slate-950">
                       {Object.entries(activeDoc.content.details).map(([key, val]) => (
                         <div key={key} className="flex justify-between px-4 py-2">
                           <span className="text-slate-400">{key}</span>
@@ -354,8 +399,8 @@ export function DocumentCenterScreen() {
                   </div>
 
                   {activeDoc.content.notes && activeDoc.content.notes.length > 0 && (
-                    <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-300 space-y-1">
-                      <span className="font-bold text-electric-amber block">Official Directives / Notes:</span>
+                    <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300 space-y-1">
+                      <span className="font-bold text-amber-400 block">Official Directives / Notes:</span>
                       <ul className="list-disc list-inside space-y-1 text-[11px] text-slate-400">
                         {activeDoc.content.notes.map((note, idx) => (
                           <li key={idx}>{note}</li>
@@ -365,7 +410,7 @@ export function DocumentCenterScreen() {
                   )}
 
                   {activeDoc.content.officialStampText && (
-                    <div className="p-3 rounded-xl border border-tactical-cyan/30 bg-tactical-cyan/5 text-tactical-cyan text-center font-bold text-[11px]">
+                    <div className="p-3 rounded-xl border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-center font-bold text-[11px]">
                       {activeDoc.content.officialStampText}
                     </div>
                   )}
@@ -375,22 +420,22 @@ export function DocumentCenterScreen() {
           </div>
         </div>
 
-        {/* Right Panel: Col 9-12 (30% Width) */}
+        {/* Right Panel: Col 9-12 (33% Width) */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="rounded-2xl glass-panel border border-glass-border p-4 sm:p-5 space-y-4 shadow-glass">
-            <div className="border-b border-glass-border pb-2.5 flex items-center justify-between">
+          <div className="rounded-2xl bg-slate-900/70 border border-slate-800/80 p-4 sm:p-5 space-y-4 shadow-xl backdrop-blur-xl">
+            <div className="border-b border-slate-800 pb-2.5 flex items-center justify-between">
               <div>
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-200 flex items-center gap-2 font-mono">
-                  <ClipboardCheck className="w-4 h-4 text-electric-amber" />
+                  <ClipboardCheck className="w-4 h-4 text-amber-400" />
                   PRE-ARRIVAL CLEARANCE DOSSIER
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-400 mt-0.5 font-sans">
                   Formulir Pemeriksaan Dokumen & Verifikasi Pra-Sandar Resmi (20 Pts)
                 </p>
               </div>
 
               {cadetDossier.isSubmitted && (
-                <span className="font-mono text-xs font-bold px-2.5 py-1 rounded bg-safety-emerald/10 text-safety-emerald border border-safety-emerald/30">
+                <span className="font-mono text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                   LOCKED
                 </span>
               )}
@@ -398,14 +443,14 @@ export function DocumentCenterScreen() {
 
             <form onSubmit={handleOpenConfirm} className="space-y-4 text-xs">
               {/* Section 1: Identitas & Pelayaran Kapal */}
-              <div className="space-y-3 p-4 rounded-xl bg-abyssal/70 border border-glass-border">
-                <span className="text-xs font-extrabold uppercase text-electric-amber tracking-wider flex items-center gap-1.5 font-mono">
+              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
                   1. Identitas & Pelayaran Kapal (Notice of Arrival)
                 </span>
 
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Nama Kapal (Vessel Name)
                     </label>
                     <input
@@ -414,13 +459,13 @@ export function DocumentCenterScreen() {
                       value={vesselName}
                       onChange={(e) => setVesselName(e.target.value)}
                       placeholder="cth: MV Nusantara"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                      <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                         Call Sign
                       </label>
                       <input
@@ -429,11 +474,11 @@ export function DocumentCenterScreen() {
                         value={callSign}
                         onChange={(e) => setCallSign(e.target.value)}
                         placeholder="cth: PK-47A"
-                        className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                        className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                      <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                         IMO Number
                       </label>
                       <input
@@ -442,13 +487,13 @@ export function DocumentCenterScreen() {
                         value={imoNumber}
                         onChange={(e) => setImoNumber(e.target.value)}
                         placeholder="cth: 1234567"
-                        className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                        className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Pelabuhan Asal (Last Port of Call)
                     </label>
                     <input
@@ -457,21 +502,21 @@ export function DocumentCenterScreen() {
                       value={lastPort}
                       onChange={(e) => setLastPort(e.target.value)}
                       placeholder="cth: Singapore"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 2: Parameter Fisik Kapal */}
-              <div className="space-y-3 p-4 rounded-xl bg-abyssal/70 border border-glass-border">
-                <span className="text-xs font-extrabold uppercase text-electric-amber tracking-wider flex items-center gap-1.5 font-mono">
+              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
                   2. Parameter Fisik Kapal (Vessel Particulars)
                 </span>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Length Overall (LOA, m)
                     </label>
                     <input
@@ -480,11 +525,11 @@ export function DocumentCenterScreen() {
                       value={loa}
                       onChange={(e) => setLoa(e.target.value)}
                       placeholder="cth: 280.0"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Arrival Draft Aft (m)
                     </label>
                     <input
@@ -493,20 +538,23 @@ export function DocumentCenterScreen() {
                       value={draftAft}
                       onChange={(e) => setDraftAft(e.target.value)}
                       placeholder="cth: 10.20"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 3: Kalkulasi Kedalaman Wajib */}
-              <div className="space-y-3 p-4 rounded-xl bg-abyssal/70 border border-glass-border">
-                <span className="text-xs font-extrabold uppercase text-electric-amber tracking-wider flex items-center gap-1.5 font-mono">
-                  3. Kalkulasi Kedalaman Wajib (Draft + UKC 1.3m)
-                </span>
+              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
+                    3. Kalkulasi Kedalaman Wajib (Draft + UKC 1.3m)
+                  </span>
+                  <Calculator className="w-3.5 h-3.5 text-cyan-400" />
+                </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                  <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                     Controlling Depth yang Disyaratkan (Meters)
                   </label>
                   <input
@@ -515,23 +563,26 @@ export function DocumentCenterScreen() {
                     value={requiredDepth}
                     onChange={(e) => setRequiredDepth(e.target.value)}
                     placeholder="Hitung: Draft + 1.3m UKC (cth: 11.50)"
-                    className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                   />
-                  <span className="text-xs text-slate-400 mt-1.5 block">
-                    Kedalaman air minimal agar kapal tidak mengalami bahaya kandas.
-                  </span>
+                  <div className="mt-1.5 p-2 rounded-lg bg-cyan-950/30 border border-cyan-800/40 flex items-start gap-2 text-[10px] text-cyan-300">
+                    <HelpCircle className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                    <span>
+                      Formula Pelindo: Sarat Air Kapal ({draftAft || "10.20"}m) + Standar UKC (+1.30m) = Minimum {calculatedUKCDepth}m kedalaman dermaga aman.
+                    </span>
+                  </div>
                 </div>
               </div>
 
               {/* Section 4: Muatan & Kebutuhan Terminal */}
-              <div className="space-y-3 p-4 rounded-xl bg-abyssal/70 border border-glass-border">
-                <span className="text-xs font-extrabold uppercase text-electric-amber tracking-wider flex items-center gap-1.5 font-mono">
+              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
                   4. Muatan & Kebutuhan Terminal (Cargo Manifest)
                 </span>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Total Box Kontainer
                     </label>
                     <input
@@ -540,11 +591,11 @@ export function DocumentCenterScreen() {
                       value={totalContainers}
                       onChange={(e) => setTotalContainers(e.target.value)}
                       placeholder="cth: 50"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Reefer 440V Units
                     </label>
                     <input
@@ -553,14 +604,14 @@ export function DocumentCenterScreen() {
                       value={reeferUnits}
                       onChange={(e) => setReeferUnits(e.target.value)}
                       placeholder="cth: 5"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 pt-1">
+                <div className="grid grid-cols-2 gap-2 pt-1">
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       DG Class (Muatan Berbahaya)
                     </label>
                     <input
@@ -569,11 +620,11 @@ export function DocumentCenterScreen() {
                       value={dgClass}
                       onChange={(e) => setDgClass(e.target.value)}
                       placeholder="cth: 4.1"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-300 block mb-1.5">
+                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
                       Permintaan Min. Crane
                     </label>
                     <input
@@ -582,7 +633,7 @@ export function DocumentCenterScreen() {
                       value={minCranes}
                       onChange={(e) => setMinCranes(e.target.value)}
                       placeholder="cth: 3"
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-abyssal border border-slate-700/80 text-sm font-mono font-medium text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tactical-cyan/50 focus:border-tactical-cyan transition-all disabled:opacity-80 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -590,12 +641,12 @@ export function DocumentCenterScreen() {
 
               {/* Status Banner when submitted (no score spoilers) */}
               {submissionFeedback && (
-                <div className="p-3.5 rounded-xl border bg-safety-emerald/10 border-safety-emerald/40 text-safety-emerald text-xs leading-relaxed space-y-1">
-                  <div className="font-bold flex items-center gap-1.5 text-safety-emerald">
-                    <ShieldCheck className="w-4 h-4 text-safety-emerald shrink-0" />
+                <div className="p-3.5 rounded-xl border bg-emerald-500/10 border-emerald-500/40 text-emerald-400 text-xs leading-relaxed space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-emerald-400 font-sans">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>STATUS: BERKAS PRE-ARRIVAL DIKUNCI</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed font-sans">
                     {submissionFeedback.feedback}
                   </p>
                 </div>
@@ -606,22 +657,22 @@ export function DocumentCenterScreen() {
                 <button
                   type="submit"
                   disabled={!isFormFilled}
-                  className={`w-full py-3.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all font-mono ${
+                  className={`w-full py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all font-mono ${
                     isFormFilled
-                      ? "bg-electric-amber hover:bg-electric-amber-hover text-slate-950 shadow-amber-glow transform hover:scale-[1.01]"
-                      : "bg-slate-800/80 text-slate-500 cursor-not-allowed border border-slate-700/60"
+                      ? "cta-amber cursor-pointer"
+                      : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/60"
                   }`}
                 >
                   <ClipboardCheck className="w-4 h-4" />
                   <span>Submit Pre-Arrival Dossier</span>
                 </button>
               ) : (
-                <div className="p-3.5 rounded-xl bg-abyssal border border-glass-border flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-safety-emerald font-bold text-xs font-mono">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs font-mono">
                     <Lock className="w-4 h-4" />
                     <span>BERKAS RESMI DIKUNCI (FINAL SUBMISSION)</span>
                   </div>
-                  <span className="font-mono text-xs font-bold text-safety-emerald bg-safety-emerald/10 px-2.5 py-1 rounded-md border border-safety-emerald/30">
+                  <span className="font-mono text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/30">
                     TERKUNCI
                   </span>
                 </div>
@@ -629,13 +680,13 @@ export function DocumentCenterScreen() {
             </form>
 
             {/* Proceed Action Button */}
-            <div className="pt-2 border-t border-glass-border">
+            <div className="pt-2 border-t border-slate-800">
               <button
                 onClick={handleProceed}
                 disabled={!cadetDossier.isSubmitted}
                 className={`w-full py-3.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg font-mono ${
                   cadetDossier.isSubmitted
-                    ? "bg-abyssal-surface hover:bg-[#0c1c38] text-electric-amber border-2 border-electric-amber shadow-amber-glow transform hover:scale-[1.02]"
+                    ? "cta-amber cursor-pointer"
                     : "bg-slate-800/60 text-slate-500 cursor-not-allowed border border-slate-700/60"
                 }`}
               >
@@ -659,47 +710,117 @@ export function DocumentCenterScreen() {
           onClose={() => setIsConfirmModalOpen(false)}
           title="KONFIRMASI PENYERAHAN BERKAS PRE-ARRIVAL KE SYAHBANDAR"
           referenceNumber="DISPATCH-CLEARANCE-NOA"
+          maxWidth="max-w-2xl"
         >
-          <div className="space-y-6 text-slate-100 font-sans">
-            <div className="p-4 rounded-xl bg-amber-500/10 border-2 border-amber-500/50 flex items-start gap-3.5">
-              <AlertTriangle className="w-6 h-6 text-electric-amber shrink-0 mt-0.5" />
-              <div className="space-y-1">
-                <strong className="text-sm font-bold text-white block">
-                  PERINGATAN RESMI: PENGUNCIAN BERKAS OPERASIONAL
-                </strong>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Berkas Pre-Arrival Clearance Dossier yang Anda serahkan ke Otoritas Pelabuhan & Syahbandar bersifat mengikat dan akan langsung dievaluasi nilainya. Berkas akan <strong>DIKUNCI SECARA PERMANEN</strong> dan Anda tidak dapat mengubah data kembali.
+          <div className="space-y-4 text-slate-100 font-sans">
+            {/* 1. Official Regulatory Warning Banner (Clean, Focused Advisory) */}
+            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3.5">
+              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-1.5 flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <strong className="text-xs sm:text-sm font-bold text-white font-sans tracking-wide">
+                    PERINGATAN RESMI: PENGUNCIAN BERKAS OPERASIONAL
+                  </strong>
+                  <span className="font-mono text-[10px] font-semibold text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30 shrink-0">
+                    FINAL
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                  Berkas Pre-Arrival Clearance Dossier yang Anda serahkan ke Otoritas Pelabuhan & Syahbandar bersifat mengikat. Setelah dikonfirmasi, berkas akan <strong>DIKUNCI SECARA PERMANEN</strong> untuk evaluasi penilaian STCW (Maks. 20 Poin).
                 </p>
+
+                <div className="flex items-center gap-2 pt-0.5 text-[11px] font-mono text-slate-400">
+                  <span className="text-amber-300/90 flex items-center gap-1 font-semibold">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Evaluasi STCW: Maks. 20 Poin</span>
+                  </span>
+                  <span>·</span>
+                  <span>Zero Grounding Tolerance</span>
+                </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl glass-panel border border-glass-border space-y-2 text-xs font-mono">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block border-b border-glass-border pb-1.5 font-sans">
-                Ringkasan Berkas yang Akan Dikirim:
+            {/* 2. Target Vessel Identity Card (Unified High-Contrast Styling) */}
+            <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-slate-700/60 border border-slate-600/80 flex items-center justify-center text-slate-300 shrink-0">
+                  <Anchor className="w-4 h-4 stroke-[2.2]" />
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-semibold text-slate-400 font-mono block">
+                    Target Kapal Masuk
+                  </span>
+                  <div className="text-sm sm:text-base font-bold text-white font-sans">
+                    {vesselName} <span className="font-mono text-slate-300 text-xs font-semibold">({callSign})</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-left sm:text-right font-mono text-xs text-slate-400">
+                <div className="text-slate-200 font-semibold">IMO {imoNumber || "1234567"}</div>
+                <div className="text-[11px] text-slate-400">Pelabuhan Asal: {lastPort || "Singapore"}</div>
+              </div>
+            </div>
+
+            {/* 3. Operational Telemetry Cards - Unified Palette for Instant Verification */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+              {/* Card 1: Dimensions & Draft */}
+              <div className="bg-slate-800/60 rounded-xl p-3 border border-slate-700/80">
+                <span className="text-[10px] text-slate-400 block font-semibold uppercase tracking-wider font-mono">
+                  DIMENSI & DRAFT
+                </span>
+                <span className="text-white font-bold text-sm block mt-1">
+                  LOA {loa}m · Draft {draftAft}m
+                </span>
+                <span className="text-[11px] text-slate-400 block mt-0.5">
+                  Max Arrival Draft
+                </span>
+              </div>
+
+              {/* Card 2: Controlling Depth (Safe Cushion) */}
+              <div className="bg-slate-800/60 rounded-xl p-3 border border-slate-700/80">
+                <span className="text-[10px] text-slate-400 block font-semibold uppercase tracking-wider font-mono flex items-center justify-between">
+                  <span>CONTROLLING DEPTH WAJIB</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
+                </span>
+                <span className="text-white font-bold text-sm block mt-1">
+                  {requiredDepth} Meters (UKC Safe)
+                </span>
+                <span className="text-[11px] text-slate-400 block mt-0.5">
+                  Draft + 1.3m Safe Margin
+                </span>
+              </div>
+
+              {/* Card 3: Cargo & Equipment */}
+              <div className="bg-slate-800/60 rounded-xl p-3 border border-slate-700/80">
+                <span className="text-[10px] text-slate-400 block font-semibold uppercase tracking-wider font-mono">
+                  MUATAN & CRANE
+                </span>
+                <span className="text-white font-bold text-sm block mt-1">
+                  {totalContainers} Box · {minCranes} Cranes
+                </span>
+                <span className="text-[11px] text-slate-400 block mt-0.5 truncate">
+                  DG {dgClass || "4.1"} · {reeferUnits || "5"} Reefer
+                </span>
+              </div>
+            </div>
+
+            {/* 4. Digital Signature Strip */}
+            <div className="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-slate-800/40 border border-slate-700/60 text-[11px] font-mono text-slate-400">
+              <span className="flex items-center gap-2 text-slate-300">
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span>PELINDO DIGITAL SIGNATURE // PRIOK-GATEWAY-2026</span>
               </span>
-              <div className="flex justify-between py-1 border-b border-slate-800/60">
-                <span className="text-slate-400 font-sans">Nama Kapal & Call Sign:</span>
-                <span className="font-bold text-white">{vesselName} ({callSign})</span>
-              </div>
-              <div className="flex justify-between py-1 border-b border-slate-800/60">
-                <span className="text-slate-400 font-sans">Dimensi & Draft Aft:</span>
-                <span className="font-bold text-electric-amber">LOA {loa}m · Draft {draftAft}m</span>
-              </div>
-              <div className="flex justify-between py-1 border-b border-slate-800/60">
-                <span className="text-slate-400 font-sans">Controlling Depth Wajib:</span>
-                <span className="font-bold text-safety-emerald">{requiredDepth} Meters (UKC Safe)</span>
-              </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-400 font-sans">Muatan & Kebutuhan Crane:</span>
-                <span className="font-bold text-tactical-cyan">{totalContainers} Box · {minCranes} Cranes</span>
-              </div>
+              <span className="text-slate-400 text-[10px] hidden sm:inline">KSOP SECTOR-3 VERIFIED</span>
             </div>
 
-            <div className="pt-2 border-t border-glass-border flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* 5. Clean Action Buttons */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setIsConfirmModalOpen(false)}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors font-mono"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white text-xs font-semibold font-sans transition-colors"
               >
                 Periksa Kembali Berkas
               </button>
@@ -707,9 +828,9 @@ export function DocumentCenterScreen() {
               <button
                 type="button"
                 onClick={handleExecuteSubmit}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-electric-amber hover:bg-electric-amber-hover text-slate-950 font-black text-xs uppercase shadow-amber-glow transition-all"
+                className="w-full sm:w-auto cta-amber inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-sans font-bold text-xs uppercase tracking-wide transition-all"
               >
-                <ShieldCheck className="w-4 h-4" />
+                <ShieldCheck className="w-4 h-4 stroke-[2.5]" />
                 <span>Ya, Kirim & Kunci Berkas Resmi</span>
               </button>
             </div>
