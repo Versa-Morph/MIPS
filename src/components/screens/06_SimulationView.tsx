@@ -88,43 +88,43 @@ export function SimulationViewScreen() {
   return (
     <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 animate-fadeIn select-none font-sans">
       {/* VTS Command Cockpit Top Bar */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-3.5 px-5 flex flex-wrap items-center justify-between gap-3 shadow-sm text-white text-xs">
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-3.5 px-5 flex flex-wrap items-center justify-between gap-3 shadow-card dark:shadow-card-dark text-slate-800 dark:text-white text-xs">
         <div className="flex items-center flex-wrap gap-4">
-          <div className="flex items-center gap-2 font-bold tracking-wider text-amber-400 font-mono">
-            <Anchor className="w-4 h-4 text-amber-400" />
+          <div className="flex items-center gap-2 font-bold tracking-wider text-coral font-mono">
+            <Anchor className="w-4 h-4 text-coral" />
             <span>TRAINING SIMULATION</span>
           </div>
 
-          <div className="h-4 w-px bg-slate-800 hidden sm:block"></div>
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
 
           <div className="flex items-center gap-2 font-mono">
-            <span className="text-slate-400">VESSEL:</span>
-            <span className="font-bold text-white bg-slate-950 px-2.5 py-0.5 rounded border border-slate-800">
+            <span className="text-slate-400 dark:text-slate-500">VESSEL:</span>
+            <span className="font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-[#1a1e29] px-2.5 py-0.5 rounded-full border border-slate-200 dark:border-slate-800">
               {vessel.name}
             </span>
           </div>
 
           <div className="flex items-center gap-2 font-mono">
-            <span className="text-slate-400">ASSIGNED BERTH:</span>
-            <span className="font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/30">
+            <span className="text-slate-400 dark:text-slate-500">ASSIGNED BERTH:</span>
+            <span className="font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60">
               {assignedBerth?.id || "B-01"} (Valid)
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] font-bold">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 font-mono text-[11px] font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>● RUNNING</span>
           </span>
 
           <button
             type="button"
             onClick={handleProceedToAssessment}
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all transform active:scale-[0.97] ${
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform active:scale-[0.97] ${
               isCompleted || containersHandled >= 50
-                ? "bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black shadow-emerald-glow animate-pulse"
-                : "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700"
+                ? "cta-coral cursor-pointer shadow-coral animate-pulse"
+                : "bg-slate-900 text-white dark:bg-[#282f40] hover:bg-slate-800"
             }`}
           >
             <span>Complete Operation</span>
@@ -138,35 +138,35 @@ export function SimulationViewScreen() {
         {/* Left Side: Decision Summary + Chrono Controls + Tactical Info */}
         <div className="lg:col-span-4 space-y-4 flex flex-col justify-between">
           {/* YOUR DECISION Reference Card */}
-          <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-sm space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-              <span className="font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2 text-xs font-mono">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-4 shadow-card dark:shadow-card-dark space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+              <span className="font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 text-xs font-mono">
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 <span>YOUR DECISION</span>
               </span>
-              <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+              <span className="font-mono text-[10px] text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60 font-bold">
                 ✓ Valid
               </span>
             </div>
 
-            <div className="space-y-2 text-slate-300 text-xs">
-              <div className="flex justify-between items-center py-1 border-b border-slate-800/80 font-mono">
-                <span className="text-slate-400 font-medium font-sans">Berth:</span>
-                <span className="text-sm font-bold font-mono text-white">
+            <div className="space-y-2 text-slate-600 dark:text-slate-300 text-xs">
+              <div className="flex justify-between items-center py-1 border-b border-slate-100 dark:border-slate-800/80 font-mono">
+                <span className="text-slate-500 dark:text-slate-400 font-medium font-sans">Berth:</span>
+                <span className="text-sm font-bold font-mono text-slate-900 dark:text-white">
                   {assignedBerth?.id || "B-01"}
                 </span>
               </div>
-              <div className="flex justify-between items-center py-1 border-b border-slate-800/80 font-mono">
-                <span className="text-slate-400 font-medium font-sans">Vessel:</span>
-                <span className="text-sm font-bold font-mono text-white">{vessel.name}</span>
+              <div className="flex justify-between items-center py-1 border-b border-slate-100 dark:border-slate-800/80 font-mono">
+                <span className="text-slate-500 dark:text-slate-400 font-medium font-sans">Vessel:</span>
+                <span className="text-sm font-bold font-mono text-slate-900 dark:text-white">{vessel.name}</span>
               </div>
-              <div className="flex justify-between items-center py-1 border-b border-slate-800/80 font-mono">
-                <span className="text-slate-400 font-medium font-sans">Dimensions:</span>
-                <span className="text-sm font-bold font-mono text-white">LOA {vessel.loa}m · Draft {vessel.draft}m</span>
+              <div className="flex justify-between items-center py-1 border-b border-slate-100 dark:border-slate-800/80 font-mono">
+                <span className="text-slate-500 dark:text-slate-400 font-medium font-sans">Dimensions:</span>
+                <span className="text-sm font-bold font-mono text-slate-900 dark:text-white">LOA {vessel.loa}m · Draft {vessel.draft}m</span>
               </div>
               <div className="flex justify-between items-center py-1 font-mono">
-                <span className="text-slate-400 font-medium font-sans">Equipment:</span>
-                <span className="text-sm font-bold font-mono text-cyan-400">2x Cranes · 3x Trucks</span>
+                <span className="text-slate-500 dark:text-slate-400 font-medium font-sans">Equipment:</span>
+                <span className="text-sm font-bold font-mono text-coral">2x Cranes · 3x Trucks</span>
               </div>
             </div>
           </div>
@@ -175,8 +175,8 @@ export function SimulationViewScreen() {
           <SimulationControls />
 
           {/* Tactical Advice Callout */}
-          <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300 flex items-start gap-2.5 shadow-sm">
-            <Compass className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] text-[11px] text-slate-600 dark:text-slate-300 flex items-start gap-2.5 shadow-sm">
+            <Compass className="w-4 h-4 text-coral shrink-0 mt-0.5" />
             <span className="leading-relaxed">
               Tip: Klik pada <strong>Kapal MV Nusantara</strong>, <strong>Crane QC</strong>, atau <strong>Truk Terminal</strong> pada layar pelabuhan untuk menginspeksi telemetri operasional.
             </span>
@@ -225,11 +225,11 @@ export function SimulationViewScreen() {
               {pendingCheckpoint.description}
             </p>
 
-            <div className="pt-3 border-t border-slate-800 flex justify-end">
+            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end">
               <button
                 type="button"
                 onClick={handleApprove}
-                className="px-6 py-2.5 rounded-xl cta-amber font-bold text-xs uppercase tracking-wide flex items-center gap-2 shadow-md transition-all transform active:scale-[0.97]"
+                className="px-6 py-2.5 rounded-full cta-coral font-bold text-xs uppercase tracking-wide flex items-center gap-2 shadow-coral transition-all transform active:scale-[0.97]"
               >
                 <CheckCircle2 className="w-4 h-4 stroke-[3]" />
                 <span>{pendingCheckpoint.actionButtonText}</span>

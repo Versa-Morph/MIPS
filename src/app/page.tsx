@@ -49,7 +49,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#f4f6f8] dark:bg-[#0d0f15] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       <Header />
       {currentState !== TrainingState.DASHBOARD && (
         <ProgressBar currentState={currentState} />

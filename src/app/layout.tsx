@@ -28,7 +28,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${jakarta.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased min-h-screen bg-[#030712] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const saved = localStorage.getItem('mips-theme');
+                if (saved === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="antialiased min-h-screen bg-[#f4f6f8] dark:bg-[#0d0f15] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 selection:bg-coral/20 selection:text-coral">
         {children}
       </body>
     </html>

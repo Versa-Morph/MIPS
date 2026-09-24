@@ -108,52 +108,52 @@ export function BerthDecisionScreen() {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] hover:border-coral/50 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-coral transition-colors shadow-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Document Center</span>
         </button>
 
-        <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1 rounded-full">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <div className="flex items-center gap-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] px-3.5 py-1.5 rounded-full shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-coral animate-pulse"></span>
           <span>VTS CONSOLE · SECTOR 3</span>
         </div>
       </div>
 
       {/* Hero Banner: Executive VTS Command Header */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-7 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-6 sm:p-7 shadow-card dark:shadow-card-dark flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2.5 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider font-mono">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse">●</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/10 border border-coral/30 text-coral text-xs font-bold uppercase tracking-wider font-mono">
+            <span className="w-2 h-2 rounded-full bg-coral animate-pulse">●</span>
             <span>Phase 03: Operational Berth Allocation</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-sans">
             Berth Allocation Decision
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed font-sans">
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed font-sans">
             Determine the appropriate berth for container vessel{" "}
-            <strong className="text-white font-semibold">{vessel.name}</strong> based on the
+            <strong className="text-slate-900 dark:text-white font-semibold">{vessel.name}</strong> based on the
             pre-arrival documents, controlling depth, and safety clearance requirements.
           </p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shrink-0 text-right min-w-[200px]">
-          <div className="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider">
+        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 shrink-0 text-right min-w-[200px]">
+          <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 font-mono tracking-wider">
             Decision Status
           </div>
           <div
             className={`text-xs font-bold flex items-center justify-end gap-1.5 font-mono mt-1 ${
-              isDecisionAccepted ? "text-emerald-400" : "text-amber-400"
+              isDecisionAccepted ? "text-emerald-600 dark:text-emerald-400" : "text-coral"
             }`}
           >
             {isDecisionAccepted ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                 <span>APPROVED</span>
               </>
             ) : (
               <>
-                <Anchor className="w-4 h-4 text-amber-400" />
+                <Anchor className="w-4 h-4 text-coral" />
                 <span>PENDING EVALUATION</span>
               </>
             )}
@@ -162,13 +162,13 @@ export function BerthDecisionScreen() {
       </div>
 
       {/* Cadet Submitted Dossier Reference Card (Clean Bento Layout) */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-5 space-y-3 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2 font-mono">
-            <ClipboardCheck className="w-4 h-4 text-cyan-400" />
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 space-y-3 shadow-card dark:shadow-card-dark">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 font-mono">
+            <ClipboardCheck className="w-4 h-4 text-coral" />
             <span>Kriteria Acuan Sandar (Data Dossier Anda)</span>
           </span>
-          <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1.5">
+          <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Sumber: Berkas Pre-Arrival Dossier</span>
           </span>
@@ -176,40 +176,40 @@ export function BerthDecisionScreen() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center font-mono">
           {/* Metric 1: LOA */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider block mb-1">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+            <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Panjang Kapal (LOA)
             </span>
-            <span className="text-base sm:text-lg font-bold text-white block">
+            <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white block">
               {displayLoa} Meters
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
               Length Overall Terisi
             </span>
           </div>
 
           {/* Metric 2: Draft Aft */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider block mb-1">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+            <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Sarat Air (Draft Aft)
             </span>
-            <span className="text-base sm:text-lg font-bold text-white block">
+            <span className="text-base sm:text-lg font-bold text-coral block">
               {displayDraft} Meters
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
               Kedalaman Lambung Terisi
             </span>
           </div>
 
           {/* Metric 3: Required UKC Depth */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider block mb-1">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+            <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Kedalaman Wajib (UKC Safe)
             </span>
-            <span className="text-base sm:text-lg font-bold text-white block">
+            <span className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 block">
               {displayDepth} Meters
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
               Batas Aman Minimal (Draft + 1.3m UKC)
             </span>
           </div>
@@ -496,10 +496,11 @@ export function BerthDecisionScreen() {
       )}
 
       {/* Bottom Action Footer Bar */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
         <button
+          type="button"
           onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition-colors"
         >
           Review Documents Again
         </button>
@@ -507,16 +508,18 @@ export function BerthDecisionScreen() {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           {!isDecisionAccepted ? (
             <button
+              type="button"
               onClick={handleSubmit}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl cta-amber font-bold text-xs uppercase tracking-wide transition-all shadow-md"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full cta-coral font-bold text-xs uppercase tracking-wide transition-all shadow-coral"
             >
               <span>Submit Decision</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           ) : (
             <button
+              type="button"
               onClick={() => setStep(TrainingState.SIMULATION_RUNNING)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-emerald-glow transition-all transform hover:scale-[1.02] animate-pulse"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full cta-coral font-black text-xs uppercase tracking-wider shadow-coral transition-all transform hover:scale-[1.02]"
             >
               <Sparkles className="w-4 h-4" />
               <span>START SIMULATION</span>

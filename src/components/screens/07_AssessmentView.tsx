@@ -97,47 +97,47 @@ export function AssessmentViewScreen() {
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn font-sans select-none">
       {/* Top Status Breadcrumb */}
-      <div className="flex items-center justify-between font-mono text-xs text-slate-400">
+      <div className="flex items-center justify-between font-mono text-xs text-slate-500 dark:text-slate-400">
         <div className="flex items-center gap-2">
-          <Award className="w-4 h-4 text-amber-400" />
-          <span className="text-slate-200 font-semibold">CADET PERFORMANCE CERTIFICATION</span>
+          <Award className="w-4 h-4 text-coral" />
+          <span className="text-slate-800 dark:text-slate-200 font-semibold">CADET PERFORMANCE CERTIFICATION</span>
         </div>
         <div className="flex items-center gap-2">
           <span>STAGE:</span>
-          <span className="text-cyan-400 font-bold">07 / 07</span>
-          <span className="text-slate-700">|</span>
-          <span className="text-emerald-400 font-semibold">EVALUATION COMPLETE</span>
+          <span className="text-coral font-bold">07 / 07</span>
+          <span className="text-slate-300 dark:text-slate-700">|</span>
+          <span className="text-emerald-700 dark:text-emerald-400 font-semibold">EVALUATION COMPLETE</span>
         </div>
       </div>
 
       {/* Executive Certification Header Card */}
-      <div className="relative rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-8 text-white shadow-sm overflow-hidden">
+      <div className="relative rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-6 sm:p-8 text-slate-900 dark:text-white shadow-card dark:shadow-card-dark overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
             {/* Gold Seal of Competency */}
-            <div className="relative shrink-0 flex items-center justify-center p-2 rounded-2xl bg-slate-950 border border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+            <div className="relative shrink-0 flex items-center justify-center p-2 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-coral/30 shadow-sm">
               <img
                 src={getAssetPath("/images/seal-competency.png")}
                 alt="Competency Seal"
                 className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
               />
-              <div className="absolute -bottom-1 -right-1 p-1 bg-slate-950 rounded-full border border-amber-500/60">
-                <ShieldCheck className="w-4 h-4 text-amber-400" />
+              <div className="absolute -bottom-1 -right-1 p-1 bg-white dark:bg-slate-950 rounded-full border border-coral/60">
+                <ShieldCheck className="w-4 h-4 text-coral" />
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider font-mono">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 text-xs font-bold uppercase tracking-wider font-mono">
                 <Check className="w-3.5 h-3.5 stroke-[3]" />
                 <span>TRAINING COMPLETED</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase font-sans">
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white uppercase font-sans">
                 {vessel.name}
               </h1>
-              <p className="text-slate-300 text-sm font-medium">
+              <p className="text-slate-600 dark:text-slate-300 text-sm font-medium">
                 Container Vessel Arrival & Berthing
               </p>
-              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-mono text-slate-400">
+              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-mono text-slate-500 dark:text-slate-400">
                 <span>Cadet: <strong className="text-cyan-400">{cadetName || "Cadet"}</strong></span>
                 <span className="text-slate-700">·</span>
                 <span>Port: <strong className="text-slate-200">Tanjung Priok</strong></span>
@@ -398,18 +398,20 @@ export function AssessmentViewScreen() {
       </div>
 
       {/* Action Footer */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
         <button
+          type="button"
           onClick={handleReviewReplay}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white font-bold text-xs transition-all border border-slate-700 font-mono"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-bold text-xs transition-all border border-slate-200 dark:border-slate-700 font-mono"
         >
-          <RotateCcw className="w-4 h-4 text-cyan-400" />
+          <RotateCcw className="w-4 h-4 text-coral" />
           <span>Review Simulation</span>
         </button>
 
         <button
+          type="button"
           onClick={handleBackToDashboard}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl cta-amber font-extrabold text-sm shadow-md transition-all transform active:scale-[0.98] font-sans"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full cta-coral font-extrabold text-sm shadow-coral transition-all transform active:scale-[0.98] font-sans"
         >
           <BookOpen className="w-4 h-4" />
           <span>Back to Training Center</span>
