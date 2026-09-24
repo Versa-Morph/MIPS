@@ -5,38 +5,35 @@ import {
   Ship,
   ArrowRight,
   ArrowLeft,
-  AlertTriangle,
-  UserCheck,
-  CheckCircle2,
-  FileCheck,
-  Radio,
-  ShieldAlert,
-  Volume2,
-  Compass,
   Anchor,
   FileText,
+  Compass,
+  CheckCircle2,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export function BriefingScreen() {
   const { scenario, setStep } = useTrainingStore();
   const vessel = scenario.vessel;
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 font-sans select-none">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6 font-sans select-none animate-fadeIn">
       {/* Navigation Breadcrumbs */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setStep(TrainingState.SCENARIO_SELECTION)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] hover:border-coral/50 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-coral dark:hover:text-coral transition-all shadow-sm"
+          className="rounded-full shadow-xs gap-2 font-semibold"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-coral" />
           <span>Kembali ke Skenario</span>
-        </button>
+        </Button>
 
-        <div className="hidden sm:flex items-center gap-2.5 font-mono text-xs text-slate-400">
+        <div className="flex items-center gap-2.5 font-mono text-xs text-slate-400">
           <span className="text-slate-400 dark:text-slate-500">STAGE</span>
           <span className="text-coral font-bold">02 / 07</span>
           <span className="text-slate-300 dark:text-slate-700">·</span>
@@ -47,9 +44,9 @@ export function BriefingScreen() {
       </div>
 
       {/* Main Mission Briefing Card */}
-      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] shadow-card dark:shadow-card-dark overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] shadow-card dark:shadow-card-dark overflow-hidden">
         {/* Phase Header */}
-        <div className="relative border-b border-slate-200/80 dark:border-[#232734] p-6 sm:p-8 text-white overflow-hidden bg-slate-900">
+        <div className="relative border-b border-slate-200/80 dark:border-[#222634] p-6 sm:p-8 text-white overflow-hidden bg-slate-950">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/20 border border-coral/40 text-coral text-xs font-mono font-bold tracking-wider">
@@ -68,7 +65,7 @@ export function BriefingScreen() {
               </p>
             </div>
 
-            <div className="px-4 py-2.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-right self-start md:self-auto font-mono shadow-sm">
+            <div className="px-4 py-2.5 rounded-2xl bg-slate-900 border border-slate-800 text-right self-start md:self-auto font-mono shadow-xs">
               <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                 Assigned Role
               </div>
@@ -79,9 +76,9 @@ export function BriefingScreen() {
           </div>
         </div>
 
-        <div className="p-6 sm:p-8 space-y-6 bg-white dark:bg-[#151821]">
+        <div className="p-6 sm:p-8 space-y-6 bg-white dark:bg-[#14171f]">
           {/* Training Task Directives Card */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 space-y-4">
+          <div className="rounded-2xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3">
               <span className="text-xs font-bold uppercase tracking-wider text-coral flex items-center gap-2 font-mono">
                 <Ship className="w-4 h-4 text-coral" /> Operational Training Task
@@ -105,7 +102,7 @@ export function BriefingScreen() {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-              <div className="p-3.5 rounded-xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-slate-800 shadow-sm">
+              <div className="p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
                 <div className="text-[10px] font-mono uppercase text-slate-400 font-semibold mb-1">
                   1. Audit Berkas
                 </div>
@@ -114,7 +111,7 @@ export function BriefingScreen() {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-slate-800 shadow-sm">
+              <div className="p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
                 <div className="text-[10px] font-mono uppercase text-slate-400 font-semibold mb-1">
                   2. Hitung UKC
                 </div>
@@ -123,7 +120,7 @@ export function BriefingScreen() {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-slate-800 shadow-sm">
+              <div className="p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
                 <div className="text-[10px] font-mono uppercase text-slate-400 font-semibold mb-1">
                   3. Awasi Simulasi
                 </div>
@@ -134,12 +131,10 @@ export function BriefingScreen() {
             </div>
           </div>
 
-          {/* Instructor Advisory Card (Capt. H. Gunawan) */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-coral to-rose-400 p-[1.5px] shrink-0 shadow-sm">
-              <div className="w-full h-full rounded-2xl bg-white dark:bg-[#161922] flex items-center justify-center font-bold text-sm text-slate-900 dark:text-white">
-                HG
-              </div>
+          {/* Instructor Advisory Card (Capt. H. Gunawan) - Strict Monochrome Avatar */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-start gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+              HG
             </div>
 
             <div className="space-y-1.5 flex-1">
@@ -152,9 +147,9 @@ export function BriefingScreen() {
                     Senior Harbor Master & Chief Simulator Instructor
                   </p>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60">
+                <Badge variant="outline" className="text-[10px] font-bold font-mono text-emerald-700 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 px-2.5 py-0.5">
                   INSPECTOR ON DUTY
-                </span>
+                </Badge>
               </div>
 
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed pt-1 italic">
@@ -166,22 +161,24 @@ export function BriefingScreen() {
 
         {/* Action Bar Footer */}
         <div className="px-6 sm:px-8 py-4 bg-slate-50 dark:bg-[#11131a] border-t border-slate-200/80 dark:border-[#232734] flex items-center justify-between">
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setStep(TrainingState.SCENARIO_SELECTION)}
-            className="px-4 py-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs font-semibold font-mono transition-colors"
+            className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs font-semibold font-mono"
           >
             Back to Scenario Overview
-          </button>
+          </Button>
 
-          <button
-            type="button"
+          <Button
+            variant="coral"
+            size="lg"
             onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-            className="cta-coral inline-flex items-center gap-2 px-7 py-3 rounded-full font-sans font-bold text-sm tracking-wide group shadow-coral"
+            className="px-8 font-bold shadow-coral rounded-full"
           >
             <span>Review Documents</span>
-            <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
-          </button>
+            <ArrowRight className="w-4 h-4 ml-1 stroke-[2.5]" />
+          </Button>
         </div>
       </div>
     </div>

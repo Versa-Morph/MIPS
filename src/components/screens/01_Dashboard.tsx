@@ -9,6 +9,7 @@ import {
   Download,
   ArrowUpRight,
   ArrowDownRight,
+  ArrowRight,
   MoreHorizontal,
   ChevronLeft,
   ChevronRight,
@@ -448,9 +449,19 @@ export function DashboardScreen() {
 
             {/* Sub-panel: Multi-Simulation Scenarios Roster */}
             <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2 font-mono">
-                Available Training
-              </span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 font-mono">
+                  Available Training
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
+                  className="text-[11px] font-semibold text-coral hover:underline inline-flex items-center gap-1 cursor-pointer font-sans"
+                >
+                  <span>Katalog Lengkap</span>
+                  <ArrowRight className="w-3 h-3 stroke-[2.5]" />
+                </button>
+              </div>
               <div className="grid grid-cols-3 gap-2">
                 {/* Skenario 1: Container Vessel Berthing (Aktif) */}
                 <div

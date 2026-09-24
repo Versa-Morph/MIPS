@@ -28,7 +28,9 @@ export function Header() {
     setIsMuted(muted);
   };
 
-  const isInsideSimulation = currentState !== TrainingState.DASHBOARD;
+  const isInsideSimulation =
+    currentState !== TrainingState.DASHBOARD &&
+    currentState !== TrainingState.SCENARIO_CATALOG;
 
   // Portal Level Navigation items (visible at portal overview)
   const portalNavItems = [
@@ -41,8 +43,8 @@ export function Header() {
     {
       id: "scenarios",
       label: "Katalog Simulasi",
-      onClick: () => setStep(TrainingState.SCENARIO_SELECTION),
-      isActive: currentState === TrainingState.SCENARIO_SELECTION,
+      onClick: () => setStep(TrainingState.SCENARIO_CATALOG),
+      isActive: currentState === TrainingState.SCENARIO_CATALOG,
     },
     {
       id: "logbook",

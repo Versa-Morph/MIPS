@@ -257,25 +257,25 @@ export function DocumentCenterScreen() {
                   {cadetDossier.isSubmitted ? `${cadetDossier.loa} m` : "-- m"}
                 </span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-800/60">
-                <span className="text-slate-400 font-sans">Arrival Draft:</span>
-                <span className="font-bold text-amber-400">
+              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800/60">
+                <span className="text-slate-500 dark:text-slate-400 font-sans">Arrival Draft:</span>
+                <span className="font-bold text-coral">
                   {cadetDossier.isSubmitted
                     ? `${cadetDossier.draftAft} m`
                     : "-- m"}
                 </span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-800/60">
-                <span className="text-slate-400 font-sans">Required Depth:</span>
-                <span className="font-bold text-emerald-400">
+              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800/60">
+                <span className="text-slate-500 dark:text-slate-400 font-sans">Required Depth:</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">
                   {cadetDossier.isSubmitted
                     ? `${cadetDossier.requiredDepth} m`
                     : "-- m"}
                 </span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-slate-400 font-sans">Dossier State:</span>
-                <span className="font-bold text-cyan-400">
+                <span className="text-slate-500 dark:text-slate-400 font-sans">Dossier State:</span>
+                <span className="font-bold text-slate-900 dark:text-white">
                   {cadetDossier.isSubmitted
                     ? "SUBMITTED & LOCKED"
                     : "NOT SUBMITTED"}
@@ -452,7 +452,7 @@ export function DocumentCenterScreen() {
 
                 <div className="space-y-2.5">
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Nama Kapal (Vessel Name)
                     </label>
                     <input
@@ -461,13 +461,13 @@ export function DocumentCenterScreen() {
                       value={vesselName}
                       onChange={(e) => setVesselName(e.target.value)}
                       placeholder="cth: MV Nusantara"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                      <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                         Call Sign
                       </label>
                       <input
@@ -476,11 +476,11 @@ export function DocumentCenterScreen() {
                         value={callSign}
                         onChange={(e) => setCallSign(e.target.value)}
                         placeholder="cth: PK-47A"
-                        className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                        className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                       />
                     </div>
                     <div>
-                      <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                      <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                         IMO Number
                       </label>
                       <input
@@ -489,13 +489,13 @@ export function DocumentCenterScreen() {
                         value={imoNumber}
                         onChange={(e) => setImoNumber(e.target.value)}
                         placeholder="cth: 1234567"
-                        className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                        className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Pelabuhan Asal (Last Port of Call)
                     </label>
                     <input
@@ -504,21 +504,21 @@ export function DocumentCenterScreen() {
                       value={lastPort}
                       onChange={(e) => setLastPort(e.target.value)}
                       placeholder="cth: Singapore"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 2: Parameter Fisik Kapal */}
-              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
-                <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
+              <div className="space-y-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+                <span className="text-xs font-extrabold uppercase text-slate-900 dark:text-white tracking-wider flex items-center gap-1.5 font-mono">
                   2. Parameter Fisik Kapal (Vessel Particulars)
                 </span>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Length Overall (LOA, m)
                     </label>
                     <input
@@ -527,11 +527,11 @@ export function DocumentCenterScreen() {
                       value={loa}
                       onChange={(e) => setLoa(e.target.value)}
                       placeholder="cth: 280.0"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Arrival Draft Aft (m)
                     </label>
                     <input
@@ -540,23 +540,23 @@ export function DocumentCenterScreen() {
                       value={draftAft}
                       onChange={(e) => setDraftAft(e.target.value)}
                       placeholder="cth: 10.20"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 3: Kalkulasi Kedalaman Wajib */}
-              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div className="space-y-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
+                  <span className="text-xs font-extrabold uppercase text-slate-900 dark:text-white tracking-wider flex items-center gap-1.5 font-mono">
                     3. Kalkulasi Kedalaman Wajib (Draft + UKC 1.3m)
                   </span>
-                  <Calculator className="w-3.5 h-3.5 text-cyan-400" />
+                  <Calculator className="w-3.5 h-3.5 text-coral" />
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                  <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                     Controlling Depth yang Disyaratkan (Meters)
                   </label>
                   <input
@@ -565,10 +565,10 @@ export function DocumentCenterScreen() {
                     value={requiredDepth}
                     onChange={(e) => setRequiredDepth(e.target.value)}
                     placeholder="Hitung: Draft + 1.3m UKC (cth: 11.50)"
-                    className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                    className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                   />
-                  <div className="mt-1.5 p-2 rounded-lg bg-cyan-950/30 border border-cyan-800/40 flex items-start gap-2 text-[10px] text-cyan-300">
-                    <HelpCircle className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                  <div className="mt-1.5 p-2 rounded-xl bg-coral/5 dark:bg-coral/10 border border-coral/25 flex items-start gap-2 text-[10px] text-coral">
+                    <HelpCircle className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
                     <span>
                       Formula Pelindo: Sarat Air Kapal ({draftAft || "10.20"}m) + Standar UKC (+1.30m) = Minimum {calculatedUKCDepth}m kedalaman dermaga aman.
                     </span>
@@ -577,14 +577,14 @@ export function DocumentCenterScreen() {
               </div>
 
               {/* Section 4: Muatan & Kebutuhan Terminal */}
-              <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
-                <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider flex items-center gap-1.5 font-mono">
+              <div className="space-y-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+                <span className="text-xs font-extrabold uppercase text-slate-900 dark:text-white tracking-wider flex items-center gap-1.5 font-mono">
                   4. Muatan & Kebutuhan Terminal (Cargo Manifest)
                 </span>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Total Box Kontainer
                     </label>
                     <input
@@ -593,11 +593,11 @@ export function DocumentCenterScreen() {
                       value={totalContainers}
                       onChange={(e) => setTotalContainers(e.target.value)}
                       placeholder="cth: 50"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Reefer 440V Units
                     </label>
                     <input
@@ -606,14 +606,14 @@ export function DocumentCenterScreen() {
                       value={reeferUnits}
                       onChange={(e) => setReeferUnits(e.target.value)}
                       placeholder="cth: 5"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       DG Class (Muatan Berbahaya)
                     </label>
                     <input
@@ -622,11 +622,11 @@ export function DocumentCenterScreen() {
                       value={dgClass}
                       onChange={(e) => setDgClass(e.target.value)}
                       placeholder="cth: 4.1"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-300 block mb-1 font-sans">
+                    <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1 font-sans">
                       Permintaan Min. Crane
                     </label>
                     <input
@@ -635,7 +635,7 @@ export function DocumentCenterScreen() {
                       value={minCranes}
                       onChange={(e) => setMinCranes(e.target.value)}
                       placeholder="cth: 3"
-                      className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#11131a] border border-slate-200 dark:border-slate-800 text-xs font-mono font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:border-coral transition-all disabled:opacity-75 disabled:cursor-not-allowed shadow-xs"
                     />
                   </div>
                 </div>
