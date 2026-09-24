@@ -103,7 +103,7 @@ export function BerthDecisionScreen() {
     (decisionFeedback?.submitted && decisionFeedback?.isValid);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn select-none font-sans">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn select-none font-sans">
       {/* Top Breadcrumb / Return Nav */}
       <div className="flex items-center justify-between">
         <button

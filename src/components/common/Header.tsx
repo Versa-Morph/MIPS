@@ -68,7 +68,7 @@ export function Header() {
 
   return (
     <header className="w-full bg-white/95 dark:bg-[#0e1015]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#202430] text-slate-900 dark:text-white select-none sticky top-0 z-50 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <div className="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3 shrink-0">
           <Link

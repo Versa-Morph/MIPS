@@ -86,7 +86,7 @@ export function SimulationViewScreen() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 animate-fadeIn select-none font-sans">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-4 space-y-4 animate-fadeIn select-none font-sans">
       {/* VTS Command Cockpit Top Bar */}
       <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-3.5 px-5 flex flex-wrap items-center justify-between gap-3 shadow-card dark:shadow-card-dark text-slate-800 dark:text-white text-xs">
         <div className="flex items-center flex-wrap gap-4">

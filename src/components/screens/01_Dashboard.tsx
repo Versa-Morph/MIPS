@@ -185,7 +185,7 @@ export function DashboardScreen() {
 
   return (
     <TooltipProvider delayDuration={120}>
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5 animate-fadeIn select-none font-sans">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5 animate-fadeIn select-none font-sans">
         {/* ========================================================================= */}
         {/* 1. Header & Metric Cards Row (Clean TransGlobal Minimalist Aesthetic)      */}
         {/* ========================================================================= */}

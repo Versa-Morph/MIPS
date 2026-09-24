@@ -149,7 +149,7 @@ export function DocumentCenterScreen() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 space-y-4 font-sans select-none">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-4 space-y-4 font-sans select-none">
       {/* Top Breadcrumb & Status Strip */}
       <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-sm text-slate-800 dark:text-white text-xs">
         <div className="flex items-center gap-3">

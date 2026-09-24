@@ -75,7 +75,7 @@ export function ProgressBar({ currentState }: ProgressBarProps) {
       aria-label="Training Mission Progress"
       className="w-full bg-white/95 dark:bg-[#11131a]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#222634] py-3 px-3 sm:px-6 select-none sticky top-16 z-30 shadow-sm transition-colors"
     >
-      <div className="max-w-5xl mx-auto flex items-center justify-between">
+      <div className="w-full px-2 sm:px-4 lg:px-6 flex items-center justify-between">
         {steps.map((step, index) => {
           const isCompleted = index < activeStepIndex;
           const isActive = index === activeStepIndex;

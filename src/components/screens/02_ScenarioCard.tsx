@@ -26,7 +26,7 @@ export function ScenarioCardScreen() {
   const vessel = scenario.vessel;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 font-sans select-none">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 font-sans select-none">
       {/* Top Breadcrumb & Navigation */}
       <div className="flex items-center justify-between">
         <button

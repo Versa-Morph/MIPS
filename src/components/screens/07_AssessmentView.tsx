@@ -95,7 +95,7 @@ export function AssessmentViewScreen() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn font-sans select-none">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn font-sans select-none">
       {/* Top Status Breadcrumb */}
       <div className="flex items-center justify-between font-mono text-xs text-slate-500 dark:text-slate-400">
         <div className="flex items-center gap-2">
