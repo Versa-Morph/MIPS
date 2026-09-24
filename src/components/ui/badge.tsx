@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "success" | "warning" | "danger" | "coral" | "neutral";
+  variant?: "default" | "success" | "warning" | "danger" | "coral" | "neutral" | "outline";
   size?: "sm" | "md";
 }
 
@@ -36,6 +36,8 @@ export function Badge({
       "bg-coral-50 text-coral-600 border border-coral-200 dark:bg-coral-950/40 dark:text-coral-300 dark:border-coral-800/60",
     neutral:
       "bg-slate-100 text-slate-600 dark:bg-slate-800/70 dark:text-slate-400",
+    outline:
+      "border border-slate-200 dark:border-slate-800 bg-transparent text-slate-800 dark:text-slate-200",
   };
 
   return (
