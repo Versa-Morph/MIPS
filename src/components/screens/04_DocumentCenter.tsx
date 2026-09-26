@@ -20,6 +20,7 @@ import {
   FileCheck2,
   HelpCircle,
   Calculator,
+  Sparkles,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -84,6 +85,21 @@ export function DocumentCenterScreen() {
   const handleOpenConfirm = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsConfirmModalOpen(true);
+  };
+
+  const handleAutoFillDossier = () => {
+    sound.playButtonTap();
+    setVesselName("MV Nusantara");
+    setCallSign("PK-47A");
+    setImoNumber("1234567");
+    setLastPort("Singapore");
+    setLoa("280.0");
+    setDraftAft("10.20");
+    setRequiredDepth("11.50");
+    setTotalContainers("50");
+    setReeferUnits("5");
+    setDgClass("4.1");
+    setMinCranes("3");
   };
 
   const handleExecuteSubmit = () => {
@@ -436,10 +452,20 @@ export function DocumentCenterScreen() {
                 </p>
               </div>
 
-              {cadetDossier.isSubmitted && (
+              {cadetDossier.isSubmitted ? (
                 <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60">
                   LOCKED
                 </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleAutoFillDossier}
+                  className="px-2.5 py-1 rounded-full bg-coral/10 hover:bg-coral/20 border border-coral/30 text-coral text-[11px] font-bold inline-flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
+                  title="Salin data valid dari berkas dokumen resmi"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Auto-Fill Demo</span>
+                </button>
               )}
             </div>
 
