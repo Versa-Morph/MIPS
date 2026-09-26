@@ -6,6 +6,7 @@ import { ProgressBar } from "@/components/common/ProgressBar";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { DashboardScreen } from "@/components/screens/01_Dashboard";
+import { ScenarioCatalogScreen } from "@/components/screens/00_ScenarioCatalog";
 import { ScenarioCardScreen } from "@/components/screens/02_ScenarioCard";
 import { BriefingScreen } from "@/components/screens/03_Briefing";
 import { DocumentCenterScreen } from "@/components/screens/04_DocumentCenter";
@@ -20,6 +21,9 @@ export default function Home() {
     switch (currentState) {
       case TrainingState.DASHBOARD:
         return <DashboardScreen />;
+
+      case TrainingState.SCENARIO_CATALOG:
+        return <ScenarioCatalogScreen />;
 
       case TrainingState.SCENARIO_SELECTION:
         return <ScenarioCardScreen />;
@@ -49,11 +53,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#f4f6f8] dark:bg-[#0d0f15] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       <Header />
-      {currentState !== TrainingState.DASHBOARD && (
-        <ProgressBar currentState={currentState} />
-      )}
+      {currentState !== TrainingState.DASHBOARD &&
+        currentState !== TrainingState.SCENARIO_CATALOG && (
+          <ProgressBar currentState={currentState} />
+        )}
       <main className="flex-1 overflow-y-auto flex flex-col">
         <div key={currentState} className="flex-1 flex flex-col animate-page-enter">
           {renderActiveScreen()}

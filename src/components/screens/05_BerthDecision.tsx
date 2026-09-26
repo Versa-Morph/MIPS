@@ -103,57 +103,57 @@ export function BerthDecisionScreen() {
     (decisionFeedback?.submitted && decisionFeedback?.isValid);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn select-none font-sans">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn select-none font-sans">
       {/* Top Breadcrumb / Return Nav */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] hover:border-coral/50 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-coral transition-colors shadow-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Document Center</span>
         </button>
 
-        <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1 rounded-full">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <div className="flex items-center gap-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] px-3.5 py-1.5 rounded-full shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-coral animate-pulse"></span>
           <span>VTS CONSOLE · SECTOR 3</span>
         </div>
       </div>
 
       {/* Hero Banner: Executive VTS Command Header */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-7 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-6 sm:p-7 shadow-card dark:shadow-card-dark flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2.5 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider font-mono">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse">●</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/10 border border-coral/30 text-coral text-xs font-bold uppercase tracking-wider font-mono">
+            <span className="w-2 h-2 rounded-full bg-coral animate-pulse">●</span>
             <span>Phase 03: Operational Berth Allocation</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-sans">
             Berth Allocation Decision
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed font-sans">
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed font-sans">
             Determine the appropriate berth for container vessel{" "}
-            <strong className="text-white font-semibold">{vessel.name}</strong> based on the
+            <strong className="text-slate-900 dark:text-white font-semibold">{vessel.name}</strong> based on the
             pre-arrival documents, controlling depth, and safety clearance requirements.
           </p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shrink-0 text-right min-w-[200px]">
-          <div className="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider">
+        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 shrink-0 text-right min-w-[200px]">
+          <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 font-mono tracking-wider">
             Decision Status
           </div>
           <div
             className={`text-xs font-bold flex items-center justify-end gap-1.5 font-mono mt-1 ${
-              isDecisionAccepted ? "text-emerald-400" : "text-amber-400"
+              isDecisionAccepted ? "text-emerald-600 dark:text-emerald-400" : "text-coral"
             }`}
           >
             {isDecisionAccepted ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                 <span>APPROVED</span>
               </>
             ) : (
               <>
-                <Anchor className="w-4 h-4 text-amber-400" />
+                <Anchor className="w-4 h-4 text-coral" />
                 <span>PENDING EVALUATION</span>
               </>
             )}
@@ -162,13 +162,13 @@ export function BerthDecisionScreen() {
       </div>
 
       {/* Cadet Submitted Dossier Reference Card (Clean Bento Layout) */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-5 space-y-3 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2 font-mono">
-            <ClipboardCheck className="w-4 h-4 text-cyan-400" />
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 space-y-3 shadow-card dark:shadow-card-dark">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 font-mono">
+            <ClipboardCheck className="w-4 h-4 text-coral" />
             <span>Kriteria Acuan Sandar (Data Dossier Anda)</span>
           </span>
-          <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1.5">
+          <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Sumber: Berkas Pre-Arrival Dossier</span>
           </span>
@@ -176,40 +176,40 @@ export function BerthDecisionScreen() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center font-mono">
           {/* Metric 1: LOA */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider block mb-1">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+            <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Panjang Kapal (LOA)
             </span>
-            <span className="text-base sm:text-lg font-bold text-white block">
+            <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white block">
               {displayLoa} Meters
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
               Length Overall Terisi
             </span>
           </div>
 
           {/* Metric 2: Draft Aft */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider block mb-1">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+            <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Sarat Air (Draft Aft)
             </span>
-            <span className="text-base sm:text-lg font-bold text-white block">
+            <span className="text-base sm:text-lg font-bold text-coral block">
               {displayDraft} Meters
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
               Kedalaman Lambung Terisi
             </span>
           </div>
 
           {/* Metric 3: Required UKC Depth */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider block mb-1">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+            <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Kedalaman Wajib (UKC Safe)
             </span>
-            <span className="text-base sm:text-lg font-bold text-white block">
+            <span className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 block">
               {displayDepth} Meters
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
               Batas Aman Minimal (Draft + 1.3m UKC)
             </span>
           </div>
@@ -218,11 +218,11 @@ export function BerthDecisionScreen() {
 
       {/* Berth Selection Header */}
       <div className="flex items-center justify-between pt-1">
-        <div className="text-sm font-bold text-slate-200 flex items-center gap-2 font-sans">
-          <Waves className="w-4 h-4 text-cyan-400" />
+        <div className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 font-sans">
+          <Waves className="w-4 h-4 text-coral" />
           <span>Select the appropriate berth for {vessel.name}:</span>
         </div>
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
           2 Berths Available in Basin
         </span>
       </div>
@@ -244,70 +244,68 @@ export function BerthDecisionScreen() {
                 setActiveChoice(berth.id);
                 setDecisionFeedback(null);
               }}
-              className={`cursor-pointer rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between shadow-lg ${
+              className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-200 flex flex-col justify-between shadow-card dark:shadow-card-dark ${
                 isSelected
                   ? isB01
-                    ? "bg-slate-900 border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-                    : "bg-slate-900 border-2 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.2)]"
-                  : isB01
-                  ? "bg-slate-900/80 border border-slate-800 hover:border-slate-700"
-                  : "bg-slate-900/80 border border-slate-800 hover:border-slate-700"
+                    ? "bg-white dark:bg-[#14171f] border-2 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md"
+                    : "bg-white dark:bg-[#14171f] border-2 border-rose-500 ring-2 ring-rose-500/20 shadow-md"
+                  : "bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] hover:border-slate-300 dark:hover:border-slate-700"
               }`}
             >
               <div className="space-y-4 flex-1 flex flex-col justify-between">
                 <div className="space-y-3.5">
                   {/* Card Top Title Row */}
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div className="flex items-center gap-3">
                       <div
                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
                           isSelected
                             ? isB01
-                              ? "border-emerald-400 bg-emerald-500"
-                              : "border-red-400 bg-red-500"
-                            : "border-slate-600 bg-slate-800"
+                              ? "border-emerald-500 bg-emerald-500"
+                              : "border-rose-500 bg-rose-500"
+                            : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800"
                         }`}
                       >
                         {isSelected && (
-                          <div className="w-2 h-2 rounded-full bg-slate-950"></div>
+                          <div className="w-2 h-2 rounded-full bg-white"></div>
                         )}
                       </div>
                       <div>
-                        <span className="text-[10px] font-mono text-slate-400 block font-bold">
+                        <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 block font-bold">
                           {berth.id}
                         </span>
-                        <h3 className="text-base font-bold text-white font-sans">
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans">
                           {berth.name}
                         </h3>
                       </div>
                     </div>
 
                     <span
-                      className={`text-[10px] font-mono uppercase font-bold px-2 py-0.5 rounded border shrink-0 ${
+                      className={`text-[10px] font-mono uppercase font-bold px-2.5 py-0.5 rounded-full border shrink-0 ${
                         isB01
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                          : "bg-red-500/10 text-red-400 border-red-500/30"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60"
+                          : "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800/60"
                       }`}
                     >
                       {isB01 ? "COMPATIBLE" : "HAZARD RESTRICTED"}
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
                     {berth.description}
                   </p>
 
                   {/* Specification Table */}
-                  <div className="rounded-xl bg-slate-950/60 p-3.5 border border-slate-800 space-y-2.5 text-xs font-mono">
-                    <div className="flex items-center justify-between py-1 border-b border-slate-800/80">
-                      <span className="text-slate-400 font-sans">Maximum Length (LOA):</span>
+                  <div className="rounded-xl bg-slate-50 dark:bg-[#181c26] p-3.5 border border-slate-200/80 dark:border-slate-800 space-y-2.5 text-xs font-mono">
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/60 dark:border-slate-800/80">
+                      <span className="text-slate-500 dark:text-slate-400 font-sans">Maximum Length (LOA):</span>
                       <div className="text-right">
-                        <span className="font-bold text-white text-sm sm:text-base">
+                        <span className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
                           {berth.maxLoa} m
                         </span>
                         <span
                           className={`text-xs ml-2 font-semibold ${
-                            loaDifference >= 0 ? "text-emerald-400" : "text-red-400"
+                            loaDifference >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                           }`}
                         >
                           ({loaDifference >= 0 ? `+${loaDifference}m Safe` : `${loaDifference}m Deficit`})
@@ -315,15 +313,15 @@ export function BerthDecisionScreen() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between py-1 border-b border-slate-800/80">
-                      <span className="text-slate-400 font-sans">Controlling Depth (LWS):</span>
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/60 dark:border-slate-800/80">
+                      <span className="text-slate-500 dark:text-slate-400 font-sans">Controlling Depth (LWS):</span>
                       <div className="text-right">
-                        <span className="font-bold text-white text-sm sm:text-base">
+                        <span className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
                           {berth.maxDraft} m
                         </span>
                         <span
                           className={`text-xs ml-2 font-semibold ${
-                            depthDifference >= 0 ? "text-emerald-400" : "text-red-400"
+                            depthDifference >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                           }`}
                         >
                           ({depthDifference >= 0 ? `+${depthDifference.toFixed(1)}m Surplus UKC` : `${depthDifference.toFixed(1)}m Grounding Risk`})
@@ -332,23 +330,23 @@ export function BerthDecisionScreen() {
                     </div>
 
                     <div className="flex items-center justify-between py-1">
-                      <span className="text-slate-400 font-sans">Quay Cranes Installed:</span>
-                      <span className="text-slate-200 font-semibold">
+                      <span className="text-slate-500 dark:text-slate-400 font-sans">Quay Cranes Installed:</span>
+                      <span className="text-slate-800 dark:text-slate-200 font-semibold">
                         {berth.craneType}
                       </span>
                     </div>
                   </div>
 
                   {/* Tactical Depth Gauge Visual */}
-                  <div className="rounded-xl bg-slate-950/60 p-3.5 border border-slate-800 space-y-2">
+                  <div className="rounded-xl bg-slate-50 dark:bg-[#181c26] p-3.5 border border-slate-200/80 dark:border-slate-800 space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-slate-400 flex items-center gap-1.5 font-bold font-sans">
-                        <Gauge className="w-4 h-4 text-cyan-400" />
+                      <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-bold font-sans">
+                        <Gauge className="w-4 h-4 text-coral" />
                         <span>Depth Clearance Gauge:</span>
                       </span>
                       <span
                         className={`font-bold ${
-                          isB01 ? "text-emerald-400" : "text-red-400"
+                          isB01 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                         }`}
                       >
                         {isB01 ? "+0.5m SURPLUS UKC" : "2.5m DEFICIT GROUNDING DANGER"}
@@ -357,25 +355,25 @@ export function BerthDecisionScreen() {
 
                     {/* Progress representation of depth */}
                     <div className="space-y-1 font-mono">
-                      <div className="w-full h-3.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800 flex">
+                      <div className="w-full h-3.5 bg-slate-200 dark:bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-300 dark:border-slate-800 flex">
                         {isB01 ? (
                           <>
                             {/* Vessel Draft portion: 10.2 / 12 = 85% */}
                             <div
                               style={{ width: "85%" }}
-                              className="h-full bg-blue-500 rounded-l-full"
+                              className="h-full bg-slate-700 dark:bg-slate-600 rounded-l-full"
                               title="Vessel Draft: 10.2m"
                             ></div>
                             {/* UKC Cushion portion: 1.3m / 12 = 10.8% */}
                             <div
                               style={{ width: "10.8%" }}
-                              className="h-full bg-amber-400"
+                              className="h-full bg-coral/80"
                               title="Required UKC: 1.3m (11.5m Total)"
                             ></div>
                             {/* Surplus: 0.5m / 12 = 4.2% */}
                             <div
                               style={{ width: "4.2%" }}
-                              className="h-full bg-emerald-400 rounded-r-full"
+                              className="h-full bg-emerald-500 rounded-r-full"
                               title="Surplus UKC: +0.5m"
                             ></div>
                           </>
@@ -384,24 +382,24 @@ export function BerthDecisionScreen() {
                             {/* Available basin depth: 9.0m out of 11.5m required = 78% */}
                             <div
                               style={{ width: "78%" }}
-                              className="h-full bg-blue-600 rounded-l-full"
+                              className="h-full bg-slate-600 dark:bg-slate-700 rounded-l-full"
                               title="Available Seabed Depth: 9.0m LWS"
                             ></div>
                             {/* Critical deficit penetration */}
                             <div
                               style={{ width: "22%" }}
-                              className="h-full bg-red-500 rounded-r-full"
+                              className="h-full bg-rose-500 rounded-r-full"
                               title="CRITICAL DEFICIT: 2.5m (Keel penetrates 1.2m into seabed!)"
                             ></div>
                           </>
                         )}
                       </div>
 
-                      <div className="flex justify-between text-xs text-slate-400 px-1">
+                      <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 px-1">
                         <span>0m LAT</span>
                         <span>Draft {displayDraft}m</span>
                         <span>Req {displayDepth}m</span>
-                        <span className={`font-bold ${isB01 ? "text-emerald-400" : "text-red-400"}`}>
+                        <span className={`font-bold ${isB01 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
                           Berth {berth.maxDraft}m
                         </span>
                       </div>
@@ -416,9 +414,9 @@ export function BerthDecisionScreen() {
                             sound.playWarningAlarm();
                             setIsGroundingModalOpen(true);
                           }}
-                          className="w-full py-2 px-3 rounded-lg bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-300 font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                          className="w-full py-2 px-3 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-950/30 dark:hover:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/60 font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                         >
-                          <AlertOctagon className="w-3.5 h-3.5 text-red-400" />
+                          <AlertOctagon className="w-3.5 h-3.5 text-rose-500" />
                           <span>View Grounding Incident Simulation (What-If)</span>
                         </button>
                       </div>
@@ -427,17 +425,17 @@ export function BerthDecisionScreen() {
                 </div>
 
                 {/* Card Footer */}
-                <div className="pt-3 border-t border-slate-800 mt-3 flex items-center justify-between text-xs">
-                  <span className="text-slate-400 font-mono">
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 mt-3 flex items-center justify-between text-xs">
+                  <span className="text-slate-500 dark:text-slate-400 font-mono">
                     Bollards: {berth.bollards} units
                   </span>
                   <span
                     className={`font-semibold text-xs transition-colors flex items-center gap-1 ${
                       isSelected
                         ? isB01
-                          ? "text-emerald-400 font-bold"
-                          : "text-red-400 font-bold"
-                        : "text-slate-400 group-hover:text-white"
+                          ? "text-emerald-600 dark:text-emerald-400 font-bold"
+                          : "text-rose-600 dark:text-rose-400 font-bold"
+                        : "text-slate-500 dark:text-slate-400 group-hover:text-coral"
                     }`}
                   >
                     {isSelected ? "● Selected" : "Click to Select"}
@@ -454,27 +452,27 @@ export function BerthDecisionScreen() {
         <div
           className={`p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm transition-all duration-300 animate-fadeIn ${
             decisionFeedback.isValid
-              ? "bg-emerald-950/20 border-emerald-500/50 text-emerald-200"
-              : "bg-red-950/20 border-red-500/50 text-red-200"
+              ? "bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/30 dark:border-emerald-500/50 dark:text-emerald-200"
+              : "bg-rose-50 text-rose-800 border-rose-300 dark:bg-rose-950/30 dark:border-rose-500/50 dark:text-rose-200"
           }`}
         >
           <div className="flex items-start gap-3.5">
             {decisionFeedback.isValid ? (
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             ) : (
-              <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+              <AlertTriangle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
             )}
             <div className="space-y-1">
               <strong
                 className={`block font-bold text-sm sm:text-base ${
-                  decisionFeedback.isValid ? "text-emerald-300" : "text-red-300"
+                  decisionFeedback.isValid ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300"
                 }`}
               >
                 {decisionFeedback.isValid
                   ? "DECISION ACCEPTED"
                   : "REVIEW REQUIRED"}
               </strong>
-              <p className="text-xs sm:text-sm leading-relaxed text-slate-300 whitespace-pre-line">
+              <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
                 {decisionFeedback.message}
               </p>
             </div>
@@ -496,10 +494,11 @@ export function BerthDecisionScreen() {
       )}
 
       {/* Bottom Action Footer Bar */}
-      <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
         <button
+          type="button"
           onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition-colors"
         >
           Review Documents Again
         </button>
@@ -507,16 +506,18 @@ export function BerthDecisionScreen() {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           {!isDecisionAccepted ? (
             <button
+              type="button"
               onClick={handleSubmit}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl cta-amber font-bold text-xs uppercase tracking-wide transition-all shadow-md"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full cta-coral font-bold text-xs uppercase tracking-wide transition-all shadow-coral"
             >
               <span>Submit Decision</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           ) : (
             <button
+              type="button"
               onClick={() => setStep(TrainingState.SIMULATION_RUNNING)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-emerald-glow transition-all transform hover:scale-[1.02] animate-pulse"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full cta-coral font-black text-xs uppercase tracking-wider shadow-coral transition-all transform hover:scale-[1.02]"
             >
               <Sparkles className="w-4 h-4" />
               <span>START SIMULATION</span>
