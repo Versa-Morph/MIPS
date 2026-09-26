@@ -18,10 +18,19 @@ import { TrainingState } from "@/types/simulation";
 import { sound } from "@/utils/audioEngine";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/utils/cn";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
 export function Header() {
   const { cadetName, currentState, resetTraining, setStep } = useTrainingStore();
-  const [isMuted, setIsMuted] = useState(sound.getIsMuted());
+  const [isMuted, setIsMuted] = useState(false);
+  const [isRegulationsOpen, setIsRegulationsOpen] = useState(false);
 
   const handleToggleSound = () => {
     const muted = sound.toggleMute();
@@ -62,7 +71,7 @@ export function Header() {
       id: "regulations",
       label: "Regulasi IMO",
       onClick: () => {
-        alert("Regulasi Maritim IMO STCW A-I/12 & SOP Pelabuhan Tanjung Priok terverifikasi aktif.");
+        setIsRegulationsOpen(true);
       },
       isActive: false,
     },
@@ -213,6 +222,95 @@ export function Header() {
           </div>
         </div>
       </div>
+
+      {/* IMO Maritime Regulations & Standards Dialog */}
+      <Dialog open={isRegulationsOpen} onOpenChange={setIsRegulationsOpen}>
+        <DialogContent className="max-w-xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center gap-2 mb-1">
+              <Badge variant="coral" size="sm">
+                IMO STCW ACCREDITED
+              </Badge>
+              <span className="text-xs font-mono text-slate-400">
+                REV. 2026 / PRIOK PORT SOP
+              </span>
+            </div>
+            <DialogTitle className="text-xl font-bold tracking-tight">
+              Regulasi Maritim & Standar Simulator MIPS
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
+              Kerangka acuan hukum dan operasional yang mendasari kurikulum simulasi Taruna
+              di Pelabuhan Tanjung Priok.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3.5 pt-2 text-xs">
+            {/* Regulation 1 */}
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-white font-mono">
+                  STCW Code Section A-I/12 & A-II/1
+                </span>
+                <Badge variant="success" size="sm">
+                  MANDATORY
+                </Badge>
+              </div>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+                Standar kompetensi perwira jaga navigasi dalam pengoperasian simulator pelabuhan,
+                pemanduan alur sempit, dan pengenalan risiko olah gerak kapal besar (Post-Panamax).
+              </p>
+            </div>
+
+            {/* Regulation 2 */}
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-white font-mono">
+                  KM No. 53/2005 & SOP Tanjung Priok
+                </span>
+                <Badge variant="coral" size="sm">
+                  PORT AUTHORITY
+                </Badge>
+              </div>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+                Ketentuan Under Keel Clearance (UKC) minimum 10% dari draft kapal atau minimal 1.0
+                meter di alur pelayaran barat, serta kewajiban pandu/tunda untuk kapal LOA &gt; 150m.
+              </p>
+            </div>
+
+            {/* Regulation 3 */}
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-white font-mono">
+                  SOLAS Chapter V (Reg. 19 & 34)
+                </span>
+                <Badge variant="neutral" size="sm">
+                  SAFETY
+                </Badge>
+              </div>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+                Perencanaan rute pelayaran (Passage Planning), pelaporan posisi AIS/VHF berkala,
+                dan konfirmasi kesiapan dermaga sebelum melintasi garis batas pandu (Pilot Station).
+              </p>
+            </div>
+
+            {/* Regulation 4 */}
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-white font-mono">
+                  IMDG Code Chapter 7 (Hazardous Cargo DG 4.1)
+                </span>
+                <Badge variant="warning" size="sm">
+                  DANGEROUS GOODS
+                </Badge>
+              </div>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+                Penanganan peti kemas muatan berbahaya (Flammable Solid) pada Berth B-01 dengan radius
+                isolasi minimum 50 meter dan kesiapan armada pemadam terminal.
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 }

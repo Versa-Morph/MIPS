@@ -28,6 +28,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/utils/cn";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 export interface CatalogItem {
   id: string;
@@ -57,6 +64,7 @@ export function ScenarioCatalogScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
+  const [calibrationScenario, setCalibrationScenario] = useState<CatalogItem | null>(null);
 
   const catalogScenarios: CatalogItem[] = [
     {
@@ -173,8 +181,12 @@ export function ScenarioCatalogScreen() {
   });
 
   const handleSelectScenario = (scenarioId: string) => {
-    // Both SCN-001 and SCN-002 can transition into simulation flow
-    setStep(TrainingState.SCENARIO_SELECTION);
+    if (scenarioId === "SCN-001") {
+      setStep(TrainingState.SCENARIO_SELECTION);
+    } else {
+      const target = catalogScenarios.find((s) => s.id === scenarioId);
+      setCalibrationScenario(target || null);
+    }
   };
 
   return (
@@ -528,6 +540,75 @@ export function ScenarioCatalogScreen() {
           </div>
         </div>
       </div>
+
+      {/* Hydrodynamic Calibration Modal for Non-Active Scenarios */}
+      <Dialog
+        open={!!calibrationScenario}
+        onOpenChange={(open) => {
+          if (!open) setCalibrationScenario(null);
+        }}
+      >
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-2 mb-1">
+              <Badge variant="coral" size="sm">
+                MODEL CALIBRATION
+              </Badge>
+              <span className="text-xs font-mono text-slate-400">
+                {calibrationScenario?.code}
+              </span>
+            </div>
+            <DialogTitle className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
+              Skenario Dalam Kalibrasi Model Alur
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
+              {calibrationScenario?.title}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 pt-2 text-xs">
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-2">
+              <div className="flex items-center justify-between text-slate-900 dark:text-white font-semibold">
+                <span className="flex items-center gap-1.5">
+                  <Ship className="w-4 h-4 text-coral" />
+                  <span>{calibrationScenario?.vesselName}</span>
+                </span>
+                <span className="font-mono text-[11px] text-slate-500">
+                  {calibrationScenario?.vesselType}
+                </span>
+              </div>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+                Model simulasi olah gerak kapal dan bathymetri perairan untuk skenario ini sedang dalam
+                tahap sinkronisasi hidrodinamika. Modul yang saat ini aktif bersertifikat penuh STCW untuk
+                evaluasi adalah <strong>SCN-001 (MV Nusantara Container Berthing)</strong>.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-end gap-2 pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCalibrationScenario(null)}
+                className="w-full sm:w-auto rounded-full text-xs font-semibold"
+              >
+                Tutup
+              </Button>
+              <Button
+                variant="coral"
+                size="sm"
+                onClick={() => {
+                  setCalibrationScenario(null);
+                  setStep(TrainingState.SCENARIO_SELECTION);
+                }}
+                className="w-full sm:w-auto rounded-full text-xs font-bold shadow-coral"
+              >
+                <span>Jalankan SCN-001 (Aktif)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

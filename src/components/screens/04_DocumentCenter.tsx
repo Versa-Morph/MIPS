@@ -831,7 +831,7 @@ export function DocumentCenterScreen() {
               <button
                 type="button"
                 onClick={handleExecuteSubmit}
-                className="w-full sm:w-auto cta-amber inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-sans font-bold text-xs uppercase tracking-wide transition-all"
+                className="w-full sm:w-auto cta-coral shadow-coral inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-sans font-bold text-xs uppercase tracking-wide transition-all"
               >
                 <ShieldCheck className="w-4 h-4 stroke-[2.5]" />
                 <span>Ya, Kirim & Kunci Berkas Resmi</span>

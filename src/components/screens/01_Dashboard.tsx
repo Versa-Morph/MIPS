@@ -87,8 +87,8 @@ export function DashboardScreen() {
   const [activeTab, setActiveTab] = useState("week");
   const [activityFilter, setActivityFilter] = useState("all");
   const [selectedOrders, setSelectedOrders] = useState<string[]>([
-    "ORD-10986",
-    "ORD-10568",
+    "SES-10986",
+    "SES-10568",
   ]);
 
   // Heatmap rows & columns (7 days x 16 columns) - Monochromatic Coral shades
@@ -103,57 +103,57 @@ export function DashboardScreen() {
     [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0],
   ];
 
-  // Simulator Logbook & Manifest records matching exact TransGlobal styling
+  // Simulator VTS Logbook & Vessel Movements
   const orders = [
     {
-      id: "ORD-10986",
-      displayId: "#10986-08-77bug",
-      category: "Container Vessel (294m)",
-      weight: "2.600 t",
-      company: "MV NUSANTARA / Samudera",
-      arrivalTime: "6th July, 2026",
+      id: "SES-10986",
+      displayId: "MIPS-SES-001",
+      category: "Container (LOA 280m)",
+      weight: "65,400 DWT",
+      company: "MV NUSANTARA (PK-47A)",
+      arrivalTime: "08:00 WIB",
       route: "Singapore - Priok B-01",
-      shipper: "DHL Marine",
-      price: "$5,678.00",
+      shipper: "Samudera Indonesia",
+      score: "92 / 100",
       status: "Delivered",
       statusVariant: "success" as const,
     },
     {
-      id: "ORD-10568",
-      displayId: "#10568-12-873fg",
+      id: "SES-10568",
+      displayId: "MIPS-SES-002",
       category: "Bulk Carrier (225m)",
-      weight: "8.568 t",
-      company: "MV SAMUDERA INDAH / Pelindo",
-      arrivalTime: "2th July, 2026",
+      weight: "42,000 DWT",
+      company: "MV SAMUDERA INDAH",
+      arrivalTime: "14:00 WIB",
       route: "Priok - Panjang Fairway",
-      shipper: "Amazon Freight",
-      price: "$12,500.00",
+      shipper: "Pelindo Marine",
+      score: "88 / 100",
       status: "Delivered",
       statusVariant: "success" as const,
     },
     {
-      id: "ORD-10492",
-      displayId: "#10492-44-991al",
+      id: "SES-10492",
+      displayId: "MIPS-SES-003",
       category: "Hazardous DG 4.1",
-      weight: "14.200 t",
-      company: "Indo Chemical Line",
-      arrivalTime: "14th Oct, 2026",
+      weight: "28,500 DWT",
+      company: "MT NUSANTARA CHEM",
+      arrivalTime: "16:30 WIB",
       route: "Singapore - Priok Outer",
-      shipper: "Samudera Logistics",
-      price: "$8,920.00",
+      shipper: "Pertamina Maritime",
+      score: "Evaluasi",
       status: "In transit",
       statusVariant: "coral" as const,
     },
     {
-      id: "ORD-10331",
-      displayId: "#10331-18-402ms",
+      id: "SES-10331",
+      displayId: "MIPS-SES-004",
       category: "Reefer Perishable",
-      weight: "18.500 t",
-      company: "King Ocean Line",
-      arrivalTime: "14th Oct, 2026",
-      route: "Singapore - Priok Alur Barat",
-      shipper: "Maersk Line",
-      price: "$14,350.00",
+      weight: "18,500 DWT",
+      company: "MV BARUNA MAS",
+      arrivalTime: "19:00 WIB",
+      route: "Singapore - Priok B-02",
+      shipper: "Meratus Line",
+      score: "Terjadwal",
       status: "Pending",
       statusVariant: "warning" as const,
     },
@@ -204,7 +204,7 @@ export function DashboardScreen() {
             </div>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-sans">
-              Tracking Orders List
+              Maritime VTS & Simulation Command Center
             </h1>
           </div>
 
@@ -217,7 +217,7 @@ export function DashboardScreen() {
               </div>
               <div>
                 <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] block leading-tight">
-                  Total Shipments
+                  Total Jam Simulasi
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
                   <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
@@ -237,7 +237,7 @@ export function DashboardScreen() {
               </div>
               <div>
                 <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] block leading-tight">
-                  Active Tracking
+                  Kapal Alur Aktif
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
                   <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
@@ -284,14 +284,14 @@ export function DashboardScreen() {
           {/* Left: Orders Database Location Chip */}
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#1c202b] flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0">
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-4 h-4 text-coral" />
             </div>
             <div>
               <span className="text-xs font-bold text-slate-900 dark:text-white block">
-                Orders Database
+                VTS Fairway & Simulation Registry
               </span>
               <span className="text-[11px] text-slate-500 dark:text-[#8e95a5] block leading-none">
-                Tanjung Priok Fairway Database · Terverifikasi STCW
+                Tanjung Priok Fairway Database · Terverifikasi STCW A-I/12
               </span>
             </div>
           </div>
@@ -819,14 +819,14 @@ export function DashboardScreen() {
                     aria-label="Select all orders"
                   />
                 </TableHead>
-                <TableHead>Order ID ↕</TableHead>
-                <TableHead>Category ↕</TableHead>
-                <TableHead>Weight ↕</TableHead>
-                <TableHead>Company ↕</TableHead>
-                <TableHead>Arrival time ↕</TableHead>
-                <TableHead>Route ↕</TableHead>
-                <TableHead>Shipper ↕</TableHead>
-                <TableHead>Price ↕</TableHead>
+                <TableHead>Session ID ↕</TableHead>
+                <TableHead>Vessel Type ↕</TableHead>
+                <TableHead>Displacement ↕</TableHead>
+                <TableHead>Vessel & Call Sign ↕</TableHead>
+                <TableHead>ETA / Time ↕</TableHead>
+                <TableHead>Alur & Terminal ↕</TableHead>
+                <TableHead>Operator / Agen ↕</TableHead>
+                <TableHead>Skor STCW ↕</TableHead>
                 <TableHead>Status ↕</TableHead>
                 <TableHead className="w-10 text-right"></TableHead>
               </TableRow>
@@ -845,7 +845,7 @@ export function DashboardScreen() {
                       <Checkbox
                         checked={isChecked}
                         onCheckedChange={() => toggleSelectOrder(row.id)}
-                        aria-label={`Select order ${row.displayId}`}
+                        aria-label={`Select session ${row.displayId}`}
                       />
                     </TableCell>
                     <TableCell className="font-mono font-bold text-slate-900 dark:text-white">
@@ -861,8 +861,8 @@ export function DashboardScreen() {
                     </TableCell>
                     <TableCell>{row.route}</TableCell>
                     <TableCell>{row.shipper}</TableCell>
-                    <TableCell className="font-mono font-semibold">
-                      {row.price}
+                    <TableCell className="font-mono font-semibold text-coral">
+                      {row.score}
                     </TableCell>
                     <TableCell>
                       <Badge variant={row.statusVariant} size="sm">
