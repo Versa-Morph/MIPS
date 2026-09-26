@@ -16,6 +16,7 @@ import {
   FileCheck,
   ShieldCheck,
   UserCheck,
+  Download,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useSimulationStore } from "@/store/useSimulationStore";
@@ -421,15 +422,28 @@ export function AssessmentViewScreen() {
 
       {/* Action Footer */}
       <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleReviewReplay}
-          className="w-full sm:w-auto rounded-full gap-2 text-xs font-bold font-mono"
-        >
-          <RotateCcw className="w-4 h-4 text-coral" />
-          <span>Review Simulation Replay</span>
-        </Button>
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleReviewReplay}
+            className="w-full sm:w-auto rounded-full gap-2 text-xs font-bold font-mono"
+          >
+            <RotateCcw className="w-4 h-4 text-coral" />
+            <span>Review Simulation Replay</span>
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => window.open(getAssetPath("/documents/cadet-certificate.pdf"), "_blank")}
+            className="w-full sm:w-auto rounded-full gap-2 text-xs font-bold font-mono text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800"
+            title="Unduh Sertifikat Kelulusan STCW Resmi Taruna (PDF)"
+          >
+            <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span>Unduh Sertifikat STCW (PDF)</span>
+          </Button>
+        </div>
 
         <Button
           variant="coral"
