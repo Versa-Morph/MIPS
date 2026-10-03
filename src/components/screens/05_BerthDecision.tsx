@@ -291,7 +291,7 @@ export function BerthDecisionScreen() {
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
+                  <p className="text-xs text-slate-600 dark:text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
                     {berth.description}
                   </p>
 
@@ -536,20 +536,20 @@ export function BerthDecisionScreen() {
           referenceNumber="INCIDENT-SIM-B02"
           maxWidth="max-w-2xl"
         >
-          <div className="space-y-4 text-slate-100 font-sans">
+          <div className="space-y-4 text-slate-900 dark:text-slate-100 font-sans">
             <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-slate-200 text-xs sm:text-sm flex items-start gap-3">
               <ShieldAlert className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <strong className="text-red-300 font-bold block text-sm font-sans">
                   MARITIME CASUALTY REPORT · CRITICAL WATER DEPTH DEFICIT
                 </strong>
-                <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
                   MV Nusantara (Arrival Draft: 10.20m) grounded on the shallow seabed while attempting alongside approach at Berth B-02 (Controlling Depth: 9.00m).
                 </p>
               </div>
             </div>
 
-            <div className="rounded-xl bg-slate-950/80 border border-slate-800 p-4 space-y-2">
+            <div className="rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] p-4 space-y-2">
               <div className="text-xs font-mono font-semibold text-slate-400 flex justify-between">
                 <span>BATHYMETRIC CROSS-SECTION (BERTH B-02 BASIN)</span>
                 <span className="text-red-400 font-bold">DEPTH DEFICIT: -1.20 METERS</span>
@@ -576,11 +576,11 @@ export function BerthDecisionScreen() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1.5">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1.5">
                 <span className="text-red-400 font-bold uppercase block tracking-wider font-mono">
                   Casualty Consequences
                 </span>
-                <ul className="space-y-1 text-slate-300 list-disc list-inside font-sans">
+                <ul className="space-y-1 text-slate-600 dark:text-slate-300 list-disc list-inside font-sans">
                   <li>Double bottom plate rupture and hull damage.</li>
                   <li>Rudder stock twisted and propeller sheared.</li>
                   <li>Port fairway blocked to commercial traffic.</li>
@@ -588,11 +588,11 @@ export function BerthDecisionScreen() {
                 </ul>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1.5">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1.5">
                 <span className="text-emerald-400 font-bold uppercase block tracking-wider font-mono">
                   Instructor Lesson for Cadets
                 </span>
-                <p className="text-slate-300 leading-relaxed font-sans">
+                <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
                   Always calculate <strong>Controlling Depth = Dynamic Draft + UKC</strong>. 
                   A vessel drawing 10.20m with +1.30m UKC demands at least 11.50m of water depth. 
                   Allocating Berth B-01 (12.00m depth) is the only legally and physically sound choice.
@@ -604,7 +604,7 @@ export function BerthDecisionScreen() {
               <button
                 type="button"
                 onClick={() => setIsGroundingModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold font-sans transition-colors"
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold font-sans transition-colors cursor-pointer"
               >
                 Kembali ke Alokasi Dermaga
               </button>

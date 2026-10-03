@@ -367,7 +367,7 @@ export function DashboardScreen() {
                       className={cn(
                         "px-2.5 py-0.5 rounded-full transition-colors",
                         activeTab === tab.toLowerCase()
-                          ? "bg-slate-900 text-white dark:bg-[#102A45] dark:text-white font-bold"
+                          ? "bg-[#0066FF] text-white font-bold shadow-xs"
                           : "hover:text-slate-900 dark:hover:text-white"
                       )}
                     >
@@ -773,7 +773,7 @@ export function DashboardScreen() {
                     className={cn(
                       "px-2.5 py-1 rounded-full transition-colors shrink-0",
                       activityFilter === tab.key
-                        ? "bg-slate-900 text-white dark:bg-[#102A45] dark:text-white font-bold"
+                        ? "bg-[#0066FF] text-white font-bold shadow-xs"
                         : "hover:text-slate-900 dark:hover:text-white"
                     )}
                   >

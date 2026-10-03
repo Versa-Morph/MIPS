@@ -17,38 +17,38 @@ export function KPIDashboard() {
   );
 
   return (
-    <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-sm h-full flex flex-col justify-between space-y-3.5 select-none">
+    <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-4 shadow-card dark:shadow-card-dark h-full flex flex-col justify-between space-y-3.5 select-none text-slate-800 dark:text-white">
       {/* Header with Live Telemetry Pulse */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 shrink-0">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2 font-mono">
-          <Gauge className="w-4 h-4 text-amber-400" />
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5 shrink-0">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 font-mono">
+          <Gauge className="w-4 h-4 text-[#F59E0B]" />
           <span>Operational KPI Telemetry</span>
         </span>
-        <span className="text-[10px] font-mono font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span className="text-[10px] font-mono font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           <span>REAL-TIME FEED</span>
         </span>
       </div>
 
       {/* Main Containers Progress Bar */}
-      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+      <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-2">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-400 flex items-center gap-1.5 font-medium font-sans">
-            <Layers className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-medium font-sans">
+            <Layers className="w-3.5 h-3.5 text-[#00A3E0]" />
             <span>Containers Handled:</span>
           </span>
-          <span className="font-mono font-bold text-sm text-white">
-            <span className="text-amber-400 font-black">{containersHandled}</span> /{" "}
+          <span className="font-mono font-bold text-sm text-slate-900 dark:text-white">
+            <span className="text-[#0066FF] dark:text-[#38BDF8] font-black">{containersHandled}</span> /{" "}
             {totalContainers}{" "}
-            <span className="text-xs text-emerald-400 font-semibold ml-1">
+            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold ml-1">
               ({progressPercent}%)
             </span>
           </span>
         </div>
 
-        <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
+        <div className="w-full h-2.5 bg-slate-200 dark:bg-[#081826] rounded-full overflow-hidden p-0.5 border border-slate-300 dark:border-slate-800">
           <div
-            className="h-full bg-gradient-to-r from-cyan-500 via-amber-400 to-emerald-400 rounded-full transition-all duration-500 shadow-sm"
+            className="h-full bg-gradient-to-r from-[#00A3E0] via-[#0066FF] to-emerald-500 rounded-full transition-all duration-500 shadow-sm"
             style={{ width: `${progressPercent}%` }}
           ></div>
         </div>
@@ -57,44 +57,44 @@ export function KPIDashboard() {
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-3 gap-2.5 text-center font-mono">
         {/* Productivity (Moves / Hour) */}
-        <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1 hover:border-slate-700 transition-colors">
-          <span className="text-[9px] uppercase font-bold text-slate-400 block truncate tracking-wider">
+        <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1 hover:border-[#0066FF]/40 transition-colors">
+          <span className="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 block truncate tracking-wider">
             Gross Productivity
           </span>
-          <div className="text-base sm:text-lg font-bold text-white tracking-tight">
+          <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
             {productivityMovesPerHour > 0 ? (
-              <span className="text-amber-400 font-black">{productivityMovesPerHour}</span>
+              <span className="text-[#0066FF] dark:text-[#38BDF8] font-black">{productivityMovesPerHour}</span>
             ) : (
-              <span className="text-slate-500">--</span>
+              <span className="text-slate-400">--</span>
             )}
           </div>
-          <span className="text-[9px] text-slate-400 block">
+          <span className="text-[9px] text-slate-500 dark:text-slate-400 block">
             Moves / Hour
           </span>
         </div>
 
         {/* Crane Utilization */}
-        <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1 hover:border-slate-700 transition-colors">
-          <span className="text-[9px] uppercase font-bold text-slate-400 block truncate tracking-wider">
+        <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1 hover:border-[#0066FF]/40 transition-colors">
+          <span className="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 block truncate tracking-wider">
             Crane Util. (QC)
           </span>
-          <div className="text-base sm:text-lg font-bold text-white tracking-tight">
-            <span className="text-cyan-400 font-black">{craneUtilization}%</span>
+          <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+            <span className="text-[#00A3E0] font-black">{craneUtilization}%</span>
           </div>
-          <span className="text-[9px] text-slate-400 block">
+          <span className="text-[9px] text-slate-500 dark:text-slate-400 block">
             Twin Cranes Active
           </span>
         </div>
 
         {/* Truck Utilization */}
-        <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1 hover:border-slate-700 transition-colors">
-          <span className="text-[9px] uppercase font-bold text-slate-400 block truncate tracking-wider">
+        <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1 hover:border-[#0066FF]/40 transition-colors">
+          <span className="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 block truncate tracking-wider">
             Truck Util. (TT)
           </span>
-          <div className="text-base sm:text-lg font-bold text-white tracking-tight">
-            <span className="text-emerald-400 font-black">{truckUtilization}%</span>
+          <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+            <span className="text-emerald-600 dark:text-emerald-400 font-black">{truckUtilization}%</span>
           </div>
-          <span className="text-[9px] text-slate-400 block">
+          <span className="text-[9px] text-slate-500 dark:text-slate-400 block">
             Yard Shuttles Active
           </span>
         </div>

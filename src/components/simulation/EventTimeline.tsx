@@ -56,13 +56,13 @@ export function EventTimeline() {
   };
 
   return (
-    <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-sm h-full flex flex-col select-none">
-      <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3 shrink-0">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2 font-mono">
-          <Activity className="w-4 h-4 text-amber-400" />
+    <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-4 shadow-card dark:shadow-card-dark h-full flex flex-col select-none text-slate-800 dark:text-white">
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5 mb-3 shrink-0">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 font-mono">
+          <Activity className="w-4 h-4 text-[#F59E0B]" />
           <span>Terminal Event Log & Timeline</span>
         </span>
-        <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2.5 py-0.5 rounded border border-slate-800">
+        <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-[#102A45] px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800">
           {eventsHistory.length} events logged
         </span>
       </div>
@@ -75,9 +75,9 @@ export function EventTimeline() {
         {eventsHistory.map((event, index) => (
           <div
             key={index}
-            className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-2.5 transition-all hover:border-slate-700"
+            className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] flex items-start gap-2.5 transition-all hover:border-[#0066FF]/40"
           >
-            <span className="text-amber-400 font-bold shrink-0 text-[11px] pt-0.5 font-mono">
+            <span className="text-[#0066FF] dark:text-[#38BDF8] font-bold shrink-0 text-[11px] pt-0.5 font-mono">
               [{event.clockTime}]
             </span>
 
@@ -91,16 +91,16 @@ export function EventTimeline() {
             </span>
 
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-slate-100 truncate text-[11px]">
+              <div className="font-semibold text-slate-900 dark:text-slate-100 truncate text-[11px]">
                 {event.title}
               </div>
-              <div className="text-[10px] text-slate-400 truncate">
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
                 {event.description}
               </div>
             </div>
 
             {event.containersCompleted > 0 && (
-              <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded shrink-0 font-mono">
+              <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-2 py-0.5 rounded shrink-0 font-mono">
                 {event.containersCompleted}/50
               </span>
             )}

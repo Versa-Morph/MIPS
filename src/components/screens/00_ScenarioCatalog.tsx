@@ -297,7 +297,7 @@ export function ScenarioCatalogScreen() {
                 className={cn(
                   "px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer",
                   selectedCategory === tab.id
-                    ? "bg-slate-900 text-white dark:bg-[#132B4F] dark:text-white shadow-xs"
+                    ? "bg-[#0066FF] text-white font-bold shadow-xs"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#132B4F]"
                 )}
               >

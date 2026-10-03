@@ -44,7 +44,7 @@ export function PillTabs({
                 ? "px-3 py-1 text-xs"
                 : "px-4 py-1.5 text-xs sm:text-[13px]",
               isActive
-                ? "bg-slate-900 text-white dark:bg-[#132B4F] dark:text-white shadow-sm font-semibold"
+                ? "bg-[#0066FF] text-white shadow-sm font-semibold"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             )}
           >

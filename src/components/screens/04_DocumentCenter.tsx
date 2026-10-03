@@ -328,7 +328,7 @@ export function DocumentCenterScreen() {
                     onClick={() => setViewMode("pdf")}
                     className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-colors ${
                       viewMode === "pdf"
-                        ? "bg-slate-900 text-white dark:bg-[#132B4F] dark:text-white font-bold shadow-sm"
+                        ? "bg-[#0066FF] text-white font-bold shadow-sm"
                         : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     }`}
                     title="Render official PDF document"
@@ -341,7 +341,7 @@ export function DocumentCenterScreen() {
                     onClick={() => setViewMode("sheet")}
                     className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-colors ${
                       viewMode === "sheet"
-                        ? "bg-slate-900 text-white dark:bg-[#132B4F] dark:text-white font-bold shadow-sm"
+                        ? "bg-[#0066FF] text-white font-bold shadow-sm"
                         : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     }`}
                     title="Render digital telemetry data sheet"

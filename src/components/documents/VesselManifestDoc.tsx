@@ -12,18 +12,18 @@ export function VesselManifestDoc({ document }: DocumentProps) {
   const { content } = document;
 
   return (
-    <div className="bg-slate-900 border border-slate-700/80 rounded-xl p-6 sm:p-8 space-y-6 text-slate-100 font-sans shadow-lg relative overflow-hidden">
+    <div className="bg-white dark:bg-[#0A1931] border border-slate-200 dark:border-[#1E3A5F] rounded-xl p-6 sm:p-8 space-y-6 text-slate-900 dark:text-slate-100 font-sans shadow-md relative overflow-hidden">
       {/* Official Header */}
-      <div className="border-b-2 border-slate-700 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="border-b-2 border-slate-200 dark:border-slate-700 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-lg bg-sky-500 text-slate-950 flex items-center justify-center font-black">
             <Ship className="w-7 h-7" />
           </div>
           <div>
-            <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-wide text-white">
+            <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900 dark:text-white">
               {content.header}
             </h2>
-            <p className="text-xs text-slate-400">{content.issuer}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{content.issuer}</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ export function VesselManifestDoc({ document }: DocumentProps) {
           <div className="text-xs font-mono font-bold text-sky-400">
             {document.referenceNumber}
           </div>
-          <div className="text-[11px] text-slate-400">{content.date}</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">{content.date}</div>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export function VesselManifestDoc({ document }: DocumentProps) {
           Ship Particulars & Engineering Data
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 text-xs bg-slate-950 p-4 rounded-lg border border-slate-800">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 text-xs bg-slate-50 dark:bg-[#102A45] p-4 rounded-lg border border-slate-200 dark:border-[#1E3A5F]">
           {Object.entries(content.details).map(([key, value]) => (
             <div
               key={key}
@@ -74,7 +74,7 @@ export function VesselManifestDoc({ document }: DocumentProps) {
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
             Equipments & Fastening Certifications
           </h3>
-          <ul className="space-y-1.5 text-xs text-slate-300 list-disc list-inside bg-slate-950/60 p-4 rounded-lg border border-slate-800">
+          <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 list-disc list-inside bg-slate-50/70 dark:bg-[#102A45]/70 p-4 rounded-lg border border-slate-200 dark:border-[#1E3A5F]">
             {content.notes.map((note, index) => (
               <li key={index} className="leading-relaxed">
                 {note}
@@ -90,7 +90,7 @@ export function VesselManifestDoc({ document }: DocumentProps) {
           <Stamp className="w-5 h-5 text-sky-400" />
           <span>{content.officialStampText || "CLASSIFICATION CERTIFIED"}</span>
         </div>
-        <div className="text-xs text-slate-400 font-mono">
+        <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">
           Registry Port: Jakarta (IDJKT)
         </div>
       </div>
