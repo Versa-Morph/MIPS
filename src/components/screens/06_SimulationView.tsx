@@ -88,18 +88,18 @@ export function SimulationViewScreen() {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 py-4 space-y-4 animate-fadeIn select-none font-sans">
       {/* VTS Command Cockpit Top Bar */}
-      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-3.5 px-5 flex flex-wrap items-center justify-between gap-3 shadow-card dark:shadow-card-dark text-slate-800 dark:text-white text-xs">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-3.5 px-5 flex flex-wrap items-center justify-between gap-3 shadow-card dark:shadow-card-dark text-slate-800 dark:text-white text-xs">
         <div className="flex items-center flex-wrap gap-4">
-          <div className="flex items-center gap-2 font-bold tracking-wider text-coral font-mono">
-            <Anchor className="w-4 h-4 text-coral" />
-            <span>TRAINING SIMULATION</span>
+          <div className="flex items-center gap-2 font-bold tracking-wider text-[#00A887] font-mono">
+            <Anchor className="w-4 h-4 text-[#00A887]" />
+            <span>TRAINING SIMULATION · Phase 04: SIMULATE</span>
           </div>
 
           <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
 
           <div className="flex items-center gap-2 font-mono">
             <span className="text-slate-400 dark:text-slate-500">VESSEL:</span>
-            <span className="font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-[#1a1e29] px-2.5 py-0.5 rounded-full border border-slate-200 dark:border-slate-800">
+            <span className="font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-[#102A45] px-2.5 py-0.5 rounded-full border border-slate-200 dark:border-slate-800">
               {vessel.name}
             </span>
           </div>
@@ -138,7 +138,7 @@ export function SimulationViewScreen() {
         {/* Left Side: Decision Summary + Chrono Controls + Tactical Info */}
         <div className="lg:col-span-4 space-y-4 flex flex-col justify-between">
           {/* YOUR DECISION Reference Card */}
-          <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-4 shadow-card dark:shadow-card-dark space-y-3">
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-4 shadow-card dark:shadow-card-dark space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
               <span className="font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 text-xs font-mono">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
@@ -166,7 +166,7 @@ export function SimulationViewScreen() {
               </div>
               <div className="flex justify-between items-center py-1 font-mono">
                 <span className="text-slate-500 dark:text-slate-400 font-medium font-sans">Equipment:</span>
-                <span className="text-sm font-bold font-mono text-coral">2x Cranes · 3x Trucks</span>
+                <span className="text-sm font-bold font-mono text-[#0066FF] dark:text-[#38BDF8]">2x Cranes · 3x Trucks</span>
               </div>
             </div>
           </div>
@@ -175,8 +175,8 @@ export function SimulationViewScreen() {
           <SimulationControls />
 
           {/* Tactical Advice Callout */}
-          <div className="p-3.5 rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] text-[11px] text-slate-600 dark:text-slate-300 flex items-start gap-2.5 shadow-sm">
-            <Compass className="w-4 h-4 text-coral shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] text-[11px] text-slate-600 dark:text-slate-300 flex items-start gap-2.5 shadow-sm">
+            <Compass className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
             <span className="leading-relaxed">
               Tip: Klik pada <strong>Kapal MV Nusantara</strong>, <strong>Crane QC</strong>, atau <strong>Truk Terminal</strong> pada layar pelabuhan untuk menginspeksi telemetri operasional.
             </span>

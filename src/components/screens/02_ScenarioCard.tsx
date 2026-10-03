@@ -40,7 +40,7 @@ export function ScenarioCardScreen() {
             onClick={() => setStep(TrainingState.DASHBOARD)}
             className="rounded-full shadow-xs gap-2 font-semibold"
           >
-            <ArrowLeft className="w-4 h-4 text-coral" />
+            <ArrowLeft className="w-4 h-4 text-[#0066FF]" />
             <span>Back to Dashboard</span>
           </Button>
 
@@ -48,7 +48,7 @@ export function ScenarioCardScreen() {
             variant="ghost"
             size="sm"
             onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
-            className="rounded-full gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-coral"
+            className="rounded-full gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-[#0066FF]"
           >
             <ListOrdered className="w-3.5 h-3.5" />
             <span>Katalog Simulasi</span>
@@ -57,7 +57,7 @@ export function ScenarioCardScreen() {
 
         <div className="flex items-center gap-2.5 font-mono text-xs text-slate-400">
           <span className="text-slate-400 dark:text-slate-500">STAGE</span>
-          <span className="text-coral font-bold">01 / 07</span>
+          <span className="text-[#0066FF] dark:text-[#38BDF8] font-bold">01 / 07</span>
           <span className="text-slate-300 dark:text-slate-700">·</span>
           <span className="text-slate-600 dark:text-slate-300 font-semibold tracking-wider">
             SCENARIO SPECIFICATION
@@ -66,34 +66,34 @@ export function ScenarioCardScreen() {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. Detailed Scenario Specification Workbench (TransGlobal Minimalist)     */}
+      {/* 2. Detailed Scenario Specification Workbench (MIPS Maritime Standard)     */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] shadow-card dark:shadow-card-dark overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-card dark:shadow-card-dark overflow-hidden">
         {/* Hero Mission Spec Header Banner */}
-        <div className="relative border-b border-slate-200/80 dark:border-[#222634] p-6 sm:p-8 overflow-hidden bg-slate-950 text-white">
+        <div className="relative border-b border-slate-200/80 dark:border-[#1E3A5F] p-6 sm:p-8 overflow-hidden bg-[#0B2546] text-white">
           {/* Backdrop Image with Directional Scrim */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
               src={getAssetPath("/images/vessel-hero.png")}
               alt="Vessel Hero Banner"
-              className="w-full h-full object-cover object-right-top opacity-30 filter contrast-125 saturate-110"
+              className="w-full h-full object-cover object-right-top opacity-25 filter contrast-125 saturate-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0B2546] via-[#0B2546]/90 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B2546] via-transparent to-transparent" />
           </div>
 
           <div className="relative z-10 max-w-3xl space-y-3">
             {/* Mission Identifier Tag (Unique SCN-001 identifier) */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/20 border border-coral/40 text-coral text-xs font-mono font-bold tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-coral animate-pulse" />
-              <span>Training Mission Spec: SCN-001</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E1F5FE] border border-[#009FE3] text-[#0077A8] text-xs font-mono font-bold tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-[#009FE3] animate-pulse" />
+              <span>Phase 01: LEARN · Training Mission Spec: SCN-001</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white font-sans">
               Container Vessel Arrival & Berthing Operation
             </h1>
 
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+            <p className="text-slate-200 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
               Pandu kapal kontainer MV Nusantara melintasi alur barat Tanjung Priok, lakukan audit
               dokumen NOA & manifest, kalkulasi Under Keel Clearance (UKC), dan sandarkan dengan
               aman di Dermaga B-01.
@@ -101,36 +101,36 @@ export function ScenarioCardScreen() {
 
             {/* Mission Parameters Row */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-200 shadow-xs font-mono">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A1931]/90 border border-slate-700 text-xs text-slate-200 shadow-xs font-mono">
                 <Award className="w-4 h-4 text-emerald-400" />
                 <span className="text-slate-400">Difficulty:</span>
                 <span className="text-emerald-400 font-bold">Medium</span>
               </div>
 
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-200 shadow-xs font-mono">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A1931]/90 border border-slate-700 text-xs text-slate-200 shadow-xs font-mono">
                 <Calendar className="w-4 h-4 text-amber-400" />
                 <span className="text-slate-400">Duration:</span>
                 <span className="text-amber-400 font-bold">45 Menit</span>
               </div>
 
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-200 shadow-xs font-mono">
-                <Layers className="w-4 h-4 text-sky-400" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A1931]/90 border border-slate-700 text-xs text-slate-200 shadow-xs font-mono">
+                <Layers className="w-4 h-4 text-[#38BDF8]" />
                 <span className="text-slate-400">Cargo:</span>
-                <span className="text-sky-400 font-bold">50 ISO Containers</span>
+                <span className="text-[#38BDF8] font-bold">50 ISO Containers</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* 2-Column Content Layout */}
-        <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white dark:bg-[#14171f]">
+        <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white dark:bg-[#0A1931]">
           {/* Left Column (7 Cols): Evaluated Objectives & Directives */}
           <div className="lg:col-span-7 space-y-6">
             {/* Evaluated Mission Objectives */}
-            <div className="rounded-2xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 space-y-4">
+            <div className="rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] p-5 sm:p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-coral" />
+                  <CheckCircle2 className="w-4 h-4 text-[#0066FF]" />
                   <span>Evaluated Mission Objectives</span>
                 </h3>
                 <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
@@ -139,8 +139,8 @@ export function ScenarioCardScreen() {
               </div>
 
               <ul className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                <li className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800/90 shadow-xs">
-                  <div className="w-7 h-7 rounded-lg bg-coral/10 border border-coral/30 text-coral flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">
+                <li className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
+                  <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-[#0066FF] dark:text-blue-300 flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">
                     1
                   </div>
                   <div className="space-y-0.5">
@@ -153,7 +153,7 @@ export function ScenarioCardScreen() {
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800/90 shadow-xs">
+                <li className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                   <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">
                     2
                   </div>
@@ -167,7 +167,7 @@ export function ScenarioCardScreen() {
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800/90 shadow-xs">
+                <li className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                   <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">
                     3
                   </div>
@@ -184,20 +184,20 @@ export function ScenarioCardScreen() {
             </div>
 
             {/* Operational Directives & Passing Standards */}
-            <div className="rounded-2xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 space-y-4">
+            <div className="rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] p-5 sm:p-6 space-y-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono border-b border-slate-200/80 dark:border-slate-800 pb-3">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 <span>Operational Directives & Passing Standards</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
-                <div className="p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+                <div className="p-3.5 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">
                         Standar Lulus STCW
                       </span>
-                      <span className="font-mono text-xs font-bold text-coral">
+                      <span className="font-mono text-xs font-bold text-[#0066FF] dark:text-[#38BDF8]">
                         ≥ 80 / 100
                       </span>
                     </div>
@@ -207,7 +207,7 @@ export function ScenarioCardScreen() {
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+                <div className="p-3.5 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">
@@ -228,13 +228,13 @@ export function ScenarioCardScreen() {
 
           {/* Right Column (5 Cols): Target Vessel Overview */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 space-y-4">
+            <div className="rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] p-5 sm:p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono flex items-center gap-2">
-                  <Ship className="w-4 h-4 text-coral" />
+                  <Ship className="w-4 h-4 text-[#0066FF]" />
                   <span>Target Vessel Overview</span>
                 </h3>
-                <span className="font-mono text-xs font-bold text-coral">
+                <span className="font-mono text-xs font-bold text-[#0066FF] dark:text-[#38BDF8]">
                   MV Nusantara
                 </span>
               </div>
@@ -243,7 +243,7 @@ export function ScenarioCardScreen() {
               <div className="space-y-3">
                 {/* Primary Dimensions */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                     <span className="text-slate-400 uppercase text-[10px] font-semibold block">
                       Length Overall (LOA)
                     </span>
@@ -252,11 +252,11 @@ export function ScenarioCardScreen() {
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                     <span className="text-slate-400 uppercase text-[10px] font-semibold block">
                       Max Arrival Draft
                     </span>
-                    <span className="text-base font-extrabold font-mono text-coral block mt-0.5">
+                    <span className="text-base font-extrabold font-mono text-[#0066FF] dark:text-[#38BDF8] block mt-0.5">
                       10.2 m
                     </span>
                   </div>
@@ -264,7 +264,7 @@ export function ScenarioCardScreen() {
 
                 {/* Secondary Dimensions */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                     <span className="text-slate-400 uppercase text-[10px] font-semibold block">
                       Moulded Beam
                     </span>
@@ -273,7 +273,7 @@ export function ScenarioCardScreen() {
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                     <span className="text-slate-400 uppercase text-[10px] font-semibold block">
                       Fwd / Aft Draft
                     </span>
@@ -285,7 +285,7 @@ export function ScenarioCardScreen() {
 
                 {/* Schedule & Cargo */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                     <span className="text-slate-400 uppercase text-[10px] font-semibold block">
                       Estimated Arrival
                     </span>
@@ -294,7 +294,7 @@ export function ScenarioCardScreen() {
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs">
                     <span className="text-slate-400 uppercase text-[10px] font-semibold block">
                       Target Cargo Lot
                     </span>
@@ -305,7 +305,7 @@ export function ScenarioCardScreen() {
                 </div>
 
                 {/* Official Identifiers */}
-                <div className="p-3 rounded-xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1.5">
+                <div className="p-3 rounded-xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-xs space-y-1.5">
                   <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                     <span className="text-[10px] uppercase font-semibold">REGISTRY / CALLSIGN</span>
                     <span className="text-slate-800 dark:text-slate-200 font-semibold font-mono">
@@ -322,8 +322,8 @@ export function ScenarioCardScreen() {
               </div>
 
               {/* Pilot Advisory Note */}
-              <div className="p-3.5 rounded-xl bg-coral/10 border border-coral/25 text-[11px] text-coral flex items-start gap-2.5">
-                <Compass className="w-4 h-4 text-coral shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-[11px] text-[#0066FF] dark:text-blue-300 flex items-start gap-2.5">
+                <Compass className="w-4 h-4 text-[#0066FF] dark:text-blue-400 shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
                   Catatan Misi: Rincian sarat air (draft), panjang kapal (LOA), dan manifes muatan tertera lengkap di dalam berkas resmi pada Document Center.
                 </span>
@@ -333,7 +333,7 @@ export function ScenarioCardScreen() {
         </div>
 
         {/* Action Bar Footer */}
-        <div className="px-6 sm:px-8 py-4 bg-slate-50 dark:bg-[#11131a] border-t border-slate-200/80 dark:border-[#232734] flex items-center justify-between">
+        <div className="px-6 sm:px-8 py-4 bg-slate-50 dark:bg-[#081826] border-t border-slate-200/80 dark:border-[#1E3A5F] flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"

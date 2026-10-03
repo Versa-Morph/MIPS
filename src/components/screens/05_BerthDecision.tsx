@@ -108,24 +108,24 @@ export function BerthDecisionScreen() {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] hover:border-coral/50 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-coral transition-colors shadow-sm"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] hover:border-[#0066FF]/50 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#0066FF] transition-colors shadow-sm"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-[#0066FF]" />
           <span>Back to Document Center</span>
         </button>
 
-        <div className="flex items-center gap-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] px-3.5 py-1.5 rounded-full shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-coral animate-pulse"></span>
+        <div className="flex items-center gap-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] px-3.5 py-1.5 rounded-full shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-pulse"></span>
           <span>VTS CONSOLE · SECTOR 3</span>
         </div>
       </div>
 
       {/* Hero Banner: Executive VTS Command Header */}
-      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-6 sm:p-7 shadow-card dark:shadow-card-dark flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 sm:p-7 shadow-card dark:shadow-card-dark flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2.5 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/10 border border-coral/30 text-coral text-xs font-bold uppercase tracking-wider font-mono">
-            <span className="w-2 h-2 rounded-full bg-coral animate-pulse">●</span>
-            <span>Phase 03: Operational Berth Allocation</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FEF3C7] border border-[#F59E0B] text-[#B45309] dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-700 text-xs font-bold uppercase tracking-wider font-mono">
+            <span className="w-2 h-2 rounded-full bg-[#F59E0B] animate-pulse">●</span>
+            <span>Phase 03: DECIDE · Operational Berth Allocation</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-sans">
             Berth Allocation Decision
@@ -137,13 +137,13 @@ export function BerthDecisionScreen() {
           </p>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 shrink-0 text-right min-w-[200px]">
+        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] shrink-0 text-right min-w-[200px]">
           <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 font-mono tracking-wider">
             Decision Status
           </div>
           <div
             className={`text-xs font-bold flex items-center justify-end gap-1.5 font-mono mt-1 ${
-              isDecisionAccepted ? "text-emerald-600 dark:text-emerald-400" : "text-coral"
+              isDecisionAccepted ? "text-emerald-600 dark:text-emerald-400" : "text-[#F59E0B]"
             }`}
           >
             {isDecisionAccepted ? (
@@ -153,7 +153,7 @@ export function BerthDecisionScreen() {
               </>
             ) : (
               <>
-                <Anchor className="w-4 h-4 text-coral" />
+                <Anchor className="w-4 h-4 text-[#F59E0B]" />
                 <span>PENDING EVALUATION</span>
               </>
             )}
@@ -162,10 +162,10 @@ export function BerthDecisionScreen() {
       </div>
 
       {/* Cadet Submitted Dossier Reference Card (Clean Bento Layout) */}
-      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 space-y-3 shadow-card dark:shadow-card-dark">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 space-y-3 shadow-card dark:shadow-card-dark">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 font-mono">
-            <ClipboardCheck className="w-4 h-4 text-coral" />
+            <ClipboardCheck className="w-4 h-4 text-[#0066FF]" />
             <span>Kriteria Acuan Sandar (Data Dossier Anda)</span>
           </span>
           <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5">
@@ -176,7 +176,7 @@ export function BerthDecisionScreen() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center font-mono">
           {/* Metric 1: LOA */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F]">
             <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Panjang Kapal (LOA)
             </span>
@@ -189,11 +189,11 @@ export function BerthDecisionScreen() {
           </div>
 
           {/* Metric 2: Draft Aft */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F]">
             <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Sarat Air (Draft Aft)
             </span>
-            <span className="text-base sm:text-lg font-bold text-coral block">
+            <span className="text-base sm:text-lg font-bold text-[#0066FF] dark:text-[#38BDF8] block">
               {displayDraft} Meters
             </span>
             <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">
@@ -202,7 +202,7 @@ export function BerthDecisionScreen() {
           </div>
 
           {/* Metric 3: Required UKC Depth */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800">
+          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F]">
             <span className="text-xs uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider block mb-1">
               Kedalaman Wajib (UKC Safe)
             </span>
@@ -219,7 +219,7 @@ export function BerthDecisionScreen() {
       {/* Berth Selection Header */}
       <div className="flex items-center justify-between pt-1">
         <div className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 font-sans">
-          <Waves className="w-4 h-4 text-coral" />
+          <Waves className="w-4 h-4 text-[#0066FF]" />
           <span>Select the appropriate berth for {vessel.name}:</span>
         </div>
         <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
@@ -338,10 +338,10 @@ export function BerthDecisionScreen() {
                   </div>
 
                   {/* Tactical Depth Gauge Visual */}
-                  <div className="rounded-xl bg-slate-50 dark:bg-[#181c26] p-3.5 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                  <div className="rounded-xl bg-slate-50 dark:bg-[#102A45] p-3.5 border border-slate-200/80 dark:border-[#1E3A5F] space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-bold font-sans">
-                        <Gauge className="w-4 h-4 text-coral" />
+                        <Gauge className="w-4 h-4 text-[#0066FF]" />
                         <span>Depth Clearance Gauge:</span>
                       </span>
                       <span
@@ -367,7 +367,7 @@ export function BerthDecisionScreen() {
                             {/* UKC Cushion portion: 1.3m / 12 = 10.8% */}
                             <div
                               style={{ width: "10.8%" }}
-                              className="h-full bg-coral/80"
+                              className="h-full bg-[#0066FF]/80"
                               title="Required UKC: 1.3m (11.5m Total)"
                             ></div>
                             {/* Surplus: 0.5m / 12 = 4.2% */}
@@ -435,7 +435,7 @@ export function BerthDecisionScreen() {
                         ? isB01
                           ? "text-emerald-600 dark:text-emerald-400 font-bold"
                           : "text-rose-600 dark:text-rose-400 font-bold"
-                        : "text-slate-500 dark:text-slate-400 group-hover:text-coral"
+                        : "text-slate-500 dark:text-slate-400 group-hover:text-[#0066FF]"
                     }`}
                   >
                     {isSelected ? "● Selected" : "Click to Select"}

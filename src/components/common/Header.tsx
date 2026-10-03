@@ -11,7 +11,7 @@ import {
   RotateCcw,
   ArrowLeft,
   Ship,
-  Compass,
+  Waves,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -78,9 +78,9 @@ export function Header() {
   ];
 
   return (
-    <header className="w-full bg-white/95 dark:bg-[#0e1015]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#202430] text-slate-900 dark:text-white select-none sticky top-0 z-50 transition-colors">
+    <header className="w-full bg-white/95 dark:bg-[#0A1931]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-[#1E3A5F] text-slate-900 dark:text-white select-none sticky top-0 z-50 transition-colors">
       <div className="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
-        {/* Left: Brand Identity */}
+        {/* Left: Brand Identity (MIPS - Maritime Integrated Port Simulator) */}
         <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/"
@@ -90,27 +90,32 @@ export function Header() {
             }}
             className="cursor-pointer flex items-center gap-2.5 group"
           >
-            <div className="w-9 h-9 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center font-black tracking-tighter shadow-sm transition-transform group-hover:scale-105">
-              <Anchor className="w-4 h-4 text-coral stroke-[2.8]" />
+            <div className="w-10 h-10 rounded-xl bg-[#0A2540] text-white dark:bg-[#0066FF] dark:text-white flex items-center justify-center font-black tracking-tighter shadow-sm transition-transform group-hover:scale-105 border border-slate-700/40">
+              <Anchor className="w-5 h-5 text-[#00A3E0] stroke-[2.6]" />
             </div>
 
             <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-tight font-sans text-slate-900 dark:text-white leading-tight">
-                MIPS TRAINING CENTER
-              </span>
-              <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">
-                Maritime Port Simulator
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-base tracking-tight font-sans text-[#0A2540] dark:text-white leading-tight">
+                  MIPS TRAINING CENTER
+                </span>
+                <span className="hidden xl:inline text-[9px] font-mono px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-[#0066FF] dark:text-blue-300 font-bold border border-blue-200 dark:border-blue-800">
+                  DEMO v2.0
+                </span>
+              </div>
+              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase leading-none">
+                Maritime Integrated Port Simulator
               </span>
             </div>
           </Link>
         </div>
 
-        {/* Center Navigation: Differentiated between Portal Level & In-Simulation Mode */}
+        {/* Center Navigation: Portal Level vs In-Simulation Mode */}
         {!isInsideSimulation ? (
-          /* Level 1: Global Portal Floating Pill Navigation */
+          /* Level 1: Global Portal Navigation */
           <nav
             aria-label="Portal Navigation"
-            className="hidden md:flex items-center p-1 rounded-full bg-slate-100/90 dark:bg-[#161922] border border-slate-200/60 dark:border-[#222735]"
+            className="hidden md:flex items-center p-1 rounded-full bg-slate-100 dark:bg-[#102A45] border border-slate-200 dark:border-[#1E3A5F]"
           >
             {portalNavItems.map((item) => (
               <button
@@ -120,32 +125,32 @@ export function Header() {
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-150 inline-flex items-center gap-1.5 cursor-pointer",
                   item.isActive
-                    ? "bg-slate-900 text-white dark:bg-[#252a3a] dark:text-white shadow-xs"
-                    : "text-slate-600 dark:text-[#8e95a5] hover:text-slate-900 dark:hover:text-white"
+                    ? "bg-[#0066FF] text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
                 )}
               >
                 {item.isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-coral inline-block shrink-0 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F5B800] inline-block shrink-0 animate-pulse" />
                 )}
                 <span>{item.label}</span>
               </button>
             ))}
           </nav>
         ) : (
-          /* Level 2: In-Simulation Session Header Banner */
+          /* Level 2: In-Simulation Breadcrumb & Status */
           <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={() => setStep(TrainingState.DASHBOARD)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161922] text-slate-700 dark:text-slate-200 hover:text-coral dark:hover:text-coral transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#102A45] text-slate-700 dark:text-slate-200 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
             >
-              <ArrowLeft className="w-3.5 h-3.5 text-coral" />
+              <ArrowLeft className="w-3.5 h-3.5 text-[#0066FF]" />
               <span>Keluar ke Portal</span>
             </button>
 
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-[#161922] border border-slate-200/60 dark:border-[#222735] text-xs font-mono text-slate-600 dark:text-slate-300">
-              <Ship className="w-3.5 h-3.5 text-coral" />
-              <span>MV NUSANTARA · Container Berthing</span>
+            <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-[#102A45] border border-blue-200/60 dark:border-[#1E3A5F] text-xs font-mono text-[#0A2540] dark:text-slate-200">
+              <Ship className="w-3.5 h-3.5 text-[#0066FF]" />
+              <span>MV NUSANTARA · Container Berthing (SCN-001)</span>
             </div>
           </div>
         )}
@@ -156,7 +161,7 @@ export function Header() {
           <button
             type="button"
             title="Search database / skenario"
-            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#202534] bg-white dark:bg-[#14171f] text-slate-600 dark:text-slate-300 hover:text-coral dark:hover:text-coral transition-colors shadow-xs"
+            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -165,10 +170,10 @@ export function Header() {
           <button
             type="button"
             title="Notifikasi Pelatihan"
-            className="relative w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#202534] bg-white dark:bg-[#14171f] text-slate-600 dark:text-slate-300 hover:text-coral dark:hover:text-coral transition-colors shadow-xs"
+            className="relative w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-coral" />
+            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#0066FF]" />
           </button>
 
           {/* Audio Engine Monitor */}
@@ -176,7 +181,7 @@ export function Header() {
             type="button"
             onClick={handleToggleSound}
             title={isMuted ? "Suara Efek: Mati" : "Suara Efek: Nyala"}
-            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#202534] bg-white dark:bg-[#14171f] text-slate-600 dark:text-slate-300 hover:text-coral dark:hover:text-coral transition-colors shadow-xs"
+            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
           >
             {isMuted ? (
               <VolumeX className="w-4 h-4 text-slate-400" />
@@ -185,7 +190,7 @@ export function Header() {
             )}
           </button>
 
-          {/* Theme Toggle Button (Light Mode Default + Dark Mode Switch) */}
+          {/* Theme Toggle Button */}
           <ThemeToggle />
 
           {/* Reset Training Tool */}
@@ -197,26 +202,26 @@ export function Header() {
               }
             }}
             title="Reset Seluruh Skenario"
-            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#202534] bg-white dark:bg-[#14171f] text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors shadow-xs"
+            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors shadow-xs"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
 
-          {/* User Profile Capsule (TransGlobal Format) */}
+          {/* User Profile Capsule */}
           <div className="flex items-center gap-2.5 pl-1.5 sm:pl-2">
             <div className="relative">
-              <div className="w-9 h-9 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center font-bold text-xs shadow-xs">
+              <div className="w-9 h-9 rounded-full bg-[#0A2540] text-white dark:bg-[#0066FF] flex items-center justify-center font-bold text-xs shadow-xs ring-2 ring-[#F5B800]">
                 {cadetName.charAt(0).toUpperCase()}
               </div>
-              <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-[#0e1015]" />
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-[#0A1931]" />
             </div>
 
             <div className="hidden lg:flex flex-col text-left">
               <span className="text-xs font-bold text-slate-900 dark:text-white leading-tight">
                 Welcome, {cadetName}
               </span>
-              <span className="text-[10px] font-medium text-slate-500 dark:text-[#8e95a5] leading-none">
-                Deck Officer Trainee
+              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 leading-none">
+                NIT. 202300123
               </span>
             </div>
           </div>
@@ -228,14 +233,14 @@ export function Header() {
         <DialogContent className="max-w-xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-1">
-              <Badge variant="coral" size="sm">
+              <Badge variant="brand" size="sm">
                 IMO STCW ACCREDITED
               </Badge>
               <span className="text-xs font-mono text-slate-400">
                 REV. 2026 / PRIOK PORT SOP
               </span>
             </div>
-            <DialogTitle className="text-xl font-bold tracking-tight">
+            <DialogTitle className="text-xl font-bold tracking-tight text-[#0A2540] dark:text-white">
               Regulasi Maritim & Standar Simulator MIPS
             </DialogTitle>
             <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
@@ -246,7 +251,7 @@ export function Header() {
 
           <div className="space-y-3.5 pt-2 text-xs">
             {/* Regulation 1 */}
-            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#102A45]/70 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-900 dark:text-white font-mono">
                   STCW Code Section A-I/12 & A-II/1
@@ -262,12 +267,12 @@ export function Header() {
             </div>
 
             {/* Regulation 2 */}
-            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#102A45]/70 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-900 dark:text-white font-mono">
                   KM No. 53/2005 & SOP Tanjung Priok
                 </span>
-                <Badge variant="coral" size="sm">
+                <Badge variant="brand" size="sm">
                   PORT AUTHORITY
                 </Badge>
               </div>
@@ -278,7 +283,7 @@ export function Header() {
             </div>
 
             {/* Regulation 3 */}
-            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#102A45]/70 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-900 dark:text-white font-mono">
                   SOLAS Chapter V (Reg. 19 & 34)
@@ -294,7 +299,7 @@ export function Header() {
             </div>
 
             {/* Regulation 4 */}
-            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-1.5">
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#102A45]/70 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-900 dark:text-white font-mono">
                   IMDG Code Chapter 7 (Hazardous Cargo DG 4.1)

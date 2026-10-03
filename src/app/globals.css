@@ -5,33 +5,33 @@
 @tailwind utilities;
 
 :root {
-  --background: #f4f6f8;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --card-border: #e2e8f0;
-  --muted: #64748b;
-  --muted-bg: #f1f5f9;
-  --pill-bg: #eef2f6;
-  --pill-active: #0f172a;
-  --pill-active-text: #ffffff;
-  --accent-coral: #ff7a59;
-  --accent-coral-hover: #f06548;
+  --background: #F1F5F9;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --card-border: #E2E8F0;
+  --muted: #64748B;
+  --muted-bg: #F8FAFC;
+  --pill-bg: #EFF6FF;
+  --pill-active: #0066FF;
+  --pill-active-text: #FFFFFF;
+  --accent-coral: #0066FF;
+  --accent-coral-hover: #0052CC;
 }
 
 .dark {
-  --background: #0d0f15;
-  --foreground: #f8fafc;
-  --card: #151821;
-  --card-foreground: #f8fafc;
-  --card-border: #232734;
-  --muted: #8e95a5;
-  --muted-bg: #1c202c;
-  --pill-bg: #1a1e29;
-  --pill-active: #282f40;
-  --pill-active-text: #ffffff;
-  --accent-coral: #ff7a59;
-  --accent-coral-hover: #ff8c6d;
+  --background: #081826;
+  --foreground: #F8FAFC;
+  --card: #0A1931;
+  --card-foreground: #F8FAFC;
+  --card-border: #1E3A5F;
+  --muted: #94A3B8;
+  --muted-bg: #102A45;
+  --pill-bg: #132B4F;
+  --pill-active: #0066FF;
+  --pill-active-text: #FFFFFF;
+  --accent-coral: #0066FF;
+  --accent-coral-hover: #38BDF8;
 }
 
 body {
@@ -42,28 +42,29 @@ body {
 }
 
 .glass-panel {
-  background-color: rgba(255, 255, 255, 0.88);
+  background-color: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(10, 25, 49, 0.05);
 }
 
 .dark .glass-panel {
-  background-color: rgba(21, 24, 33, 0.88);
-  border: 1px solid rgba(35, 39, 52, 0.85);
+  background-color: rgba(10, 25, 49, 0.88);
+  border: 1px solid rgba(30, 58, 95, 0.7);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .transglobal-card {
   background-color: var(--card);
   border: 1px solid var(--card-border);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .transglobal-card:hover {
-  border-color: rgba(255, 122, 89, 0.3);
+  border-color: rgba(0, 102, 255, 0.4);
+  box-shadow: 0 4px 20px -2px rgba(0, 102, 255, 0.08);
 }
 
 .pill-container {
@@ -78,7 +79,7 @@ body {
   border-radius: 9999px;
   padding: 0.4rem 1rem;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--muted);
   transition: all 0.15s ease-in-out;
   display: inline-flex;
@@ -93,27 +94,58 @@ body {
 .pill-item.active {
   background-color: var(--pill-active);
   color: var(--pill-active-text);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.25);
 }
 
 .cta-coral {
-  background: linear-gradient(180deg, #ff8c6d 0%, #ff7a59 50%, #f06548 100%);
+  background: linear-gradient(180deg, #1A75FF 0%, #0066FF 50%, #0052CC 100%);
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 9999px;
-  box-shadow: 0 8px 20px -4px rgba(255, 122, 89, 0.4);
+  box-shadow: 0 4px 14px 0 rgba(0, 102, 255, 0.35);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cta-coral:hover {
-  background: linear-gradient(180deg, #ff9b80 0%, #ff8363 50%, #f25535 100%);
-  box-shadow: 0 10px 24px -4px rgba(255, 122, 89, 0.55);
+  background: linear-gradient(180deg, #3385FF 0%, #005ce6 50%, #0047b3 100%);
+  box-shadow: 0 6px 20px 0 rgba(0, 102, 255, 0.45);
   transform: translateY(-1px);
 }
 
 .cta-coral:active {
   transform: translateY(1px);
-  box-shadow: 0 4px 12px -2px rgba(255, 122, 89, 0.35);
+  box-shadow: 0 2px 8px 0 rgba(0, 102, 255, 0.3);
+}
+
+/* Phase Badges (From MIPS 5-Phase Pedagogical Specification) */
+.badge-phase-learn {
+  background-color: #E1F5FE;
+  color: #0077A8;
+  border: 1px solid #009FE3;
+}
+
+.badge-phase-analyze {
+  background-color: #E0F2FE;
+  color: #0369A1;
+  border: 1px solid #0284C7;
+}
+
+.badge-phase-decide {
+  background-color: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #F59E0B;
+}
+
+.badge-phase-simulate {
+  background-color: #E6F7F4;
+  color: #007A62;
+  border: 1px solid #00A887;
+}
+
+.badge-phase-evaluate {
+  background-color: #F3E8FF;
+  color: #6D28D9;
+  border: 1px solid #7C3AED;
 }
 
 /* Custom scrollbars */
@@ -136,13 +168,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 122, 89, 0.6);
+  background: rgba(0, 102, 255, 0.6);
 }
 
 @keyframes pageEnter {
   0% {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   100% {
     opacity: 1;
@@ -151,13 +183,13 @@ body {
 }
 
 .animate-page-enter {
-  animation: pageEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: pageEnter 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes modalPopIn {
   0% {
     opacity: 0;
-    transform: scale(0.96) translateY(8px);
+    transform: scale(0.97) translateY(6px);
   }
   100% {
     opacity: 1;
@@ -166,5 +198,5 @@ body {
 }
 
 .animate-modal-pop {
-  animation: modalPopIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: modalPopIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

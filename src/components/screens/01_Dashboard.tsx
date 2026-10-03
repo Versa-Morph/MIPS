@@ -196,7 +196,7 @@ export function DashboardScreen() {
           {/* Left: Display Hero Title & Welcome Banner */}
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-semibold">
-              <span className="font-mono uppercase tracking-wider font-extrabold text-coral dark:text-coral-400">
+              <span className="font-mono uppercase tracking-wider font-extrabold text-[#0066FF] dark:text-[#38BDF8]">
                 MIPS TRAINING CENTER
               </span>
               <span className="text-slate-400 dark:text-slate-600">·</span>
@@ -210,11 +210,11 @@ export function DashboardScreen() {
             </h1>
           </div>
 
-          {/* Right: 3 TransGlobal Metric Cards (Zero AI Slop - Strict Palette) */}
+          {/* Right: 3 Metric Cards (MIPS Maritime Standards) */}
           <div className="flex items-center gap-3 overflow-x-auto pb-1 sm:pb-0">
             {/* Stat 1: Total Shipments / Simulator Hours */}
-            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[170px] sm:min-w-[190px] rounded-2xl shadow-xs bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
-              <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-[#1c202b] flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
+            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[170px] sm:min-w-[190px] rounded-2xl shadow-xs bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
+              <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-[#102A45] flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
                 <Package className="w-5 h-5 stroke-[2]" />
               </div>
               <div>
@@ -233,8 +233,8 @@ export function DashboardScreen() {
             </Card>
 
             {/* Stat 2: Active Tracking */}
-            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[170px] sm:min-w-[190px] rounded-2xl shadow-xs bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
-              <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-[#1c202b] flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
+            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[170px] sm:min-w-[190px] rounded-2xl shadow-xs bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
+              <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-[#102A45] flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
                 <MapPin className="w-5 h-5 stroke-[2]" />
               </div>
               <div>
@@ -253,8 +253,8 @@ export function DashboardScreen() {
             </Card>
 
             {/* Stat 3: Delivered Shipments / Training Progress */}
-            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[185px] sm:min-w-[205px] rounded-2xl shadow-xs bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
-              <div className="w-11 h-11 rounded-xl bg-coral/10 dark:bg-coral/15 flex items-center justify-center text-coral shrink-0">
+            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[185px] sm:min-w-[205px] rounded-2xl shadow-xs bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
+              <div className="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-[#0066FF] dark:text-blue-300 shrink-0 border border-blue-200/60 dark:border-blue-800/60">
                 <GraduationCap className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div>
@@ -262,8 +262,8 @@ export function DashboardScreen() {
                   <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] block leading-tight">
                     Training Progress
                   </span>
-                  <span className="text-[10px] font-bold text-coral">
-                    1 / 3
+                  <span className="text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8]">
+                    1 / 3 Completed
                   </span>
                 </div>
                 <div className="flex items-baseline gap-2 mt-0.5">
@@ -271,7 +271,7 @@ export function DashboardScreen() {
                     98
                   </span>
                   <Badge variant="outline" className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 px-1.5 py-0.5">
-                    Completed
+                    Passed
                   </Badge>
                 </div>
               </div>

@@ -6,22 +6,26 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/40 disabled:pointer-events-none disabled:opacity-50 select-none",
+  "inline-flex items-center justify-center font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 disabled:pointer-events-none disabled:opacity-50 select-none",
   {
     variants: {
       variant: {
         default:
-          "bg-slate-900 text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white rounded-full shadow-sm",
+          "bg-[#0A2540] text-white hover:bg-[#132B4F] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 rounded-full shadow-sm font-semibold",
         coral:
           "cta-coral text-white rounded-full shadow-sm",
+        brand:
+          "bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-full shadow-sm font-semibold",
+        gold:
+          "bg-[#F5B800] hover:bg-[#D99B00] text-slate-950 rounded-full shadow-sm font-bold",
         secondary:
-          "bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-[#1f2430] dark:text-slate-200 dark:hover:bg-[#282f40] rounded-full",
+          "bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-[#132B4F] dark:text-slate-200 dark:hover:bg-[#173562] rounded-full",
         outline:
-          "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-[#151821] dark:text-slate-200 dark:hover:bg-[#1e2330] rounded-full",
+          "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-[#0A1931] dark:text-slate-200 dark:hover:bg-[#132B4F] rounded-full",
         ghost:
           "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60 rounded-full",
         icon:
-          "w-9 h-9 p-0 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a1e29] text-slate-700 dark:text-slate-300 hover:text-coral dark:hover:text-coral",
+          "w-9 h-9 p-0 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0A1931] text-slate-700 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#38BDF8]",
       },
       size: {
         default: "h-9 px-4 text-xs font-semibold gap-2",

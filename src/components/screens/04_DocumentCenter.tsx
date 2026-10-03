@@ -171,14 +171,14 @@ export function DocumentCenterScreen() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setStep(TrainingState.BRIEFING)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-[#1c202c] hover:bg-slate-200 dark:hover:bg-[#282f40] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-coral transition-colors font-mono"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-[#102A45] hover:bg-slate-200 dark:hover:bg-[#132B4F] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-[#0066FF] transition-colors font-mono"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Briefing</span>
           </button>
           <span className="text-slate-300 dark:text-slate-700">/</span>
-          <div className="flex items-center gap-2 font-bold tracking-wider text-coral font-mono text-[11px] sm:text-xs">
-            <span>■ 02 ANALYSIS · PRE-ARRIVAL CLEARANCE DOSSIER</span>
+          <div className="flex items-center gap-2 font-bold tracking-wider text-[#0284C7] font-mono text-[11px] sm:text-xs">
+            <span>■ Phase 02: ANALYZE · PRE-ARRIVAL CLEARANCE DOSSIER</span>
           </div>
         </div>
 
@@ -197,10 +197,10 @@ export function DocumentCenterScreen() {
         {/* Left Panel: Col 1-3 (25% Width) */}
         <div className="lg:col-span-3 space-y-4">
           {/* Document Package Selector */}
-          <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-4 space-y-3 shadow-card dark:shadow-card-dark">
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-4 space-y-3 shadow-card dark:shadow-card-dark">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-slate-200 flex items-center gap-2 font-mono">
-                <Layers className="w-4 h-4 text-coral" />
+                <Layers className="w-4 h-4 text-[#0066FF]" />
                 CARGO & NOTICE PACKAGE
               </h2>
               <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 font-semibold">4 FILES</span>
@@ -215,8 +215,8 @@ export function DocumentCenterScreen() {
                     onClick={() => handleSelectDoc(doc.type)}
                     className={`cursor-pointer rounded-2xl p-3 border transition-all text-xs flex flex-col justify-between group ${
                       isActive
-                        ? "bg-coral/5 dark:bg-[#1c202c] border-l-4 border-l-coral border-coral/40 shadow-sm ring-1 ring-coral/20"
-                        : "bg-white dark:bg-[#151821] border-slate-200/80 dark:border-slate-800/80 hover:border-coral/30 hover:bg-slate-50 dark:hover:bg-[#1a1e29]"
+                        ? "bg-blue-50/60 dark:bg-[#102A45] border-l-4 border-l-[#0066FF] border-[#0066FF]/40 shadow-sm ring-1 ring-[#0066FF]/20"
+                        : "bg-white dark:bg-[#0A1931] border-slate-200/80 dark:border-slate-800/80 hover:border-[#0066FF]/30 hover:bg-slate-50 dark:hover:bg-[#102A45]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
@@ -237,7 +237,7 @@ export function DocumentCenterScreen() {
                       )}
                     </div>
 
-                    <div className={`font-bold transition-colors text-xs leading-snug ${isActive ? "text-coral font-extrabold" : "text-slate-800 dark:text-slate-200 group-hover:text-coral"}`}>
+                    <div className={`font-bold transition-colors text-xs leading-snug ${isActive ? "text-[#0066FF] dark:text-[#38BDF8] font-extrabold" : "text-slate-800 dark:text-slate-200 group-hover:text-[#0066FF]"}`}>
                       {doc.title}
                     </div>
                     <div className="text-[10px] text-slate-400 dark:text-slate-500 truncate mt-1 font-mono">
@@ -250,9 +250,9 @@ export function DocumentCenterScreen() {
           </div>
 
           {/* Technical Summary Card */}
-          <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-4 shadow-card dark:shadow-card-dark space-y-3">
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-4 shadow-card dark:shadow-card-dark space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-coral font-mono">
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#0A2540] dark:text-white font-mono">
                 VERIFIED SHIP DOSSIER STATUS
               </span>
               <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">

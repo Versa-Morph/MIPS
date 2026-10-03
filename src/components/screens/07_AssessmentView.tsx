@@ -102,14 +102,14 @@ export function AssessmentViewScreen() {
       {/* Top Status Breadcrumb */}
       <div className="flex items-center justify-between font-mono text-xs text-slate-500 dark:text-slate-400">
         <div className="flex items-center gap-2">
-          <Award className="w-4 h-4 text-coral" />
+          <Award className="w-4 h-4 text-[#7C3AED]" />
           <span className="text-slate-800 dark:text-slate-200 font-semibold">
-            CADET PERFORMANCE CERTIFICATION
+            CADET PERFORMANCE CERTIFICATION · Phase 05: EVALUATE
           </span>
         </div>
         <div className="flex items-center gap-2">
           <span>STAGE:</span>
-          <span className="text-coral font-bold">07 / 07</span>
+          <span className="text-[#7C3AED] font-bold">07 / 07</span>
           <span className="text-slate-300 dark:text-slate-700">|</span>
           <span className="text-emerald-700 dark:text-emerald-400 font-semibold">
             EVALUATION COMPLETE
@@ -118,18 +118,18 @@ export function AssessmentViewScreen() {
       </div>
 
       {/* Executive Certification Header Card */}
-      <div className="relative rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-6 sm:p-8 text-slate-900 dark:text-white shadow-card dark:shadow-card-dark overflow-hidden">
+      <div className="relative rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 sm:p-8 text-slate-900 dark:text-white shadow-card dark:shadow-card-dark overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
             {/* Gold Seal of Competency */}
-            <div className="relative shrink-0 flex items-center justify-center p-2 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-coral/30 shadow-sm">
+            <div className="relative shrink-0 flex items-center justify-center p-2 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-[#F5B800]/40 shadow-sm">
               <img
                 src={getAssetPath("/images/seal-competency.png")}
                 alt="Competency Seal"
                 className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
               />
-              <div className="absolute -bottom-1 -right-1 p-1 bg-white dark:bg-[#14171f] rounded-full border border-coral/60 shadow-xs">
-                <ShieldCheck className="w-4 h-4 text-coral" />
+              <div className="absolute -bottom-1 -right-1 p-1 bg-white dark:bg-[#0A1931] rounded-full border border-[#F5B800]/60 shadow-xs">
+                <ShieldCheck className="w-4 h-4 text-[#F5B800]" />
               </div>
             </div>
 
@@ -146,7 +146,7 @@ export function AssessmentViewScreen() {
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-mono text-slate-500 dark:text-slate-400">
                 <span>
-                  Cadet: <strong className="text-coral">{cadetName || "Cadet"}</strong>
+                  Cadet: <strong className="text-[#0066FF] dark:text-[#38BDF8]">{cadetName || "Cadet"}</strong>
                 </span>
                 <span className="text-slate-300 dark:text-slate-700">·</span>
                 <span>
@@ -163,12 +163,12 @@ export function AssessmentViewScreen() {
             </div>
           </div>
 
-          {/* Large Score Display Box (TransGlobal Card) */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 text-center shrink-0 min-w-[200px] shadow-xs">
+          {/* Large Score Display Box (MIPS Navy & White Card) */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] text-center shrink-0 min-w-[200px] shadow-xs">
             <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block tracking-widest font-mono">
               TRAINING SCORE
             </span>
-            <div className="text-4xl sm:text-5xl font-black text-coral font-mono tracking-tight mt-1">
+            <div className="text-4xl sm:text-5xl font-black text-[#0A2540] dark:text-white font-mono tracking-tight mt-1">
               <span>{score.totalScore}</span>{" "}
               <span className="text-lg sm:text-xl text-slate-400 dark:text-slate-500 font-normal">
                 / 100
@@ -181,11 +181,11 @@ export function AssessmentViewScreen() {
         </div>
       </div>
 
-      {/* Assessment Components Breakdown (TransGlobal Card) */}
-      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-6 space-y-4 shadow-card dark:shadow-card-dark text-xs">
+      {/* Assessment Components Breakdown (MIPS 4-Pillar Card) */}
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 space-y-4 shadow-card dark:shadow-card-dark text-xs">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2 font-mono">
-            <TrendingUp className="w-4 h-4 text-coral" />
+            <TrendingUp className="w-4 h-4 text-[#7C3AED]" />
             <span>Assessment Components</span>
           </h2>
           <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500">
@@ -195,7 +195,7 @@ export function AssessmentViewScreen() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Pillar 1: Document Review */}
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 space-y-2.5 shadow-xs">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-2.5 shadow-xs">
             <div className="flex justify-between items-center font-bold">
               <span className="text-slate-900 dark:text-white flex items-center gap-2">
                 <FileCheck className="w-4 h-4 text-emerald-500" />
@@ -220,19 +220,19 @@ export function AssessmentViewScreen() {
           </div>
 
           {/* Pillar 2: Berth Decision */}
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 space-y-2.5 shadow-xs">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-2.5 shadow-xs">
             <div className="flex justify-between items-center font-bold">
               <span className="text-slate-900 dark:text-white flex items-center gap-2">
-                <Ship className="w-4 h-4 text-coral" />
+                <Ship className="w-4 h-4 text-[#0066FF]" />
                 <span>Berth Decision (40%)</span>
               </span>
-              <span className="text-coral font-mono text-sm font-bold">
+              <span className="text-[#0066FF] dark:text-[#38BDF8] font-mono text-sm font-bold">
                 {score.berthDecisionScore} / {score.berthDecisionMax}
               </span>
             </div>
             <div className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-300 dark:border-slate-700/60">
               <div
-                className="h-full bg-coral rounded-full transition-all duration-700"
+                className="h-full bg-[#0066FF] rounded-full transition-all duration-700"
                 style={{
                   width: `${(score.berthDecisionScore / score.berthDecisionMax) * 100}%`,
                 }}
@@ -245,7 +245,7 @@ export function AssessmentViewScreen() {
           </div>
 
           {/* Pillar 3: Operation */}
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 space-y-2.5 shadow-xs">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-2.5 shadow-xs">
             <div className="flex justify-between items-center font-bold">
               <span className="text-slate-900 dark:text-white flex items-center gap-2">
                 <Layers className="w-4 h-4 text-slate-700 dark:text-slate-300" />
@@ -270,7 +270,7 @@ export function AssessmentViewScreen() {
           </div>
 
           {/* Pillar 4: KPI Performance */}
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#181c26] border border-slate-200/80 dark:border-slate-800 space-y-2.5 shadow-xs">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-2.5 shadow-xs">
             <div className="flex justify-between items-center font-bold">
               <span className="text-slate-900 dark:text-white flex items-center gap-2">
                 <Gauge className="w-4 h-4 text-slate-700 dark:text-slate-300" />
