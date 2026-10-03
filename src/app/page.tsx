@@ -53,14 +53,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#081826] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#081826] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 overflow-x-hidden">
       <Header />
       {currentState !== TrainingState.DASHBOARD &&
         currentState !== TrainingState.SCENARIO_CATALOG && (
           <ProgressBar currentState={currentState} />
         )}
-      <main className="flex-1 overflow-y-auto flex flex-col">
-        <div key={currentState} className="flex-1 flex flex-col animate-page-enter">
+      <main className="flex-1 overflow-y-auto flex flex-col min-w-0">
+        <div key={currentState} className="flex-1 flex flex-col animate-page-enter min-w-0">
           {renderActiveScreen()}
         </div>
       </main>

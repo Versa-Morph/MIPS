@@ -749,7 +749,7 @@ export function DashboardScreen() {
         {/* ========================================================================= */}
         <Card
           id="logbook-table-section"
-          className="p-5 space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]"
+          className="p-5 space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] overflow-hidden max-w-full min-w-0"
         >
           {/* Table Top Controls & Tabs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100 dark:border-slate-800/80">

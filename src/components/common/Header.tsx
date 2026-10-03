@@ -168,12 +168,12 @@ export function Header() {
         )}
 
         {/* Right: Actions, Theme Switcher, Audio, & Cadet Profile */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Quick Search */}
           <button
             type="button"
             title="Search database / skenario"
-            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
+            className="hidden md:flex w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -182,7 +182,7 @@ export function Header() {
           <button
             type="button"
             title="Notifikasi Pelatihan"
-            className="relative w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
+            className="hidden sm:flex relative w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
           >
             <Bell className="w-4 h-4" />
             <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#0066FF]" />
@@ -193,7 +193,7 @@ export function Header() {
             type="button"
             onClick={handleToggleSound}
             title={isMuted ? "Suara Efek: Mati" : "Suara Efek: Nyala"}
-            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
+            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#00A3E0] transition-colors shadow-xs"
           >
             {isMuted ? (
               <VolumeX className="w-4 h-4 text-slate-400" />
@@ -210,7 +210,7 @@ export function Header() {
             type="button"
             onClick={() => setIsInstructorConsoleOpen(true)}
             title="Buka Konsol Instruktur & Dispatch (WebSocket / BroadcastChannel)"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-bold border border-blue-200 dark:border-blue-800/80 bg-blue-50/80 dark:bg-blue-950/50 text-[#0066FF] dark:text-[#38BDF8] hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-mono font-bold border border-blue-200 dark:border-blue-800/80 bg-blue-50/80 dark:bg-blue-950/50 text-[#0066FF] dark:text-[#38BDF8] hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors shadow-xs"
           >
             <Radio className="w-3.5 h-3.5 text-[#00A3E0] animate-pulse" />
             <span className="hidden sm:inline">Instruktur</span>
@@ -225,7 +225,7 @@ export function Header() {
               }
             }}
             title="Reset Seluruh Skenario"
-            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors shadow-xs"
+            className="hidden lg:flex w-9 h-9 rounded-full items-center justify-center border border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#102A45] text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors shadow-xs"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
