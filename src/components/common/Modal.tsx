@@ -135,7 +135,7 @@ export function Modal({
                 </div>
 
                 <a
-                  href={getAssetPath(activeDocPath)}
+                  href={pdfUrl}
                   download
                   className="p-1.5 rounded-full bg-slate-100 dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#38BDF8] border border-slate-200 dark:border-slate-800 transition-colors"
                   title="Download original PDF"
@@ -144,7 +144,7 @@ export function Modal({
                 </a>
 
                 <a
-                  href={getAssetPath(activeDocPath)}
+                  href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-slate-100 dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#38BDF8] border border-slate-200 dark:border-slate-800 transition-colors"
@@ -174,7 +174,7 @@ export function Modal({
           {isDoc && viewMode === "pdf" ? (
             <div className="w-full h-full flex-1 min-h-[550px] rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#081826]">
               <iframe
-                src={`${getAssetPath(activeDocPath)}#toolbar=0&navpanes=0`}
+                src={`${pdfUrl}#toolbar=0&navpanes=0`}
                 title={title}
                 className="w-full h-full min-h-[550px] border-none"
               />

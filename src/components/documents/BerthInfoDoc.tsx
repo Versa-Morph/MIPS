@@ -55,10 +55,10 @@ export function BerthInfoDoc({ document }: DocumentProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Berth B-01 Card */}
         <div className="rounded-xl bg-slate-50 dark:bg-[#102A45] border-2 border-emerald-500/40 p-5 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-              <h3 className="font-bold text-white text-sm">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">
                 Berth B-01 (Deepwater Terminal)
               </h3>
             </div>
@@ -68,17 +68,17 @@ export function BerthInfoDoc({ document }: DocumentProps) {
           </div>
 
           <div className="space-y-2 text-xs">
-            <div className="flex justify-between py-1 border-b border-slate-900">
+            <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-800">
               <span className="text-slate-400">Maximum Length (LOA):</span>
               <span className="font-mono font-bold text-emerald-400">300.0 m</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-slate-900">
+            <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-800">
               <span className="text-slate-400">Controlling Depth (Max Draft):</span>
               <span className="font-mono font-bold text-emerald-400">12.0 m</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-slate-900">
+            <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-800">
               <span className="text-slate-400">Quay Cranes:</span>
-              <span className="font-mono text-slate-200">2x Super Post-Panamax</span>
+              <span className="font-mono text-slate-900 dark:text-slate-200">2x Super Post-Panamax</span>
             </div>
             <div className="flex justify-between py-1">
               <span className="text-slate-400">Operational Status:</span>
@@ -89,10 +89,10 @@ export function BerthInfoDoc({ document }: DocumentProps) {
 
         {/* Berth B-02 Card */}
         <div className="rounded-xl bg-slate-50 dark:bg-[#102A45] border-2 border-rose-500/30 p-5 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400"></span>
-              <h3 className="font-bold text-white text-sm">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">
                 Berth B-02 (Feeder Quay)
               </h3>
             </div>
@@ -102,17 +102,17 @@ export function BerthInfoDoc({ document }: DocumentProps) {
           </div>
 
           <div className="space-y-2 text-xs">
-            <div className="flex justify-between py-1 border-b border-slate-900">
+            <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-800">
               <span className="text-slate-400">Maximum Length (LOA):</span>
               <span className="font-mono font-bold text-red-400">250.0 m</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-slate-900">
+            <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-800">
               <span className="text-slate-400">Controlling Depth (Max Draft):</span>
               <span className="font-mono font-bold text-red-400">9.0 m</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-slate-900">
+            <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-800">
               <span className="text-slate-400">Quay Cranes:</span>
-              <span className="font-mono text-slate-200">2x Panamax Cranes</span>
+              <span className="font-mono text-slate-900 dark:text-slate-200">2x Panamax Cranes</span>
             </div>
             <div className="flex justify-between py-1">
               <span className="text-slate-400">Operational Status:</span>
@@ -139,7 +139,7 @@ export function BerthInfoDoc({ document }: DocumentProps) {
       )}
 
       {/* Official Stamp */}
-      <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+      <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2 text-amber-400 text-xs font-mono">
           <Stamp className="w-5 h-5 text-amber-400" />
           <span>{content.officialStampText || "PORT CAPACITY RECORD"}</span>

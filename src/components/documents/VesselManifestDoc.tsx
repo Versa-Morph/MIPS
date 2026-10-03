@@ -12,7 +12,7 @@ export function VesselManifestDoc({ document }: DocumentProps) {
   const { content } = document;
 
   return (
-    <div className="bg-white dark:bg-[#0A1931] border border-slate-200 dark:border-[#1E3A5F] rounded-xl p-6 sm:p-8 space-y-6 text-slate-900 dark:text-slate-100 font-sans shadow-md relative overflow-hidden">
+    <div className="bg-white dark:bg-[#0A1931] border border-slate-200 dark:border-[#1E3A5F] rounded-xl p-6 sm:p-8 space-y-6 text-slate-900 dark:text-slate-900 dark:text-slate-100 font-sans shadow-md relative overflow-hidden">
       {/* Official Header */}
       <div className="border-b-2 border-slate-200 dark:border-slate-700 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -57,10 +57,10 @@ export function VesselManifestDoc({ document }: DocumentProps) {
           {Object.entries(content.details).map(([key, value]) => (
             <div
               key={key}
-              className="flex justify-between py-1.5 border-b border-slate-800/80"
+              className="flex justify-between py-1.5 border-b border-slate-200 dark:border-slate-800"
             >
               <span className="text-slate-400">{key}:</span>
-              <span className="font-mono font-semibold text-slate-100">
+              <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
                 {value}
               </span>
             </div>
@@ -85,7 +85,7 @@ export function VesselManifestDoc({ document }: DocumentProps) {
       )}
 
       {/* Official Stamp */}
-      <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+      <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sky-400 text-xs font-mono">
           <Stamp className="w-5 h-5 text-sky-400" />
           <span>{content.officialStampText || "CLASSIFICATION CERTIFIED"}</span>

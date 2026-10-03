@@ -117,14 +117,14 @@ export function ArrivalNoticeDoc({ document }: DocumentProps) {
       )}
 
       {/* Official Stamp & Signatures */}
-      <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono">
-          <Stamp className="w-5 h-5 text-emerald-400" />
+      <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-xs font-mono">
+          <Stamp className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           <span>{content.officialStampText || "PORT AUTHORITY CLEARED"}</span>
         </div>
 
         <div className="text-center sm:text-right text-xs text-slate-500 dark:text-slate-400">
-          <div className="font-semibold text-slate-200">Capt. H. Gunawan</div>
+          <div className="font-semibold text-slate-900 dark:text-slate-200">Capt. H. Gunawan</div>
           <div>Harbor Master Duty Officer · Port of MIPS</div>
         </div>
       </div>

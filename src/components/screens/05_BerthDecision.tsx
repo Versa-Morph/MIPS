@@ -537,10 +537,10 @@ export function BerthDecisionScreen() {
           maxWidth="max-w-2xl"
         >
           <div className="space-y-4 text-slate-900 dark:text-slate-100 font-sans">
-            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-slate-200 text-xs sm:text-sm flex items-start gap-3">
-              <ShieldAlert className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-slate-700 dark:text-slate-200 text-xs sm:text-sm flex items-start gap-3">
+              <ShieldAlert className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <strong className="text-red-300 font-bold block text-sm font-sans">
+                <strong className="text-red-700 dark:text-red-300 font-bold block text-sm font-sans">
                   MARITIME CASUALTY REPORT · CRITICAL WATER DEPTH DEFICIT
                 </strong>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
@@ -577,7 +577,7 @@ export function BerthDecisionScreen() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1.5">
-                <span className="text-red-400 font-bold uppercase block tracking-wider font-mono">
+                <span className="text-rose-700 dark:text-rose-400 font-bold uppercase block tracking-wider font-mono">
                   Casualty Consequences
                 </span>
                 <ul className="space-y-1 text-slate-600 dark:text-slate-300 list-disc list-inside font-sans">
@@ -589,7 +589,7 @@ export function BerthDecisionScreen() {
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] space-y-1.5">
-                <span className="text-emerald-400 font-bold uppercase block tracking-wider font-mono">
+                <span className="text-emerald-700 dark:text-emerald-400 font-bold uppercase block tracking-wider font-mono">
                   Instructor Lesson for Cadets
                 </span>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-sans">

@@ -221,7 +221,7 @@ export function SimulationViewScreen() {
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed bg-slate-50 dark:bg-[#102A45] p-4 rounded-xl border border-slate-200 dark:border-[#1E3A5F] text-slate-700 dark:text-slate-300">
+            <p className="text-xs sm:text-sm leading-relaxed bg-slate-50 dark:bg-[#102A45] p-4 rounded-xl border border-slate-200 dark:border-[#1E3A5F] text-slate-700 dark:text-slate-300">
               {pendingCheckpoint.description}
             </p>
 
@@ -292,7 +292,7 @@ export function SimulationViewScreen() {
               <span className="font-bold text-slate-400 uppercase text-[10px] tracking-wider block font-mono">
                 Catatan Pengawas Lapangan
               </span>
-              <p className="text-slate-300 leading-relaxed italic">
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic">
                 &quot;{selectedEquipment.operationalNotes}&quot;
               </p>
             </div>
