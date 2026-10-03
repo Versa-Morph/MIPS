@@ -299,7 +299,7 @@ export function AssessmentViewScreen() {
       {/* 3 Performance Cards in 3-column Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
         {/* Card 1: DECISION */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] space-y-3 shadow-card dark:shadow-card-dark">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] space-y-3 shadow-card dark:shadow-card-dark">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
             <h3 className="font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               DECISION
@@ -321,7 +321,7 @@ export function AssessmentViewScreen() {
         </div>
 
         {/* Card 2: OPERATION */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] space-y-3 shadow-card dark:shadow-card-dark">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] space-y-3 shadow-card dark:shadow-card-dark">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
             <h3 className="font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               OPERATION
@@ -339,13 +339,13 @@ export function AssessmentViewScreen() {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-slate-600 dark:text-slate-300 font-sans">Productivity</span>
-              <span className="text-coral font-bold">71 moves/hour</span>
+              <span className="text-[#0066FF] dark:text-[#38BDF8] font-bold">71 moves/hour</span>
             </div>
           </div>
         </div>
 
         {/* Card 3: PERFORMANCE */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] space-y-3 shadow-card dark:shadow-card-dark">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] space-y-3 shadow-card dark:shadow-card-dark">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
             <h3 className="font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               PERFORMANCE
@@ -370,7 +370,7 @@ export function AssessmentViewScreen() {
       </div>
 
       {/* STATUS Card */}
-      <div className="p-5 rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] space-y-3 text-xs shadow-card dark:shadow-card-dark font-mono">
+      <div className="p-5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] space-y-3 text-xs shadow-card dark:shadow-card-dark font-mono">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
           <h3 className="font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             STATUS
@@ -559,7 +559,7 @@ export function AssessmentViewScreen() {
       </div>
 
       {/* Action Footer */}
-      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
           <Button
             variant="outline"
@@ -567,7 +567,7 @@ export function AssessmentViewScreen() {
             onClick={handleReviewReplay}
             className="w-full sm:w-auto rounded-full gap-2 text-xs font-bold font-mono"
           >
-            <RotateCcw className="w-4 h-4 text-coral" />
+            <RotateCcw className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
             <span>Review Simulation Replay</span>
           </Button>
 
@@ -584,10 +584,10 @@ export function AssessmentViewScreen() {
         </div>
 
         <Button
-          variant="coral"
+          variant="brand"
           size="lg"
           onClick={handleBackToDashboard}
-          className="w-full sm:w-auto px-8 font-bold shadow-coral rounded-full"
+          className="w-full sm:w-auto px-8 font-bold shadow-md rounded-full"
         >
           <BookOpen className="w-4 h-4 mr-1" />
           <span>Back to Training Center</span>

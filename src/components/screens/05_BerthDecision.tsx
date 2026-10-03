@@ -247,9 +247,9 @@ export function BerthDecisionScreen() {
               className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-200 flex flex-col justify-between shadow-card dark:shadow-card-dark ${
                 isSelected
                   ? isB01
-                    ? "bg-white dark:bg-[#14171f] border-2 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md"
-                    : "bg-white dark:bg-[#14171f] border-2 border-rose-500 ring-2 ring-rose-500/20 shadow-md"
-                  : "bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] hover:border-slate-300 dark:hover:border-slate-700"
+                    ? "bg-white dark:bg-[#0A1931] border-2 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md"
+                    : "bg-white dark:bg-[#0A1931] border-2 border-rose-500 ring-2 ring-rose-500/20 shadow-md"
+                  : "bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] hover:border-slate-300 dark:hover:border-slate-700"
               }`}
             >
               <div className="space-y-4 flex-1 flex flex-col justify-between">
@@ -296,7 +296,7 @@ export function BerthDecisionScreen() {
                   </p>
 
                   {/* Specification Table */}
-                  <div className="rounded-xl bg-slate-50 dark:bg-[#181c26] p-3.5 border border-slate-200/80 dark:border-slate-800 space-y-2.5 text-xs font-mono">
+                  <div className="rounded-xl bg-slate-50 dark:bg-[#102A45] p-3.5 border border-slate-200/80 dark:border-slate-800 space-y-2.5 text-xs font-mono">
                     <div className="flex items-center justify-between py-1 border-b border-slate-200/60 dark:border-slate-800/80">
                       <span className="text-slate-500 dark:text-slate-400 font-sans">Maximum Length (LOA):</span>
                       <div className="text-right">
@@ -494,7 +494,7 @@ export function BerthDecisionScreen() {
       )}
 
       {/* Bottom Action Footer Bar */}
-      <div className="rounded-2xl bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-card dark:shadow-card-dark">
         <button
           type="button"
           onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
@@ -508,7 +508,7 @@ export function BerthDecisionScreen() {
             <button
               type="button"
               onClick={handleSubmit}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full cta-coral font-bold text-xs uppercase tracking-wide transition-all shadow-coral"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full cta-brand font-bold text-xs uppercase tracking-wide transition-all shadow-md"
             >
               <span>Submit Decision</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -517,7 +517,7 @@ export function BerthDecisionScreen() {
             <button
               type="button"
               onClick={() => setStep(TrainingState.SIMULATION_RUNNING)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full cta-coral font-black text-xs uppercase tracking-wider shadow-coral transition-all transform hover:scale-[1.02]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full cta-brand font-black text-xs uppercase tracking-wider shadow-md transition-all transform hover:scale-[1.02]"
             >
               <Sparkles className="w-4 h-4" />
               <span>START SIMULATION</span>

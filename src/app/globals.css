@@ -97,6 +97,7 @@ body {
   box-shadow: 0 2px 8px rgba(0, 102, 255, 0.25);
 }
 
+.cta-brand,
 .cta-coral {
   background: linear-gradient(180deg, #1A75FF 0%, #0066FF 50%, #0052CC 100%);
   color: #ffffff;
@@ -106,12 +107,14 @@ body {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.cta-brand:hover,
 .cta-coral:hover {
   background: linear-gradient(180deg, #3385FF 0%, #005ce6 50%, #0047b3 100%);
   box-shadow: 0 6px 20px 0 rgba(0, 102, 255, 0.45);
   transform: translateY(-1px);
 }
 
+.cta-brand:active,
 .cta-coral:active {
   transform: translateY(1px);
   box-shadow: 0 2px 8px 0 rgba(0, 102, 255, 0.3);

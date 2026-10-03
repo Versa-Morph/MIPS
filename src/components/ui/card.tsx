@@ -11,7 +11,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "transglobal-card bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] shadow-card dark:shadow-card-dark rounded-2xl p-5 sm:p-6",
+        "transglobal-card bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] shadow-card dark:shadow-card-dark rounded-2xl p-5 sm:p-6",
         className
       )}
       {...props}
@@ -62,7 +62,7 @@ export function CardDescription({
   return (
     <p
       className={cn(
-        "text-xs sm:text-sm text-slate-500 dark:text-[#8e95a5]",
+        "text-xs sm:text-sm text-slate-500 dark:text-slate-400",
         className
       )}
       {...props}

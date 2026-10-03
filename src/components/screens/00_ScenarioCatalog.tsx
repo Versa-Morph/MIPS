@@ -201,13 +201,13 @@ export function ScenarioCatalogScreen() {
           onClick={() => setStep(TrainingState.DASHBOARD)}
           className="rounded-full shadow-xs gap-2 font-semibold self-start sm:self-auto"
         >
-          <ArrowLeft className="w-4 h-4 text-coral" />
+          <ArrowLeft className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
           <span>Kembali ke Dashboard</span>
         </Button>
 
         <div className="flex items-center gap-3 text-xs font-mono text-slate-500 dark:text-slate-400">
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-coral animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-pulse" />
             <span className="font-semibold text-slate-900 dark:text-white">
               PORTAL SIMULASI
             </span>
@@ -220,10 +220,10 @@ export function ScenarioCatalogScreen() {
       {/* ========================================================================= */}
       {/* 2. Hero Header Banner & Simulator Stats                                   */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-6 sm:p-8 shadow-card dark:shadow-card-dark space-y-5">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 sm:p-8 shadow-card dark:shadow-card-dark space-y-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-coral/10 border border-coral/30 text-coral text-xs font-mono font-bold tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0066FF]/10 border border-[#0066FF]/30 text-[#0066FF] dark:text-[#38BDF8] text-xs font-mono font-bold tracking-wider">
               <Compass className="w-3.5 h-3.5" />
               <span>KATALOG SIMULASI MARITIM RESMI</span>
             </div>
@@ -241,7 +241,7 @@ export function ScenarioCatalogScreen() {
 
           {/* Quick Metrics Capsule */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 text-center">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 text-center">
               <span className="text-[10px] text-slate-400 uppercase font-semibold block">
                 Total Skenario
               </span>
@@ -250,7 +250,7 @@ export function ScenarioCatalogScreen() {
               </span>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 text-center">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 text-center">
               <span className="text-[10px] text-slate-400 uppercase font-semibold block">
                 Operasional
               </span>
@@ -259,16 +259,16 @@ export function ScenarioCatalogScreen() {
               </span>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 text-center">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 text-center">
               <span className="text-[10px] text-slate-400 uppercase font-semibold block">
                 Ditugaskan
               </span>
-              <span className="text-xl font-extrabold text-coral block mt-0.5">
+              <span className="text-xl font-extrabold text-[#0066FF] dark:text-[#38BDF8] block mt-0.5">
                 1
               </span>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 text-center">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 text-center">
               <span className="text-[10px] text-slate-400 uppercase font-semibold block">
                 Standar Lulus
               </span>
@@ -297,8 +297,8 @@ export function ScenarioCatalogScreen() {
                 className={cn(
                   "px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer",
                   selectedCategory === tab.id
-                    ? "bg-slate-900 text-white dark:bg-[#282f40] dark:text-white shadow-xs"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#1a1e29]"
+                    ? "bg-slate-900 text-white dark:bg-[#132B4F] dark:text-white shadow-xs"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#132B4F]"
                 )}
               >
                 {tab.label}
@@ -315,12 +315,12 @@ export function ScenarioCatalogScreen() {
                 placeholder="Cari kapal, dermaga, rute..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 h-9 text-xs rounded-full bg-slate-50 dark:bg-[#1a1e29] border-slate-200 dark:border-slate-800"
+                className="pl-9 h-9 text-xs rounded-full bg-slate-50 dark:bg-[#102A45] border-slate-200 dark:border-slate-800"
               />
             </div>
 
             {/* Difficulty Filter Chips */}
-            <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-[#1a1e29] p-1 rounded-full border border-slate-200/80 dark:border-slate-800 text-xs">
+            <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-[#102A45] p-1 rounded-full border border-slate-200/80 dark:border-slate-800 text-xs">
               {["all", "basic", "medium", "advanced"].map((dif) => (
                 <button
                   key={dif}
@@ -329,7 +329,7 @@ export function ScenarioCatalogScreen() {
                   className={cn(
                     "px-2.5 py-1 rounded-full text-[11px] font-semibold capitalize transition-colors",
                     selectedDifficulty === dif
-                      ? "bg-white text-slate-900 dark:bg-[#252a3a] dark:text-white shadow-xs font-bold"
+                      ? "bg-white text-slate-900 dark:bg-[#102A45] dark:text-white shadow-xs font-bold"
                       : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
                   )}
                 >
@@ -356,16 +356,16 @@ export function ScenarioCatalogScreen() {
               className={cn(
                 "rounded-2xl border transition-all flex flex-col justify-between p-5 sm:p-6 space-y-4 shadow-card dark:shadow-card-dark",
                 isAssigned
-                  ? "bg-white dark:bg-[#14171f] border-coral/50 ring-2 ring-coral/20"
+                  ? "bg-white dark:bg-[#0A1931] border-[#0066FF]/50 ring-2 ring-[#0066FF]/20"
                   : isAvailable
-                  ? "bg-white dark:bg-[#14171f] border-slate-200/80 dark:border-[#222634] hover:border-slate-300 dark:hover:border-slate-700"
-                  : "bg-slate-50/70 dark:bg-[#14171f]/50 border-slate-200/60 dark:border-slate-800/80 opacity-70"
+                  ? "bg-white dark:bg-[#0A1931] border-slate-200/80 dark:border-[#1E3A5F] hover:border-slate-300 dark:hover:border-slate-700"
+                  : "bg-slate-50/70 dark:bg-[#0A1931]/50 border-slate-200/60 dark:border-slate-800/80 opacity-70"
               )}
             >
               {/* Card Top Row: Code, Category, Status Badge */}
               <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-coral bg-coral/10 px-2 py-0.5 rounded-full border border-coral/25">
+                  <span className="font-mono text-xs font-bold text-[#0066FF] dark:text-[#38BDF8] bg-[#0066FF]/10 px-2 py-0.5 rounded-full border border-[#0066FF]/25">
                     {sc.code}
                   </span>
                   <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
@@ -374,7 +374,7 @@ export function ScenarioCatalogScreen() {
                 </div>
 
                 <Badge
-                  variant={isAssigned ? "coral" : isAvailable ? "success" : "neutral"}
+                  variant={isAssigned ? "brand" : isAvailable ? "success" : "neutral"}
                   size="sm"
                 >
                   {sc.statusLabel}
@@ -392,10 +392,10 @@ export function ScenarioCatalogScreen() {
                 </p>
 
                 {/* Vessel Technical Specs Matrix */}
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
-                      <Ship className="w-4 h-4 text-coral shrink-0" />
+                      <Ship className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8] shrink-0" />
                       <span>{sc.vesselName}</span>
                     </div>
                     <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
@@ -410,7 +410,7 @@ export function ScenarioCatalogScreen() {
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 block">Draft Max</span>
-                      <strong className="text-coral">{sc.draft}</strong>
+                      <strong className="text-[#0066FF] dark:text-[#38BDF8]">{sc.draft}</strong>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 block">Displacement</span>
@@ -456,12 +456,12 @@ export function ScenarioCatalogScreen() {
                   </Button>
                 ) : (
                   <Button
-                    variant={isAssigned ? "coral" : "outline"}
+                    variant={isAssigned ? "brand" : "outline"}
                     size="sm"
                     onClick={() => handleSelectScenario(sc.id)}
                     className={cn(
                       "rounded-full gap-2 font-bold px-5 text-xs shadow-xs",
-                      isAssigned && "shadow-coral"
+                      isAssigned && "shadow-md"
                     )}
                   >
                     <span>Mulai Simulasi</span>
@@ -477,10 +477,10 @@ export function ScenarioCatalogScreen() {
       {/* ========================================================================= */}
       {/* 4. Pedagogical Simulation Lifecycle Infographic Banner                    */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-5 sm:p-6 shadow-card dark:shadow-card-dark space-y-4">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 sm:p-6 shadow-card dark:shadow-card-dark space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-coral" />
+            <Sparkles className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
             <h3 className="text-sm font-bold text-slate-900 dark:text-white font-sans">
               Alur Proses Pembelajaran & Sertifikasi Simulator
             </h3>
@@ -489,8 +489,8 @@ export function ScenarioCatalogScreen() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 space-y-1">
-            <span className="font-mono text-[10px] font-bold text-coral block">01 · BRIEFING</span>
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 space-y-1">
+            <span className="font-mono text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8] block">01 · BRIEFING</span>
             <strong className="text-slate-900 dark:text-white block font-semibold">
               Instruksi Instruktur
             </strong>
@@ -499,8 +499,8 @@ export function ScenarioCatalogScreen() {
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 space-y-1">
-            <span className="font-mono text-[10px] font-bold text-coral block">02 · DOCUMENTS</span>
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 space-y-1">
+            <span className="font-mono text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8] block">02 · DOCUMENTS</span>
             <strong className="text-slate-900 dark:text-white block font-semibold">
               Audit Berkas Kapal
             </strong>
@@ -509,8 +509,8 @@ export function ScenarioCatalogScreen() {
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 space-y-1">
-            <span className="font-mono text-[10px] font-bold text-coral block">03 · DECISION</span>
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 space-y-1">
+            <span className="font-mono text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8] block">03 · DECISION</span>
             <strong className="text-slate-900 dark:text-white block font-semibold">
               Alokasi Dermaga (UKC)
             </strong>
@@ -519,8 +519,8 @@ export function ScenarioCatalogScreen() {
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 space-y-1">
-            <span className="font-mono text-[10px] font-bold text-coral block">04 · SIMULATION</span>
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 space-y-1">
+            <span className="font-mono text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8] block">04 · SIMULATION</span>
             <strong className="text-slate-900 dark:text-white block font-semibold">
               Olah Gerak & Terminal
             </strong>
@@ -529,8 +529,8 @@ export function ScenarioCatalogScreen() {
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 space-y-1">
-            <span className="font-mono text-[10px] font-bold text-coral block">05 · ASSESSMENT</span>
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 space-y-1">
+            <span className="font-mono text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8] block">05 · ASSESSMENT</span>
             <strong className="text-slate-900 dark:text-white block font-semibold">
               Sertifikat STCW
             </strong>
@@ -551,7 +551,7 @@ export function ScenarioCatalogScreen() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-1">
-              <Badge variant="coral" size="sm">
+              <Badge variant="brand" size="sm">
                 MODEL CALIBRATION
               </Badge>
               <span className="text-xs font-mono text-slate-400">
@@ -567,10 +567,10 @@ export function ScenarioCatalogScreen() {
           </DialogHeader>
 
           <div className="space-y-3 pt-2 text-xs">
-            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#1a1e29]/70 space-y-2">
+            <div className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-[#102A45]/70 space-y-2">
               <div className="flex items-center justify-between text-slate-900 dark:text-white font-semibold">
                 <span className="flex items-center gap-1.5">
-                  <Ship className="w-4 h-4 text-coral" />
+                  <Ship className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
                   <span>{calibrationScenario?.vesselName}</span>
                 </span>
                 <span className="font-mono text-[11px] text-slate-500">
@@ -594,13 +594,13 @@ export function ScenarioCatalogScreen() {
                 Tutup
               </Button>
               <Button
-                variant="coral"
+                variant="brand"
                 size="sm"
                 onClick={() => {
                   setCalibrationScenario(null);
                   setStep(TrainingState.SCENARIO_SELECTION);
                 }}
-                className="w-full sm:w-auto rounded-full text-xs font-bold shadow-coral"
+                className="w-full sm:w-auto rounded-full text-xs font-bold shadow-md"
               >
                 <span>Jalankan SCN-001 (Aktif)</span>
                 <ArrowRight className="w-3.5 h-3.5" />

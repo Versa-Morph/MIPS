@@ -41,7 +41,7 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-xl border border-slate-200 bg-white p-1 text-slate-800 shadow-lg dark:border-slate-800 dark:bg-[#151821] dark:text-slate-100 animate-in data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1",
+      "z-50 min-w-[8rem] overflow-hidden rounded-xl border border-slate-200 bg-white p-1 text-slate-800 shadow-lg dark:border-slate-800 dark:bg-[#0A1931] dark:text-slate-100 animate-in data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1",
       className
     )}
     {...props}
@@ -101,7 +101,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Check className="h-4 w-4 text-coral" />
+        <Check className="h-4 w-4 text-[#0066FF] dark:text-[#38BDF8]" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -124,7 +124,7 @@ const DropdownMenuRadioItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Circle className="h-2 w-2 fill-current text-coral" />
+        <Circle className="h-2 w-2 fill-current text-[#0066FF] dark:text-[#38BDF8]" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

@@ -13,7 +13,7 @@ const buttonVariants = cva(
         default:
           "bg-[#0A2540] text-white hover:bg-[#132B4F] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 rounded-full shadow-sm font-semibold",
         coral:
-          "cta-coral text-white rounded-full shadow-sm",
+          "cta-brand text-white rounded-full shadow-sm",
         brand:
           "bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-full shadow-sm font-semibold",
         gold:

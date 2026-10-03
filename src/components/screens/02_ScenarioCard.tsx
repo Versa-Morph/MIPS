@@ -344,10 +344,10 @@ export function ScenarioCardScreen() {
           </Button>
 
           <Button
-            variant="coral"
+            variant="brand"
             size="lg"
             onClick={() => setStep(TrainingState.BRIEFING)}
-            className="px-8 font-bold shadow-coral rounded-full"
+            className="px-8 font-bold shadow-md rounded-full"
           >
             <span>START TRAINING</span>
             <ArrowRight className="w-4 h-4 ml-1 stroke-[2.5]" />

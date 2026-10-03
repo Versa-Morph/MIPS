@@ -25,7 +25,7 @@ export function StatWidget({
   return (
     <div
       className={cn(
-        "bg-white dark:bg-[#151821] border border-slate-200/80 dark:border-[#232734] rounded-2xl p-4 flex items-center gap-3.5 shadow-sm min-w-[170px] sm:min-w-[190px]",
+        "bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] rounded-2xl p-4 flex items-center gap-3.5 shadow-sm min-w-[170px] sm:min-w-[190px]",
         className
       )}
     >
@@ -34,7 +34,7 @@ export function StatWidget({
       </div>
 
       <div className="flex flex-col min-w-0 flex-1">
-        <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] truncate">
+        <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
           {label}
         </span>
         <div className="flex items-baseline gap-2 mt-0.5">

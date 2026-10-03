@@ -123,8 +123,8 @@ export function SimulationViewScreen() {
             onClick={handleProceedToAssessment}
             className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform active:scale-[0.97] ${
               isCompleted || containersHandled >= 50
-                ? "cta-coral cursor-pointer shadow-coral animate-pulse"
-                : "bg-slate-900 text-white dark:bg-[#282f40] hover:bg-slate-800"
+                ? "cta-brand cursor-pointer shadow-md animate-pulse"
+                : "bg-slate-900 text-white dark:bg-[#132B4F] hover:bg-slate-800"
             }`}
           >
             <span>Complete Operation</span>
@@ -229,7 +229,7 @@ export function SimulationViewScreen() {
               <button
                 type="button"
                 onClick={handleApprove}
-                className="px-6 py-2.5 rounded-full cta-coral font-bold text-xs uppercase tracking-wide flex items-center gap-2 shadow-coral transition-all transform active:scale-[0.97]"
+                className="px-6 py-2.5 rounded-full cta-brand font-bold text-xs uppercase tracking-wide flex items-center gap-2 shadow-md transition-all transform active:scale-[0.97]"
               >
                 <CheckCircle2 className="w-4 h-4 stroke-[3]" />
                 <span>{pendingCheckpoint.actionButtonText}</span>

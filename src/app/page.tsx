@@ -53,7 +53,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f6f8] dark:bg-[#0d0f15] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#081826] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       <Header />
       {currentState !== TrainingState.DASHBOARD &&
         currentState !== TrainingState.SCENARIO_CATALOG && (

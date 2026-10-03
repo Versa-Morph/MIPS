@@ -74,9 +74,9 @@ const InteractivePortMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full min-h-[220px] flex items-center justify-center bg-slate-100 dark:bg-[#14171f] text-slate-400 font-mono text-xs rounded-2xl">
+      <div className="w-full h-full min-h-[220px] flex items-center justify-center bg-slate-100 dark:bg-[#0A1931] text-slate-400 font-mono text-xs rounded-2xl">
         <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-coral animate-ping" />
+          <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-ping" />
           Memuat Peta Pelabuhan...
         </span>
       </div>
@@ -93,7 +93,7 @@ export function DashboardScreen() {
     "SES-10568",
   ]);
 
-  // Heatmap rows & columns (7 days x 16 columns) - Monochromatic Coral shades
+  // Heatmap rows & columns (7 days x 16 columns) - Monochromatic Maritime Blue shades
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const heatmapData = [
     [1, 1, 2, 2, 3, 3, 2, 1, 1, 2, 3, 2, 1, 2, 3, 2],
@@ -144,7 +144,7 @@ export function DashboardScreen() {
       shipper: "Pertamina Maritime",
       score: "Evaluasi",
       status: "In transit",
-      statusVariant: "coral" as const,
+      statusVariant: "brand" as const,
     },
     {
       id: "SES-10331",
@@ -218,7 +218,7 @@ export function DashboardScreen() {
                 <Package className="w-5 h-5 stroke-[2]" />
               </div>
               <div>
-                <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] block leading-tight">
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-tight">
                   Total Jam Simulasi
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
@@ -238,7 +238,7 @@ export function DashboardScreen() {
                 <MapPin className="w-5 h-5 stroke-[2]" />
               </div>
               <div>
-                <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] block leading-tight">
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-tight">
                   Kapal Alur Aktif
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
@@ -259,7 +259,7 @@ export function DashboardScreen() {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-medium text-slate-500 dark:text-[#8e95a5] block leading-tight">
+                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-tight">
                     Training Progress
                   </span>
                   <span className="text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8]">
@@ -280,19 +280,19 @@ export function DashboardScreen() {
         </div>
 
         {/* ========================================================================= */}
-        {/* 2. Subheader Action Ribbon (Orders Database, Alert, Download, & Coral CTA) */}
+        {/* 2. Subheader Action Ribbon (Orders Database, Alert, Download, & Maritime Blue CTA) */}
         {/* ========================================================================= */}
-        <Card className="p-3 sm:p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
+        <Card className="p-3 sm:p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
           {/* Left: Orders Database Location Chip */}
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#1c202b] flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0">
-              <MapPin className="w-4 h-4 text-coral" />
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#102A45] flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0">
+              <MapPin className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
             </div>
             <div>
               <span className="text-xs font-bold text-slate-900 dark:text-white block">
                 VTS Fairway & Simulation Registry
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-[#8e95a5] block leading-none">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block leading-none">
                 Tanjung Priok Fairway Database · Terverifikasi STCW A-I/12
               </span>
             </div>
@@ -306,7 +306,7 @@ export function DashboardScreen() {
             </span>
           </div>
 
-          {/* Right: Actions & Primary Coral CTA */}
+          {/* Right: Actions & Primary Maritime Blue CTA */}
           <div className="flex items-center gap-2 shrink-0">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -333,12 +333,12 @@ export function DashboardScreen() {
               <span>Download report</span>
             </Button>
 
-            {/* Primary Coral CTA Button (Single Start Training counter-part) */}
+            {/* Primary Maritime Blue CTA Button (Single Start Training counter-part) */}
             <Button
-              variant="coral"
+              variant="brand"
               size="sm"
               onClick={handleLaunchScenario}
-              className="px-5 font-bold shadow-coral rounded-full"
+              className="px-5 font-bold shadow-md rounded-full"
             >
               <span>Start Training</span>
             </Button>
@@ -350,7 +350,7 @@ export function DashboardScreen() {
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
           {/* Card 1 (Col 1-5): Analytic View & Monochromatic Heatmap */}
-          <Card className="lg:col-span-5 p-5 flex flex-col justify-between space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
+          <Card className="lg:col-span-5 p-5 flex flex-col justify-between space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
             <div>
               {/* Header: Analytic view + Time Tabs */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
@@ -358,7 +358,7 @@ export function DashboardScreen() {
                   <span>Throughput & Pelatihan VTS</span>
                 </CardTitle>
 
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 dark:text-[#8e95a5]">
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                   {["Day", "Week", "Month", "Quarter", "Year", "All"].map((tab) => (
                     <button
                       key={tab}
@@ -367,7 +367,7 @@ export function DashboardScreen() {
                       className={cn(
                         "px-2.5 py-0.5 rounded-full transition-colors",
                         activeTab === tab.toLowerCase()
-                          ? "bg-slate-900 text-white dark:bg-[#252a3a] dark:text-white font-bold"
+                          ? "bg-slate-900 text-white dark:bg-[#102A45] dark:text-white font-bold"
                           : "hover:text-slate-900 dark:hover:text-white"
                       )}
                     >
@@ -385,9 +385,9 @@ export function DashboardScreen() {
                     <span className="text-xl font-black text-slate-900 dark:text-white tabular-nums">
                       24.0
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-coral">BCH</span>
+                    <span className="text-[10px] font-mono font-bold text-[#0066FF] dark:text-[#38BDF8]">BCH</span>
                   </div>
-                  <span className="text-[10px] text-slate-500 dark:text-[#8e95a5] block leading-tight">
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight">
                     Min Crane Moves
                   </span>
                 </div>
@@ -399,7 +399,7 @@ export function DashboardScreen() {
                     </span>
                     <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400">BCH</span>
                   </div>
-                  <span className="text-[10px] text-slate-500 dark:text-[#8e95a5] block leading-tight">
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight">
                     Rata-rata Terminal
                   </span>
                 </div>
@@ -411,13 +411,13 @@ export function DashboardScreen() {
                     </span>
                     <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400">BCH</span>
                   </div>
-                  <span className="text-[10px] text-slate-500 dark:text-[#8e95a5] block leading-tight">
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight">
                     Peak Throughput
                   </span>
                 </div>
               </div>
 
-              {/* Heatmap Grid Matrix (Mon-Sun x 16 Pills in Coral shades) */}
+              {/* Heatmap Grid Matrix (Mon-Sun x 16 Pills in Maritime Blue shades) */}
               <div className="space-y-1.5 pt-3">
                 {days.map((day, dIdx) => (
                   <div key={day} className="flex items-center gap-2">
@@ -426,10 +426,10 @@ export function DashboardScreen() {
                     </span>
                     <div className="flex items-center gap-1.5 flex-1">
                       {heatmapData[dIdx].map((val, cIdx) => {
-                        let cellClass = "bg-slate-100 dark:bg-[#1a1e29]";
-                        if (val === 1) cellClass = "bg-coral/25 dark:bg-coral/20";
-                        if (val === 2) cellClass = "bg-coral/60 dark:bg-coral/50";
-                        if (val === 3) cellClass = "bg-coral text-white";
+                        let cellClass = "bg-slate-100 dark:bg-[#102A45]";
+                        if (val === 1) cellClass = "bg-blue-500/25 dark:bg-blue-400/20";
+                        if (val === 2) cellClass = "bg-blue-500/60 dark:bg-blue-400/50";
+                        if (val === 3) cellClass = "bg-[#0066FF] text-white";
 
                         return (
                           <Tooltip key={cIdx}>
@@ -462,7 +462,7 @@ export function DashboardScreen() {
                 <button
                   type="button"
                   onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
-                  className="text-[11px] font-semibold text-coral hover:underline inline-flex items-center gap-1 cursor-pointer font-sans"
+                  className="text-[11px] font-semibold text-[#0066FF] dark:text-[#38BDF8] hover:underline inline-flex items-center gap-1 cursor-pointer font-sans"
                 >
                   <span>Katalog Lengkap</span>
                   <ArrowRight className="w-3 h-3 stroke-[2.5]" />
@@ -472,13 +472,13 @@ export function DashboardScreen() {
                 {/* Skenario 1: Container Vessel Berthing (Aktif) */}
                 <div
                   onClick={handleLaunchScenario}
-                  className="p-2.5 rounded-xl border border-coral/30 bg-coral/5 hover:bg-coral/10 cursor-pointer transition-all text-left shadow-xs group"
+                  className="p-2.5 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/40 hover:bg-blue-100/60 dark:hover:bg-blue-900/40 cursor-pointer transition-all text-left shadow-xs group"
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <Badge variant="coral" size="sm">
+                    <Badge variant="brand" size="sm">
                       AKTIF
                     </Badge>
-                    <ArrowUpRight className="w-3 h-3 text-coral transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="w-3 h-3 text-[#0066FF] dark:text-[#38BDF8] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                   <h3
                     onClick={handleLaunchScenario}
@@ -491,7 +491,7 @@ export function DashboardScreen() {
                 {/* Skenario 2: Bulk Carrier Fairway Navigation (Tersedia) */}
                 <div
                   onClick={handleLaunchScenario}
-                  className="p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-[#1a1e29]/80 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all text-left shadow-xs"
+                  className="p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-[#102A45]/80 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all text-left shadow-xs"
                 >
                   <div className="flex items-center justify-between mb-1">
                     <Badge variant="neutral" size="sm">
@@ -505,7 +505,7 @@ export function DashboardScreen() {
                 </div>
 
                 {/* Skenario 3: Yard Operations (Terkunci) */}
-                <div className="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 bg-slate-50 dark:bg-[#1a1e29]/60 opacity-60 text-left">
+                <div className="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 bg-slate-50 dark:bg-[#102A45]/60 opacity-60 text-left">
                   <div className="flex items-center justify-between mb-1">
                     <Badge variant="neutral" size="sm">
                       LOCKED
@@ -521,12 +521,12 @@ export function DashboardScreen() {
           </Card>
 
           {/* Card 2 (Col 6-8): Tracking History */}
-          <Card className="lg:col-span-4 p-5 flex flex-col justify-between space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
+          <Card className="lg:col-span-4 p-5 flex flex-col justify-between space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
             <div>
               {/* Header: Tracking History + Options Dropdown */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
                 <CardTitle className="text-sm font-bold flex items-center gap-2">
-                  <Anchor className="w-4 h-4 text-coral" />
+                  <Anchor className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
                   <span>Passage & VTS Tracking</span>
                 </CardTitle>
 
@@ -555,7 +555,7 @@ export function DashboardScreen() {
               {/* Tracking ID & Status Pill */}
               <div className="flex items-center justify-between pt-3 pb-4">
                 <div>
-                  <span className="text-[10px] font-mono text-slate-400 dark:text-[#8e95a5] block leading-none">
+                  <span className="text-[10px] font-mono text-slate-400 dark:text-slate-400 block leading-none">
                     Tracking ID
                   </span>
                   <span className="text-xs font-bold text-slate-900 dark:text-white font-mono mt-0.5 block">
@@ -571,7 +571,7 @@ export function DashboardScreen() {
               <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200 dark:before:bg-slate-800">
                 {/* Waypoint 1: Current Location */}
                 <div className="relative">
-                  <span className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-coral ring-4 ring-coral/20" />
+                  <span className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-[#0066FF] ring-4 ring-[#0066FF]/20" />
                   <div className="flex items-baseline justify-between gap-2">
                     <span className="text-xs font-bold text-slate-900 dark:text-white">
                       Posisi Saat Ini (Alur Masuk)
@@ -580,7 +580,7 @@ export function DashboardScreen() {
                       08:00 WIB
                     </span>
                   </div>
-                  <span className="text-[11px] text-slate-500 dark:text-[#8e95a5] block">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
                     Pelampung Pandu (Fairway Buoy No. 1) · Teluk Jakarta
                   </span>
                 </div>
@@ -596,7 +596,7 @@ export function DashboardScreen() {
                       07:15 WIB
                     </span>
                   </div>
-                  <span className="text-[11px] text-slate-500 dark:text-[#8e95a5] block">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
                     Pilot Station Priok Outer · Pandu Naik Kapal
                   </span>
                 </div>
@@ -612,7 +612,7 @@ export function DashboardScreen() {
                       08:45 WIB
                     </span>
                   </div>
-                  <span className="text-[11px] text-slate-500 dark:text-[#8e95a5] block">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
                     Dermaga Peti Kemas B-01 · Tanjung Priok Terminal
                   </span>
                 </div>
@@ -622,7 +622,7 @@ export function DashboardScreen() {
               <div className="pt-4 space-y-2 border-t border-slate-100 dark:border-slate-800/80 mt-3 text-xs">
                 <div className="flex items-center gap-2">
                   <Compass className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span className="text-[11px] text-slate-500 dark:text-[#8e95a5]">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
                     Rute Pelayaran:
                   </span>
                   <span className="text-[11px] font-semibold text-slate-900 dark:text-white">
@@ -631,7 +631,7 @@ export function DashboardScreen() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span className="text-[11px] text-slate-500 dark:text-[#8e95a5]">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
                     Estimasi Sandar (High Water):
                   </span>
                   <span className="text-[11px] font-semibold text-slate-900 dark:text-white font-mono">
@@ -642,7 +642,7 @@ export function DashboardScreen() {
             </div>
 
             {/* Courier / Pilot Capsule Card */}
-            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#1a1e29] border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3">
+            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center font-bold text-xs shadow-xs">
                   HG
@@ -690,7 +690,7 @@ export function DashboardScreen() {
           </Card>
 
           {/* Card 3 (Col 9-12): Mini Map Widget */}
-          <Card className="lg:col-span-3 p-4 flex flex-col justify-between overflow-hidden relative group rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]">
+          <Card className="lg:col-span-3 p-4 flex flex-col justify-between overflow-hidden relative group rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
             {/* Map Header with Fullscreen Icon */}
             <div className="flex items-center justify-between pb-2 z-10">
               <div className="flex items-center gap-1.5">
@@ -729,13 +729,13 @@ export function DashboardScreen() {
 
               {/* Tactical overlay badge */}
               <div className="absolute bottom-2 left-2 z-20 bg-slate-900/85 backdrop-blur-md text-white px-2 py-1 rounded-lg font-mono text-[10px] flex items-center gap-1.5 shadow-xs">
-                <Ship className="w-3 h-3 text-coral" />
+                <Ship className="w-3 h-3 text-[#0066FF] dark:text-[#38BDF8]" />
                 <span>MV NUSANTARA · 085° / 5.2kn</span>
               </div>
             </div>
 
             {/* Map Footer Information */}
-            <div className="pt-3 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-[#8e95a5]">
+            <div className="pt-3 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <span>Channel: Alur Barat Priok</span>
               <span className="text-emerald-600 dark:text-emerald-400 font-bold">
                 UKC +1.8m SAFE
@@ -749,7 +749,7 @@ export function DashboardScreen() {
         {/* ========================================================================= */}
         <Card
           id="logbook-table-section"
-          className="p-5 space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634]"
+          className="p-5 space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]"
         >
           {/* Table Top Controls & Tabs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100 dark:border-slate-800/80">
@@ -759,7 +759,7 @@ export function DashboardScreen() {
               </CardTitle>
 
               {/* Status Filter Tabs */}
-              <div className="flex items-center gap-1 overflow-x-auto text-[11px] font-semibold text-slate-500 dark:text-[#8e95a5]">
+              <div className="flex items-center gap-1 overflow-x-auto text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                 {[
                   { key: "all", label: "Semua Sesi" },
                   { key: "delivered", label: "Sandar (Selesai)" },
@@ -773,7 +773,7 @@ export function DashboardScreen() {
                     className={cn(
                       "px-2.5 py-1 rounded-full transition-colors shrink-0",
                       activityFilter === tab.key
-                        ? "bg-slate-900 text-white dark:bg-[#252a3a] dark:text-white font-bold"
+                        ? "bg-slate-900 text-white dark:bg-[#102A45] dark:text-white font-bold"
                         : "hover:text-slate-900 dark:hover:text-white"
                     )}
                   >
@@ -784,7 +784,7 @@ export function DashboardScreen() {
             </div>
 
             {/* Table Customize & Pagination */}
-            <div className="flex items-center gap-3 self-end sm:self-auto text-xs text-slate-500 dark:text-[#8e95a5]">
+            <div className="flex items-center gap-3 self-end sm:self-auto text-xs text-slate-500 dark:text-slate-400">
               <Button
                 variant="ghost"
                 size="sm"
@@ -853,7 +853,7 @@ export function DashboardScreen() {
                   <TableRow
                     key={row.id}
                     data-state={isChecked ? "selected" : undefined}
-                    className="hover:bg-slate-50/80 dark:hover:bg-[#1a1e29]/60 transition-colors"
+                    className="hover:bg-slate-50/80 dark:hover:bg-[#132B4F]/60 transition-colors"
                   >
                     <TableCell>
                       <Checkbox
@@ -870,12 +870,12 @@ export function DashboardScreen() {
                     </TableCell>
                     <TableCell className="font-mono">{row.weight}</TableCell>
                     <TableCell className="font-medium">{row.company}</TableCell>
-                    <TableCell className="text-slate-500 dark:text-[#8e95a5]">
+                    <TableCell className="text-slate-500 dark:text-slate-400">
                       {row.arrivalTime}
                     </TableCell>
                     <TableCell>{row.route}</TableCell>
                     <TableCell>{row.shipper}</TableCell>
-                    <TableCell className="font-mono font-semibold text-coral">
+                    <TableCell className="font-mono font-semibold text-[#0066FF] dark:text-[#38BDF8]">
                       {row.score}
                     </TableCell>
                     <TableCell>

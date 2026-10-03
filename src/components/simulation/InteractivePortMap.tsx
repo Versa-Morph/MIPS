@@ -625,7 +625,7 @@ export default function InteractivePortMap() {
             onClick={() => setActiveLayer("RBI")}
             className={`px-2 py-1 rounded-md text-[11px] font-bold font-mono whitespace-nowrap transition-all ${
               activeLayer === "RBI"
-                ? "bg-coral text-white shadow-sm font-black"
+                ? "bg-[#0066FF] text-white shadow-sm font-black"
                 : "text-slate-400 hover:text-white"
             }`}
             title="Muat Peta Rupabumi Indonesia (Resmi Badan Informasi Geospasial)"
@@ -637,7 +637,7 @@ export default function InteractivePortMap() {
             onClick={() => setActiveLayer("OSM")}
             className={`px-2 py-1 rounded-md text-[11px] font-bold font-mono whitespace-nowrap transition-all ${
               activeLayer === "OSM"
-                ? "bg-coral text-white shadow-sm font-black"
+                ? "bg-[#0066FF] text-white shadow-sm font-black"
                 : "text-slate-400 hover:text-white"
             }`}
             title="Muat Peta Kartografi Standar OpenStreetMap"

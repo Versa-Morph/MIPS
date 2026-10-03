@@ -171,10 +171,10 @@ export function BriefingScreen() {
           </Button>
 
           <Button
-            variant="coral"
+            variant="brand"
             size="lg"
             onClick={() => setStep(TrainingState.DOCUMENT_REVIEW)}
-            className="px-8 font-bold shadow-coral rounded-full"
+            className="px-8 font-bold shadow-md rounded-full"
           >
             <span>Review Documents</span>
             <ArrowRight className="w-4 h-4 ml-1 stroke-[2.5]" />

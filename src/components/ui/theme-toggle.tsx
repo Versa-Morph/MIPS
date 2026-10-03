@@ -22,7 +22,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggleTheme}
       type="button"
       title={`Beralih ke mode ${theme === "light" ? "Gelap (Dark)" : "Terang (Light)"}`}
-      className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a1e29] text-slate-700 dark:text-slate-300 hover:text-coral dark:hover:text-coral ${className}`}
+      className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#102A45] text-slate-700 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#38BDF8] ${className}`}
     >
       {theme === "light" ? (
         <Moon className="w-4 h-4 transition-transform hover:rotate-12" />
