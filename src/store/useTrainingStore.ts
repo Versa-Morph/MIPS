@@ -12,6 +12,7 @@ import {
   vesselMVNusantara,
   berths,
 } from "../data/scenarioData";
+import { realtimeSync } from "../utils/realtimeSync";
 
 export interface DecisionResult {
   isValid: boolean;
@@ -46,8 +47,12 @@ export interface TrainingStoreState {
   cadetName: string;
   activeDocumentModal: DocumentType | null;
   cadetDossier: CadetDossier;
+  sessionCode: string;
+  isSessionCodeValidated: boolean;
+  activeSessionId: string;
 
   setStep: (step: TrainingState) => void;
+  validateSessionCode: (code: string) => boolean;
   openDocumentModal: (type: DocumentType | null) => void;
   markDocumentViewed: (type: DocumentType, durationSeconds?: number) => void;
   submitCadetDossier: (dossier: Omit<CadetDossier, "isSubmitted" | "score">) => {
@@ -68,9 +73,43 @@ export const useTrainingStore = create<TrainingStoreState>((set, get) => ({
   cadetName: "Cadet",
   activeDocumentModal: null,
   cadetDossier: { ...initialCadetDossier },
+  sessionCode: "MIPS-BERTH-2048",
+  isSessionCodeValidated: false,
+  activeSessionId: "TRN-2048",
 
   setStep: (step: TrainingState) => {
     set({ currentState: step });
+    const { cadetName, selectedBerth, cadetDossier } = get();
+    realtimeSync.broadcast({
+      type: "CADET_PROGRESS",
+      cadetName,
+      currentState: step,
+      selectedBerth,
+      dossierScore: cadetDossier.score,
+      isDossierSubmitted: cadetDossier.isSubmitted,
+      currentSimMinute: 0,
+      containersHandled: 0,
+      timestamp: Date.now(),
+    });
+  },
+
+  validateSessionCode: (code: string) => {
+    const cleanInput = code.trim().toUpperCase().replace(/\s+/g, "");
+    const expected = get().sessionCode.replace(/\s+/g, "");
+    // Accept valid format MIPS-BERTH-2048 or any code ending with 2048
+    const isValid = cleanInput === expected || cleanInput.includes("2048");
+    if (isValid) {
+      set({ isSessionCodeValidated: true });
+      realtimeSync.broadcast({
+        type: "CADET_JOINED",
+        sessionId: get().activeSessionId,
+        sessionCode: get().sessionCode,
+        cadetName: get().cadetName,
+        cadetId: "NIT. 202300123",
+        timestamp: Date.now(),
+      });
+    }
+    return isValid;
   },
 
   openDocumentModal: (type: DocumentType | null) => {

@@ -12,6 +12,8 @@ import {
   ArrowLeft,
   Ship,
   Waves,
+  Radio,
+  KeyRound,
 } from "lucide-react";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
@@ -26,11 +28,15 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { SessionCodeModal } from "@/components/common/SessionCodeModal";
+import { InstructorConsoleModal } from "@/components/instructor/InstructorConsoleModal";
 
 export function Header() {
   const { cadetName, currentState, resetTraining, setStep } = useTrainingStore();
   const [isMuted, setIsMuted] = useState(false);
   const [isRegulationsOpen, setIsRegulationsOpen] = useState(false);
+  const [isSessionModalOpen, setIsSessionModalOpen] = useState(false);
+  const [isInstructorConsoleOpen, setIsInstructorConsoleOpen] = useState(false);
 
   const handleToggleSound = () => {
     const muted = sound.toggleMute();
@@ -54,6 +60,12 @@ export function Header() {
       label: "Katalog Simulasi",
       onClick: () => setStep(TrainingState.SCENARIO_CATALOG),
       isActive: currentState === TrainingState.SCENARIO_CATALOG,
+    },
+    {
+      id: "session_code",
+      label: "Akses Sesi (Kode)",
+      onClick: () => setIsSessionModalOpen(true),
+      isActive: false,
     },
     {
       id: "logbook",
@@ -193,6 +205,17 @@ export function Header() {
           {/* Theme Toggle Button */}
           <ThemeToggle />
 
+          {/* Instructor Dispatch Console (WebSocket / BroadcastChannel) */}
+          <button
+            type="button"
+            onClick={() => setIsInstructorConsoleOpen(true)}
+            title="Buka Konsol Instruktur & Dispatch (WebSocket / BroadcastChannel)"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-bold border border-blue-200 dark:border-blue-800/80 bg-blue-50/80 dark:bg-blue-950/50 text-[#0066FF] dark:text-[#38BDF8] hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors shadow-xs"
+          >
+            <Radio className="w-3.5 h-3.5 text-[#00A3E0] animate-pulse" />
+            <span className="hidden sm:inline">Instruktur</span>
+          </button>
+
           {/* Reset Training Tool */}
           <button
             type="button"
@@ -316,6 +339,18 @@ export function Header() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Session Access Code Modal (Slide 5) */}
+      <SessionCodeModal
+        isOpen={isSessionModalOpen}
+        onClose={() => setIsSessionModalOpen(false)}
+      />
+
+      {/* Instructor Dispatch Console Modal (Slide 7) */}
+      <InstructorConsoleModal
+        isOpen={isInstructorConsoleOpen}
+        onClose={() => setIsInstructorConsoleOpen(false)}
+      />
     </header>
   );
 }

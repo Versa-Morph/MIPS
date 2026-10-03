@@ -6,6 +6,7 @@ import {
   EquipmentInspectionData,
 } from "../types/simulation";
 import { simulationTimeline } from "../data/simulationTimeline";
+import { realtimeSync } from "../utils/realtimeSync";
 
 export interface SimulationStoreState {
   isPlaying: boolean;
@@ -258,3 +259,15 @@ export const useSimulationStore = create<SimulationStoreState>((set, get) => ({
     });
   },
 }));
+
+// Listen for remote Instructor approvals via WebSocket / BroadcastChannel
+if (typeof window !== "undefined") {
+  realtimeSync.subscribe((msg) => {
+    if (msg.type === "INSTRUCTOR_DISPATCH" && msg.approved) {
+      const state = useSimulationStore.getState();
+      if (state.pendingCheckpoint && state.pendingCheckpoint.id === msg.checkpointId) {
+        state.approveCheckpoint();
+      }
+    }
+  });
+}

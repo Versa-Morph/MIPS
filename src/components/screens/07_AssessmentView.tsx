@@ -394,11 +394,11 @@ export function AssessmentViewScreen() {
       </div>
 
       {/* Instructor Feedback Card */}
-      <div className="rounded-2xl bg-white dark:bg-[#14171f] border border-slate-200/80 dark:border-[#222634] p-6 space-y-3 shadow-card dark:shadow-card-dark">
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 space-y-3 shadow-card dark:shadow-card-dark">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-2">
-            <UserCheck className="w-4 h-4 text-coral" />
-            <h3 className="text-xs font-bold text-coral uppercase tracking-wider font-mono">
+            <UserCheck className="w-4 h-4 text-[#0066FF]" />
+            <h3 className="text-xs font-bold text-[#0066FF] dark:text-[#38BDF8] uppercase tracking-wider font-mono">
               Feedback
             </h3>
           </div>
@@ -417,6 +417,144 @@ export function AssessmentViewScreen() {
           <p className="text-xs text-slate-500 dark:text-slate-400 font-mono pt-1">
             Official Endorsement: {assessment.feedbackText}
           </p>
+        </div>
+      </div>
+
+      {/* Approach Velocity & Berthing Dynamics Curve (OpenBridge 5.0 / Slide 0) */}
+      <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 space-y-4 shadow-card dark:shadow-card-dark text-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono flex items-center gap-2">
+              <Gauge className="w-4 h-4 text-[#00A3E0]" />
+              <span>Approach Velocity & Berthing Dynamics (PIANC / STCW)</span>
+            </h2>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-sans mt-0.5">
+              Profil perlambatan laju kapal MV Nusantara dari alur barat menuju sentuhan pertama dermaga B-01.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 font-mono text-[10px]">
+            <span className="px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 font-bold">
+              ✓ SAFE CONTACT (&lt; 0.15 m/s)
+            </span>
+          </div>
+        </div>
+
+        {/* Vector SVG Graph & Telemetry KPIs */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+          {/* Left: SVG Velocity Curve */}
+          <div className="lg:col-span-8 p-3 rounded-xl bg-slate-50 dark:bg-[#081826] border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <svg
+              viewBox="0 0 640 180"
+              className="w-full h-auto select-none"
+              style={{ minHeight: "150px" }}
+            >
+              {/* Grid Lines */}
+              <line x1="50" y1="20" x2="620" y2="20" stroke="#94A3B8" strokeOpacity="0.2" strokeDasharray="3 3" />
+              <line x1="50" y1="60" x2="620" y2="60" stroke="#94A3B8" strokeOpacity="0.2" strokeDasharray="3 3" />
+              <line x1="50" y1="100" x2="620" y2="100" stroke="#94A3B8" strokeOpacity="0.2" strokeDasharray="3 3" />
+              <line x1="50" y1="140" x2="620" y2="140" stroke="#94A3B8" strokeOpacity="0.3" />
+
+              {/* Safe Contact Velocity Zone Highlight (below 0.15 m/s) */}
+              <rect x="50" y="115" width="570" height="25" fill="#10B981" fillOpacity="0.1" />
+              <line x1="50" y1="115" x2="620" y2="115" stroke="#10B981" strokeOpacity="0.5" strokeDasharray="4 4" />
+              <text x="55" y="112" fill="#10B981" fontSize="9" fontFamily="monospace" fontWeight="bold">
+                BATAS AMAN SENTUHAN FENDER: 0.15 m/s
+              </text>
+
+              {/* Y Axis Labels */}
+              <text x="42" y="24" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="end">5.0 kn</text>
+              <text x="42" y="64" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="end">3.0 kn</text>
+              <text x="42" y="104" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="end">1.0 kn</text>
+              <text x="42" y="144" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="end">0.0</text>
+
+              {/* Deceleration Curve Area Fill */}
+              <path
+                d="M 60 25 C 160 50, 260 85, 360 110 C 440 125, 520 132, 600 134 L 600 140 L 60 140 Z"
+                fill="url(#velocityGradient)"
+                opacity="0.2"
+              />
+
+              {/* Velocity Trajectory Line */}
+              <path
+                d="M 60 25 C 160 50, 260 85, 360 110 C 440 125, 520 132, 600 134"
+                fill="none"
+                stroke="#00A3E0"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+
+              {/* Data Nodes */}
+              <circle cx="60" cy="25" r="4" fill="#0066FF" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="210" cy="68" r="4" fill="#0066FF" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="360" cy="110" r="4" fill="#0066FF" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="480" cy="128" r="4" fill="#00A887" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx="600" cy="134" r="5" fill="#10B981" stroke="#FFFFFF" strokeWidth="2" />
+
+              {/* Data Callout at Contact */}
+              <text x="590" y="122" fill="#10B981" fontSize="10" fontFamily="monospace" fontWeight="bold" textAnchor="end">
+                T+10: 0.12 m/s (Passed)
+              </text>
+
+              {/* X Axis Labels */}
+              <text x="60" y="160" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="middle">T+00 (5.2kn)</text>
+              <text x="210" y="160" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="middle">T+03 (Turn)</text>
+              <text x="360" y="160" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="middle">T+06 (Basin)</text>
+              <text x="480" y="160" fill="#94A3B8" fontSize="9" fontFamily="monospace" textAnchor="middle">T+08 (Tug Push)</text>
+              <text x="600" y="160" fill="#10B981" fontSize="9" fontFamily="monospace" fontWeight="bold" textAnchor="middle">T+10 (Berth)</text>
+
+              <defs>
+                <linearGradient id="velocityGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#00A3E0" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#00A3E0" stopOpacity="0.0" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          {/* Right: Technical Berthing Physics Metrics */}
+          <div className="lg:col-span-4 space-y-2.5 font-mono">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-400 uppercase block font-semibold">
+                Final Contact Velocity
+              </span>
+              <div className="flex items-baseline justify-between mt-0.5">
+                <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+                  0.12 m/s
+                </span>
+                <span className="text-[10px] text-slate-500 font-sans">
+                  Max Safe: 0.15 m/s
+                </span>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-400 uppercase block font-semibold">
+                Fender Absorption Energy
+              </span>
+              <div className="flex items-baseline justify-between mt-0.5">
+                <span className="text-xl font-bold text-slate-900 dark:text-white">
+                  42.5 kNm
+                </span>
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
+                  Within 80 kNm limit
+                </span>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-400 uppercase block font-semibold">
+                Lateral Approach Angle
+              </span>
+              <div className="flex items-baseline justify-between mt-0.5">
+                <span className="text-xl font-bold text-[#0066FF] dark:text-[#38BDF8]">
+                  4.2°
+                </span>
+                <span className="text-[10px] text-slate-500 font-sans">
+                  Parallel Sandar (&lt; 6°)
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
