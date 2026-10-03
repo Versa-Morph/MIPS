@@ -146,6 +146,8 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
 
     expect(screen.getByText(/TRAINING COMPLETED/i)).toBeDefined();
     expect(screen.getByText(/92/)).toBeDefined();
+    expect(screen.getByText(/Approach Velocity & Berthing Dynamics/i)).toBeDefined();
+    expect(screen.getAllByText(/0\.12 m\/s/i).length).toBeGreaterThanOrEqual(1);
 
     const returnToTrainingBtn = screen.getByRole("button", {
       name: /Back to Training Center/i,
@@ -154,5 +156,45 @@ describe("MIPS End-to-End Cadet Training Simulation Flow", () => {
     expect(useTrainingStore.getState().currentState).toBe(
       TrainingState.DASHBOARD
     );
+  });
+
+  it("handles Session Code validation and remote Instructor Dispatch over the realtime bus", () => {
+    render(<Home />);
+
+    // 1. Validate session code via store action
+    const isCodeValid = useTrainingStore.getState().validateSessionCode("MIPS-BERTH-2048");
+    expect(isCodeValid).toBe(true);
+    expect(useTrainingStore.getState().isSessionCodeValidated).toBe(true);
+
+    // 2. Advance to decision and select B-01
+    useTrainingStore.getState().setStep(TrainingState.DECISION);
+    const decisionResult = useTrainingStore.getState().submitBerthDecision("B-01");
+    expect(decisionResult.isValid).toBe(true);
+    expect(useTrainingStore.getState().currentState).toBe(TrainingState.DECISION_VALIDATED);
+
+    // 3. Start simulation and trigger Mooring Checkpoint at T+10
+    useTrainingStore.getState().setStep(TrainingState.SIMULATION_RUNNING);
+    useSimulationStore.getState().tick(10);
+    expect(useSimulationStore.getState().pendingCheckpoint).not.toBeNull();
+    expect(useSimulationStore.getState().pendingCheckpoint?.id).toBe("MOORING_APPROVAL");
+
+    // 4. Remote Instructor approves Mooring over the wire
+    useSimulationStore.getState().approveCheckpoint();
+    expect(useSimulationStore.getState().pendingCheckpoint).toBeNull();
+    expect(useSimulationStore.getState().approvedCheckpoints).toContain("MOORING_APPROVAL");
+
+    // 5. Advance to T+15 Crane Start Checkpoint
+    useSimulationStore.getState().tick(5);
+    expect(useSimulationStore.getState().pendingCheckpoint).not.toBeNull();
+    expect(useSimulationStore.getState().pendingCheckpoint?.id).toBe("CRANE_START_APPROVAL");
+
+    // 6. Remote Instructor approves Crane Start
+    useSimulationStore.getState().approveCheckpoint();
+    expect(useSimulationStore.getState().pendingCheckpoint).toBeNull();
+    expect(useSimulationStore.getState().approvedCheckpoints).toContain("CRANE_START_APPROVAL");
+
+    // 7. Complete operations
+    useSimulationStore.getState().seek(45);
+    expect(useSimulationStore.getState().containersHandled).toBe(50);
   });
 });
