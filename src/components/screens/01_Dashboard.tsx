@@ -2,920 +2,638 @@
 
 import React, { useState } from "react";
 import {
-  Package,
-  MapPin,
-  Truck,
   GraduationCap,
-  Anchor,
-  AlertTriangle,
-  Download,
-  ArrowUpRight,
-  ArrowDownRight,
-  ArrowRight,
-  MoreHorizontal,
-  ChevronLeft,
-  ChevronRight,
-  SlidersHorizontal,
-  Phone,
-  MessageSquare,
-  Ship,
-  Maximize2,
-  Compass,
   Clock,
-  Lock,
-  Eye,
+  Trophy,
+  BarChart3,
+  BookOpen,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Calendar,
+  Layers,
+  MapPin,
+  Ship,
+  Megaphone,
+  Ticket,
+  ChevronRight,
+  Compass,
   FileText,
-  Printer,
-  Sliders,
+  User,
+  HelpCircle,
+  FolderOpen,
+  CheckSquare,
+  Award,
+  Download,
+  KeyRound,
+  Sparkles,
 } from "lucide-react";
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { TrainingState } from "@/types/simulation";
 import { getAssetPath } from "@/utils/assetPath";
 import { cn } from "@/utils/cn";
 
-// Shadcn UI Primitives
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/table";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
-
-const InteractivePortMap = dynamic(
-  () => import("@/components/simulation/InteractivePortMap"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-full min-h-[220px] flex items-center justify-center bg-slate-100 dark:bg-[#0A1931] text-slate-400 font-mono text-xs rounded-2xl">
-        <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-ping" />
-          Memuat Peta Pelabuhan...
-        </span>
-      </div>
-    ),
-  }
-);
-
 export function DashboardScreen() {
-  const { setStep, cadetName } = useTrainingStore();
-  const [activeTab, setActiveTab] = useState("week");
-  const [activityFilter, setActivityFilter] = useState("all");
-  const [selectedOrders, setSelectedOrders] = useState<string[]>([
-    "SES-10986",
-    "SES-10568",
-  ]);
-
-  // Heatmap rows & columns (7 days x 16 columns) - Monochromatic Maritime Blue shades
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const heatmapData = [
-    [1, 1, 2, 2, 3, 3, 2, 1, 1, 2, 3, 2, 1, 2, 3, 2],
-    [1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1],
-    [2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2],
-    [3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3],
-    [1, 2, 2, 3, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 2, 1],
-    [0, 1, 2, 2, 1, 0, 1, 2, 2, 1, 0, 1, 2, 2, 1, 0],
-    [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0],
-  ];
-
-  // Simulator VTS Logbook & Vessel Movements
-  const orders = [
-    {
-      id: "SES-10986",
-      displayId: "MIPS-SES-001",
-      category: "Container (LOA 280m)",
-      weight: "65,400 DWT",
-      company: "MV NUSANTARA (PK-47A)",
-      arrivalTime: "08:00 WIB",
-      route: "Singapore - Priok B-01",
-      shipper: "Samudera Indonesia",
-      score: "92 / 100",
-      status: "Delivered",
-      statusVariant: "success" as const,
-    },
-    {
-      id: "SES-10568",
-      displayId: "MIPS-SES-002",
-      category: "Bulk Carrier (225m)",
-      weight: "42,000 DWT",
-      company: "MV SAMUDERA INDAH",
-      arrivalTime: "14:00 WIB",
-      route: "Priok - Panjang Fairway",
-      shipper: "Pelindo Marine",
-      score: "88 / 100",
-      status: "Delivered",
-      statusVariant: "success" as const,
-    },
-    {
-      id: "SES-10492",
-      displayId: "MIPS-SES-003",
-      category: "Hazardous DG 4.1",
-      weight: "28,500 DWT",
-      company: "MT NUSANTARA CHEM",
-      arrivalTime: "16:30 WIB",
-      route: "Singapore - Priok Outer",
-      shipper: "Pertamina Maritime",
-      score: "Evaluasi",
-      status: "In transit",
-      statusVariant: "brand" as const,
-    },
-    {
-      id: "SES-10331",
-      displayId: "MIPS-SES-004",
-      category: "Reefer Perishable",
-      weight: "18,500 DWT",
-      company: "MV BARUNA MAS",
-      arrivalTime: "19:00 WIB",
-      route: "Singapore - Priok B-02",
-      shipper: "Meratus Line",
-      score: "Terjadwal",
-      status: "Pending",
-      statusVariant: "warning" as const,
-    },
-  ];
-
-  const filteredOrders =
-    activityFilter === "all"
-      ? orders
-      : orders.filter(
-          (o) => o.status.toLowerCase() === activityFilter.toLowerCase()
-        );
-
-  const toggleSelectOrder = (id: string) => {
-    setSelectedOrders((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedOrders.length === orders.length) {
-      setSelectedOrders([]);
-    } else {
-      setSelectedOrders(orders.map((o) => o.id));
-    }
-  };
+  const { setStep } = useTrainingStore();
+  const [accessCode, setAccessCode] = useState("MIPS-BERTH-2048");
 
   const handleLaunchScenario = () => {
     setStep(TrainingState.SCENARIO_SELECTION);
   };
 
+  const handleJoinSession = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStep(TrainingState.SCENARIO_SELECTION);
+  };
+
   return (
-    <TooltipProvider delayDuration={120}>
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5 animate-fadeIn select-none font-sans">
-        {/* ========================================================================= */}
-        {/* 1. Header & Metric Cards Row (Clean TransGlobal Minimalist Aesthetic)      */}
-        {/* ========================================================================= */}
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-5">
-          {/* Left: Display Hero Title & Welcome Banner */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs font-semibold">
-              <span className="font-mono uppercase tracking-wider font-extrabold text-[#0066FF] dark:text-[#38BDF8]">
-                MIPS TRAINING CENTER
-              </span>
-              <span className="text-slate-400 dark:text-slate-600">·</span>
-              <span className="text-slate-600 dark:text-slate-300 font-medium">
-                Welcome, {cadetName}
-              </span>
-            </div>
-
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-sans">
-              Maritime VTS & Simulation Command Center
-            </h1>
-          </div>
-
-          {/* Right: 3 Metric Cards (MIPS Maritime Standards) */}
-          <div className="flex items-center gap-3 overflow-x-auto pb-1 sm:pb-0">
-            {/* Stat 1: Total Shipments / Simulator Hours */}
-            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[170px] sm:min-w-[190px] rounded-2xl shadow-xs bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-              <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-[#102A45] flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
-                <Package className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div>
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-tight">
-                  Total Jam Simulasi
-                </span>
-                <div className="flex items-baseline gap-2 mt-0.5">
-                  <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
-                    789
-                  </span>
-                  <Badge variant="outline" className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 px-1.5 py-0.5">
-                    +5.45% <ArrowUpRight className="w-3 h-3 ml-0.5 stroke-[2.5]" />
-                  </Badge>
-                </div>
-              </div>
-            </Card>
-
-            {/* Stat 2: Active Tracking */}
-            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[170px] sm:min-w-[190px] rounded-2xl shadow-xs bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-              <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-[#102A45] flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
-                <MapPin className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div>
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-tight">
-                  Kapal Alur Aktif
-                </span>
-                <div className="flex items-baseline gap-2 mt-0.5">
-                  <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
-                    120
-                  </span>
-                  <Badge variant="outline" className="text-[10px] font-bold text-rose-700 bg-rose-50 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800/60 px-1.5 py-0.5">
-                    -0.45% <ArrowDownRight className="w-3 h-3 ml-0.5 stroke-[2.5]" />
-                  </Badge>
-                </div>
-              </div>
-            </Card>
-
-            {/* Stat 3: Delivered Shipments / Training Progress */}
-            <Card className="p-3.5 sm:p-4 flex items-center gap-3.5 min-w-[185px] sm:min-w-[205px] rounded-2xl shadow-xs bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-              <div className="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center text-[#0066FF] dark:text-blue-300 shrink-0 border border-blue-200/60 dark:border-blue-800/60">
-                <GraduationCap className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-tight">
-                    Training Progress
-                  </span>
-                  <span className="text-[10px] font-bold text-[#0066FF] dark:text-[#38BDF8]">
-                    1 / 3 Completed
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-2 mt-0.5">
-                  <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
-                    98
-                  </span>
-                  <Badge variant="outline" className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 px-1.5 py-0.5">
-                    Passed
-                  </Badge>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 2. Subheader Action Ribbon (Orders Database, Alert, Download, & Maritime Blue CTA) */}
-        {/* ========================================================================= */}
-        <Card className="p-3 sm:p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-          {/* Left: Orders Database Location Chip */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#102A45] flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0">
-              <MapPin className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
+    <div className="flex-1 flex flex-col lg:flex-row min-h-screen bg-[#F1F5F9] dark:bg-[#081826] text-slate-900 dark:text-slate-100 font-sans select-none">
+      {/* ========================================================================= */}
+      {/* 1. Left Academy Navigation Sidebar (Exact Match to Slide 6)              */}
+      {/* ========================================================================= */}
+      <aside className="w-full lg:w-64 bg-[#0B192C] text-slate-300 flex flex-col justify-between shrink-0 border-r border-[#1E3A5F]">
+        {/* Top Brand & Navigation Sections */}
+        <div className="p-5 space-y-6">
+          {/* Logo & Brand Emblem */}
+          <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
+            <div className="w-10 h-10 rounded-xl bg-[#00A3E0]/15 border border-[#00A3E0]/40 flex items-center justify-center text-[#00A3E0]">
+              <Compass className="w-6 h-6 animate-spin-slow stroke-[2.2]" />
             </div>
             <div>
-              <span className="text-xs font-bold text-slate-900 dark:text-white block">
-                VTS Fairway & Simulation Registry
-              </span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 block leading-none">
-                Tanjung Priok Fairway Database · Terverifikasi STCW A-I/12
+              <div className="text-base font-black tracking-tight text-white flex items-center gap-1.5">
+                <span>MIPS</span>
+                <span className="text-[#00A3E0] font-normal text-xs uppercase tracking-widest">
+                  ACADEMY
+                </span>
+              </div>
+              <span className="text-[10px] uppercase font-mono text-slate-400 tracking-wider block">
+                PORT SIMULATOR
               </span>
             </div>
           </div>
 
-          {/* Center: Alert Notice Banner */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 px-3.5 py-2 rounded-xl">
-            <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
-            <span className="truncate">
-              You got 1 pending vessel: Container Vessel Arrival & Berthing Operation
+          {/* Section: LEARNING */}
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block px-3">
+              LEARNING
             </span>
+            <nav className="space-y-0.5">
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold bg-[#0066FF] text-white shadow-sm"
+              >
+                <Layers className="w-4 h-4" />
+                <span>Dashboard</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors cursor-pointer"
+              >
+                <BookOpen className="w-4 h-4 text-slate-400" />
+                <span>My Activities</span>
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
+              >
+                <CheckSquare className="w-4 h-4 text-slate-400" />
+                <span>Assessments</span>
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
+              >
+                <Award className="w-4 h-4 text-slate-400" />
+                <span>Results & Certs</span>
+              </button>
+            </nav>
           </div>
 
-          {/* Right: Actions & Primary Maritime Blue CTA */}
-          <div className="flex items-center gap-2 shrink-0">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-9 h-9 rounded-full shadow-xs"
-                  aria-label="Filter data"
-                >
-                  <SlidersHorizontal className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Filter data</TooltipContent>
-            </Tooltip>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open(getAssetPath("/documents/evaluation-report.pdf"), "_blank")}
-              className="rounded-full shadow-xs font-semibold cursor-pointer"
-              title="Buka & Unduh Rapor Evaluasi Pelabuhan (PDF)"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Download report</span>
-            </Button>
-
-            {/* Primary Maritime Blue CTA Button (Single Start Training counter-part) */}
-            <Button
-              variant="brand"
-              size="sm"
-              onClick={handleLaunchScenario}
-              className="px-5 font-bold shadow-md rounded-full"
-            >
-              <span>Start Training</span>
-            </Button>
+          {/* Section: RESOURCES */}
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block px-3">
+              RESOURCES
+            </span>
+            <nav className="space-y-0.5">
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
+              >
+                <FolderOpen className="w-4 h-4 text-slate-400" />
+                <span>Learning Materials</span>
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
+              >
+                <FileText className="w-4 h-4 text-slate-400" />
+                <span>Documents & SOP</span>
+              </button>
+            </nav>
           </div>
-        </Card>
 
-        {/* ========================================================================= */}
-        {/* 3. Middle 3-Card Grid (Analytic View + Tracking History + Map Widget)     */}
-        {/* ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-          {/* Card 1 (Col 1-5): Analytic View & Monochromatic Heatmap */}
-          <Card className="lg:col-span-5 p-5 flex flex-col justify-between space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-            <div>
-              {/* Header: Analytic view + Time Tabs */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
-                <CardTitle className="text-sm font-bold flex items-center gap-2">
-                  <span>Throughput & Pelatihan VTS</span>
-                </CardTitle>
+          {/* Section: ACCOUNT */}
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block px-3">
+              ACCOUNT
+            </span>
+            <nav className="space-y-0.5">
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
+              >
+                <User className="w-4 h-4 text-slate-400" />
+                <span>Cadet Profile</span>
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
+              >
+                <HelpCircle className="w-4 h-4 text-slate-400" />
+                <span>Help Center</span>
+              </button>
+            </nav>
+          </div>
+        </div>
 
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                  {["Day", "Week", "Month", "Quarter", "Year", "All"].map((tab) => (
-                    <button
-                      key={tab}
-                      type="button"
-                      onClick={() => setActiveTab(tab.toLowerCase())}
-                      className={cn(
-                        "px-2.5 py-0.5 rounded-full transition-colors",
-                        activeTab === tab.toLowerCase()
-                          ? "bg-[#0066FF] text-white font-bold shadow-xs"
-                          : "hover:text-slate-900 dark:hover:text-white"
-                      )}
-                    >
-                      {activeTab === tab.toLowerCase() ? `• ${tab}` : tab}
-                    </button>
-                  ))}
-                  <ArrowUpRight className="w-3.5 h-3.5 ml-1 text-slate-400" />
-                </div>
-              </div>
+        {/* Sidebar Bottom Banner (Slide 6 Crane Tagline) */}
+        <div className="p-5 border-t border-slate-800 bg-[#081826]/80 text-center space-y-1">
+          <div className="text-[11px] font-mono font-bold text-[#00A3E0] tracking-widest uppercase">
+            TRAIN · PRACTICE
+          </div>
+          <div className="text-[10px] text-slate-400 uppercase tracking-wider font-sans font-semibold">
+            BE PORT READY
+          </div>
+        </div>
+      </aside>
 
-              {/* Min / Avg / Max numbers */}
-              <div className="grid grid-cols-3 gap-2 py-3 border-b border-slate-100 dark:border-slate-800/80">
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-black text-slate-900 dark:text-white tabular-nums">
-                      24.0
-                    </span>
-                    <span className="text-[10px] font-mono font-bold text-[#0066FF] dark:text-[#38BDF8]">BCH</span>
-                  </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight">
-                    Min Crane Moves
-                  </span>
-                </div>
-
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-black text-slate-900 dark:text-white tabular-nums">
-                      28.5
-                    </span>
-                    <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400">BCH</span>
-                  </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight">
-                    Rata-rata Terminal
-                  </span>
-                </div>
-
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-black text-slate-900 dark:text-white tabular-nums">
-                      35.0
-                    </span>
-                    <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400">BCH</span>
-                  </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight">
-                    Peak Throughput
-                  </span>
-                </div>
-              </div>
-
-              {/* Heatmap Grid Matrix (Mon-Sun x 16 Pills in Maritime Blue shades) */}
-              <div className="space-y-1.5 pt-3">
-                {days.map((day, dIdx) => (
-                  <div key={day} className="flex items-center gap-2">
-                    <span className="w-7 text-[10px] font-mono text-slate-600 dark:text-slate-300 font-bold shrink-0">
-                      {day}
-                    </span>
-                    <div className="flex items-center gap-1.5 flex-1">
-                      {heatmapData[dIdx].map((val, cIdx) => {
-                        let cellClass = "bg-slate-100 dark:bg-[#102A45]";
-                        if (val === 1) cellClass = "bg-blue-500/25 dark:bg-blue-400/20";
-                        if (val === 2) cellClass = "bg-blue-500/60 dark:bg-blue-400/50";
-                        if (val === 3) cellClass = "bg-[#0066FF] text-white";
-
-                        return (
-                          <Tooltip key={cIdx}>
-                            <TooltipTrigger asChild>
-                              <div
-                                className={cn(
-                                  "h-3.5 flex-1 rounded-md transition-transform hover:scale-110 cursor-pointer",
-                                  cellClass
-                                )}
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent side="top">
-                              {day} Slot {cIdx + 1}: {val * 12} manuver
-                            </TooltipContent>
-                          </Tooltip>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* ========================================================================= */}
+      {/* 2. Main Dashboard Content Canvas (Slide 6 Framework)                     */}
+      {/* ========================================================================= */}
+      <main className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto">
+        {/* Top Header Greeting & Date Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#0066FF] dark:text-[#38BDF8] uppercase tracking-wider font-mono">
+              <span>MIPS TRAINING CENTER</span>
+              <span>·</span>
+              <span>Welcome, Cadet</span>
             </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-sans mt-1">
+              Good Morning, Cadet Andika
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Maritime VTS & Simulation Command Center · NIT. 202300123 / 2304057
+            </p>
+          </div>
 
-            {/* Sub-panel: Multi-Simulation Scenarios Roster */}
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 font-mono">
-                  Available Training
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
-                  className="text-[11px] font-semibold text-[#0066FF] dark:text-[#38BDF8] hover:underline inline-flex items-center gap-1 cursor-pointer font-sans"
-                >
-                  <span>Katalog Lengkap</span>
-                  <ArrowRight className="w-3 h-3 stroke-[2.5]" />
-                </button>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                {/* Skenario 1: Container Vessel Berthing (Aktif) */}
-                <div
-                  onClick={handleLaunchScenario}
-                  className="p-2.5 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/40 hover:bg-blue-100/60 dark:hover:bg-blue-900/40 cursor-pointer transition-all text-left shadow-xs group"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <Badge variant="brand" size="sm">
-                      AKTIF
-                    </Badge>
-                    <ArrowUpRight className="w-3 h-3 text-[#0066FF] dark:text-[#38BDF8] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
-                  <h3
-                    onClick={handleLaunchScenario}
-                    className="text-xs font-bold text-slate-900 dark:text-white line-clamp-2 leading-tight cursor-pointer"
-                  >
-                    Vessel Arrival & Berthing
-                  </h3>
-                </div>
-
-                {/* Skenario 2: Bulk Carrier Fairway Navigation (Tersedia) */}
-                <div
-                  onClick={handleLaunchScenario}
-                  className="p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-[#102A45]/80 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all text-left shadow-xs"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <Badge variant="neutral" size="sm">
-                      TERSEDIA
-                    </Badge>
-                    <Ship className="w-3 h-3 text-slate-500" />
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block line-clamp-1">
-                    Cargo Handling
-                  </span>
-                </div>
-
-                {/* Skenario 3: Yard Operations (Terkunci) */}
-                <div className="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 bg-slate-50 dark:bg-[#102A45]/60 opacity-60 text-left">
-                  <div className="flex items-center justify-between mb-1">
-                    <Badge variant="neutral" size="sm">
-                      LOCKED
-                    </Badge>
-                    <Lock className="w-3 h-3 text-slate-400" />
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block line-clamp-1">
-                    Yard Operations
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* Card 2 (Col 6-8): Tracking History */}
-          <Card className="lg:col-span-4 p-5 flex flex-col justify-between space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-            <div>
-              {/* Header: Tracking History + Options Dropdown */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
-                <CardTitle className="text-sm font-bold flex items-center gap-2">
-                  <Anchor className="w-4 h-4 text-[#0066FF] dark:text-[#38BDF8]" />
-                  <span>Passage & VTS Tracking</span>
-                </CardTitle>
-
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="w-7 h-7">
-                      <MoreHorizontal className="w-4 h-4 text-slate-400" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Opsi Skenario</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLaunchScenario}>
-                      <Eye className="w-3.5 h-3.5 mr-2" /> Buka Skenario
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <FileText className="w-3.5 h-3.5 mr-2" /> Telemetri AIS
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Printer className="w-3.5 h-3.5 mr-2" /> Export Log
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              {/* Tracking ID & Status Pill */}
-              <div className="flex items-center justify-between pt-3 pb-4">
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 dark:text-slate-400 block leading-none">
-                    Tracking ID
-                  </span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white font-mono mt-0.5 block">
-                    #MIPS-VTS-PRIOK-01
-                  </span>
-                </div>
-                <Badge variant="outline" className="text-[10px] font-bold text-amber-700 bg-amber-50 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800/60 px-2 py-0.5">
-                  Active Assignment
-                </Badge>
-              </div>
-
-              {/* Vertical Waypoint Timeline */}
-              <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200 dark:before:bg-slate-800">
-                {/* Waypoint 1: Current Location */}
-                <div className="relative">
-                  <span className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-[#0066FF] ring-4 ring-[#0066FF]/20" />
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-xs font-bold text-slate-900 dark:text-white">
-                      Posisi Saat Ini (Alur Masuk)
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">
-                      08:00 WIB
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
-                    Pelampung Pandu (Fairway Buoy No. 1) · Teluk Jakarta
-                  </span>
-                </div>
-
-                {/* Waypoint 2: Departure */}
-                <div className="relative">
-                  <span className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                      Pilot Boarding Ground
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">
-                      07:15 WIB
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
-                    Pilot Station Priok Outer · Pandu Naik Kapal
-                  </span>
-                </div>
-
-                {/* Waypoint 3: Arrival */}
-                <div className="relative">
-                  <span className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                      Target Sandar (Berthing)
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">
-                      08:45 WIB
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
-                    Dermaga Peti Kemas B-01 · Tanjung Priok Terminal
-                  </span>
-                </div>
-              </div>
-
-              {/* Route & Delivery Date Chips */}
-              <div className="pt-4 space-y-2 border-t border-slate-100 dark:border-slate-800/80 mt-3 text-xs">
-                <div className="flex items-center gap-2">
-                  <Compass className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Rute Pelayaran:
-                  </span>
-                  <span className="text-[11px] font-semibold text-slate-900 dark:text-white">
-                    Port of Singapore (SGSIN) ➔ Tanjung Priok (IDTPP)
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Estimasi Sandar (High Water):
-                  </span>
-                  <span className="text-[11px] font-semibold text-slate-900 dark:text-white font-mono">
-                    Hari Ini, 08:45 WIB (Tidal Safe)
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Courier / Pilot Capsule Card */}
-            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#102A45] border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center font-bold text-xs shadow-xs">
-                  HG
-                </div>
-                <div>
-                  <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 block leading-tight">
-                    Perwira Pandu / Pilot in Charge
-                  </span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white block">
-                    Capt. H. Gunawan, M.Mar
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="w-7 h-7 rounded-full bg-white dark:bg-[#202432]"
-                      aria-label="Pesan Instruktur"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Pesan Instruktur</TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="w-7 h-7 rounded-full bg-white dark:bg-[#202432]"
-                      aria-label="Panggilan VHF Radio"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>VHF Radio Ch. 12</TooltipContent>
-                </Tooltip>
-              </div>
-            </div>
-          </Card>
-
-          {/* Card 3 (Col 9-12): Mini Map Widget */}
-          <Card className="lg:col-span-3 p-4 flex flex-col justify-between overflow-hidden relative group rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F]">
-            {/* Map Header with Fullscreen Icon */}
-            <div className="flex items-center justify-between pb-2 z-10">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-bold text-slate-900 dark:text-white font-sans">
-                  Pelabuhan Tanjung Priok
-                </span>
-              </div>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleLaunchScenario}
-                    className="w-7 h-7 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-md"
-                    aria-label="Perbesar Peta"
-                  >
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Luncurkan Tampilan Penuh</TooltipContent>
-              </Tooltip>
-            </div>
-
-            {/* Interactive GIS / Vector Map Container */}
-            <div className="w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-slate-200/80 dark:border-slate-800 relative">
-              <InteractivePortMap />
-
-              {/* Hidden image element strictly to fulfill test requirement */}
-              <img
-                src={getAssetPath("/images/vessel-hero.png")}
-                alt="Vessel Hero Backdrop"
-                className="hidden"
-              />
-
-              {/* Tactical overlay badge */}
-              <div className="absolute bottom-2 left-2 z-20 bg-slate-900/85 backdrop-blur-md text-white px-2 py-1 rounded-lg font-mono text-[10px] flex items-center gap-1.5 shadow-xs">
-                <Ship className="w-3 h-3 text-[#0066FF] dark:text-[#38BDF8]" />
-                <span>MV NUSANTARA · 085° / 5.2kn</span>
-              </div>
-            </div>
-
-            {/* Map Footer Information */}
-            <div className="pt-3 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
-              <span>Channel: Alur Barat Priok</span>
-              <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                UKC +1.8m SAFE
-              </span>
-            </div>
-          </Card>
+          <div className="flex items-center gap-3 text-xs font-mono text-slate-500 dark:text-slate-400 bg-white dark:bg-[#0A1931] border border-slate-200 dark:border-[#1E3A5F] px-4 py-2 rounded-xl shadow-xs self-start sm:self-auto">
+            <Calendar className="w-4 h-4 text-[#00A3E0]" />
+            <span>Mon, 27 May 2024 · 09:24 AM (WIB)</span>
+          </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* 4. Bottom Panel: Logbook Sesi Simulasi Kadet (TransGlobal Bottom Tier)    */}
+        {/* 3. Hero & Join Training Access Area (Slide 6 Key Visual Feature)          */}
         {/* ========================================================================= */}
-        <Card
-          id="logbook-table-section"
-          className="p-5 space-y-4 rounded-2xl shadow-card dark:shadow-card-dark bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] overflow-hidden max-w-full min-w-0"
-        >
-          {/* Table Top Controls & Tabs */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100 dark:border-slate-800/80">
-            <div className="flex items-center gap-3">
-              <CardTitle className="text-sm font-bold shrink-0">
-                Recent Activities
-              </CardTitle>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left Hero Graphic Card (7 cols) */}
+          <div className="lg:col-span-7 rounded-2xl bg-[#0B2546] text-white p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between min-h-[220px] shadow-card border border-slate-700/80">
+            {/* Background Photographic Image Overlay */}
+            <div className="absolute inset-0 pointer-events-none opacity-20">
+              <Image
+                src={getAssetPath("/images/terminal-panorama.png")}
+                alt="Terminal Backdrop"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
 
-              {/* Status Filter Tabs */}
-              <div className="flex items-center gap-1 overflow-x-auto text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                {[
-                  { key: "all", label: "Semua Sesi" },
-                  { key: "delivered", label: "Sandar (Selesai)" },
-                  { key: "in transit", label: "In Passage (Alur)" },
-                  { key: "pending", label: "Scheduled (Antre)" },
-                ].map((tab) => (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    onClick={() => setActivityFilter(tab.key)}
-                    className={cn(
-                      "px-2.5 py-1 rounded-full transition-colors shrink-0",
-                      activityFilter === tab.key
-                        ? "bg-[#0066FF] text-white font-bold shadow-xs"
-                        : "hover:text-slate-900 dark:hover:text-white"
-                    )}
-                  >
-                    {activityFilter === tab.key ? `• ${tab.label}` : tab.label}
-                  </button>
-                ))}
+            <div className="relative z-10 space-y-2 max-w-xl">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00A3E0]/20 border border-[#00A3E0]/50 text-[#00A3E0] text-[11px] font-mono font-bold tracking-wider uppercase">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>ACCESS YOUR TRAINING SIMULATION</span>
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black tracking-tight leading-snug">
+                LEARN · SIMULATE · BUILD COMPETENCE FOR A SAFER PORT
+              </h2>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Integrated container berth allocation, under-keel clearance calculation, and Quay Crane dynamic dispatch according to STCW A-I/12.
+              </p>
+            </div>
+
+            <div className="relative z-10 pt-4 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleLaunchScenario}
+                className="px-5 py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <span>Mulai Simulasi Mandiri</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Right Session Access Card (5 cols - Join Training / Exam from Slide 6) */}
+          <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 shadow-card flex flex-col justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-[#0066FF] dark:text-[#38BDF8] font-mono">
+                  <Ticket className="w-4 h-4" />
+                  <span>Join Training / Exam</span>
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 font-bold">
+                  ACTIVE SESSION
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                Punya Kode Sesi dari Instruktur?
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Masukkan kode akses 4-slot yang diberikan oleh Capt. Rahmat S. untuk langsung memulai skenario ujian.
+              </p>
+            </div>
+
+            <form onSubmit={handleJoinSession} className="space-y-3 pt-3">
+              <div className="relative">
+                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={accessCode}
+                  onChange={(e) => setAccessCode(e.target.value.toUpperCase())}
+                  placeholder="MIPS-XXXX-XXXX"
+                  className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#081826] font-mono text-sm font-bold text-slate-900 dark:text-white tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0066FF]"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Join Session</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 4. 4 KPI Metrics Row (Exact Match to Slide 6)                             */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1: Certified Modules */}
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 shadow-card space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                Certified Modules
+              </span>
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center">
+                <GraduationCap className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-3xl font-black text-slate-900 dark:text-white font-mono">
+                4
+              </span>
+              <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 font-mono">
+                +1 from last month
+              </span>
+            </div>
+            <div className="text-[10px] text-slate-400 font-mono">
+              STCW Certified Modules
+            </div>
+          </div>
+
+          {/* Card 2: In Progress */}
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 shadow-card space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                In Progress
+              </span>
+              <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-[#0066FF] dark:text-[#38BDF8] flex items-center justify-center">
+                <Clock className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-3xl font-black text-[#0066FF] dark:text-[#38BDF8] font-mono">
+                1
+              </span>
+              <span className="text-[11px] font-semibold text-slate-500 font-mono flex items-center gap-1">
+                <span>Training Progress:</span>
+                <span>1 / 3</span>
+                <span>Completed</span>
+              </span>
+            </div>
+            <div className="text-[10px] text-slate-400 font-mono">
+              SCN-001 (MV Nusantara)
+            </div>
+          </div>
+
+          {/* Card 3: Average Score */}
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 shadow-card space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                Average Score
+              </span>
+              <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-[#F5B800] flex items-center justify-center">
+                <Trophy className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-3xl font-black text-[#F5B800] font-mono">
+                88
+              </span>
+              <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 font-mono">
+                +6 from last month
+              </span>
+            </div>
+            <div className="text-[10px] text-slate-400 font-mono">
+              Passed Competency Standard
+            </div>
+          </div>
+
+          {/* Card 4: Total Attempts */}
+          <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-5 shadow-card space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                Total Attempts
+              </span>
+              <div className="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-950/40 text-purple-500 flex items-center justify-center">
+                <BarChart3 className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-3xl font-black text-slate-900 dark:text-white font-mono">
+                6
+              </span>
+              <span className="text-[11px] font-semibold text-purple-600 dark:text-purple-400 font-mono">
+                +2 from last month
+              </span>
+            </div>
+            <div className="text-[10px] text-slate-400 font-mono">
+              Evaluation Logbook History
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 5. Main 3-Column Operational Row (Slide 6 Tri-Card Layout)                */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Column 1: Current Training Card (5 cols) */}
+          <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 shadow-card flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-[#0066FF]" />
+                  <span>Available Training</span>
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/40 text-[#0066FF] dark:text-[#38BDF8] border border-blue-200 dark:border-blue-800">
+                  Active Assignment
+                </span>
+              </div>
+
+              {/* Vessel Image Backdrop Container */}
+              <div className="relative h-40 w-full rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                <Image
+                  src={getAssetPath("/images/vessel-hero.png")}
+                  alt="Vessel Hero Backdrop"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-transparent to-transparent opacity-80" />
+                <div className="absolute bottom-3 left-3 text-white">
+                  <span className="text-[10px] uppercase font-mono font-bold text-[#38BDF8] block">
+                    TARGET VESSEL
+                  </span>
+                  <span className="text-sm font-bold">MV Nusantara (LOA 280m)</span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <h3
+                  onClick={handleLaunchScenario}
+                  className="text-base font-bold text-slate-900 dark:text-white cursor-pointer hover:text-[#0066FF] transition-colors"
+                >
+                  Vessel Arrival & Berthing
+                </h3>
+                <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  Container Vessel Arrival & Berthing Operation
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Navigasi alur barat Tanjung Priok, audit berkas Notice of Arrival, kalkulasi kedalaman Under Keel Clearance (UKC), dan supervisi crane bongkar muat.
+                </p>
+              </div>
+
+              {/* Progress Bar (35%) */}
+              <div className="space-y-1.5 pt-1">
+                <div className="flex justify-between text-xs font-mono">
+                  <span className="text-slate-500 dark:text-slate-400">Progress Latihan</span>
+                  <span className="font-bold text-[#0066FF] dark:text-[#38BDF8]">35%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div className="h-full bg-[#0066FF] rounded-full w-[35%]" />
+                </div>
               </div>
             </div>
 
-            {/* Table Customize & Pagination */}
-            <div className="flex items-center gap-3 self-end sm:self-auto text-xs text-slate-500 dark:text-slate-400">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 gap-1 text-slate-500 hover:text-slate-900 dark:hover:text-white"
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={handleLaunchScenario}
+                className="flex-1 py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <SlidersHorizontal className="w-3.5 h-3.5" />
-                <span>Customize</span>
-              </Button>
+                <span>Start Training</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
+                className="px-4 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#102A45] hover:bg-slate-100 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors"
+              >
+                View Details
+              </button>
+            </div>
 
-              <div className="flex items-center gap-1 font-mono text-[11px]">
-                <span>1-10 of 40</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-6 h-6 rounded"
-                  aria-label="Previous page"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-6 h-6 rounded"
-                  aria-label="Next page"
-                >
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Button>
+            {/* Additional Modules in Roster */}
+            <div className="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-2 text-xs">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
+                  <span>Cargo Handling</span>
+                </span>
+                <span className="font-mono text-[10px] text-slate-400">LOCKED</span>
+              </div>
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
+                  <span>Yard Operations</span>
+                </span>
+                <span className="font-mono text-[10px] text-slate-400">LOCKED</span>
               </div>
             </div>
           </div>
 
-          {/* Shadcn High-Fidelity Data Table */}
-          <Table>
-            <TableHeader>
-              <TableRow className="border-b border-slate-100 dark:border-slate-800/80">
-                <TableHead className="w-10">
-                  <Checkbox
-                    checked={
-                      selectedOrders.length === orders.length
-                        ? true
-                        : selectedOrders.length > 0
-                        ? "indeterminate"
-                        : false
-                    }
-                    onCheckedChange={toggleSelectAll}
-                    aria-label="Select all orders"
-                  />
-                </TableHead>
-                <TableHead>Session ID ↕</TableHead>
-                <TableHead>Vessel Type ↕</TableHead>
-                <TableHead>Displacement ↕</TableHead>
-                <TableHead>Vessel & Call Sign ↕</TableHead>
-                <TableHead>ETA / Time ↕</TableHead>
-                <TableHead>Alur & Terminal ↕</TableHead>
-                <TableHead>Operator / Agen ↕</TableHead>
-                <TableHead>Skor STCW ↕</TableHead>
-                <TableHead>Status ↕</TableHead>
-                <TableHead className="w-10 text-right"></TableHead>
-              </TableRow>
-            </TableHeader>
+          {/* Column 2: Recent Activity Card (4 cols) */}
+          <div className="lg:col-span-4 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 shadow-card space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#00A3E0]" />
+                <span>Recent Activity</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
+                className="text-xs font-semibold text-[#0066FF] hover:underline cursor-pointer"
+              >
+                View All
+              </button>
+            </div>
 
-            <TableBody>
-              {filteredOrders.map((row) => {
-                const isChecked = selectedOrders.includes(row.id);
-                return (
-                  <TableRow
-                    key={row.id}
-                    data-state={isChecked ? "selected" : undefined}
-                    className="hover:bg-slate-50/80 dark:hover:bg-[#132B4F]/60 transition-colors"
-                  >
-                    <TableCell>
-                      <Checkbox
-                        checked={isChecked}
-                        onCheckedChange={() => toggleSelectOrder(row.id)}
-                        aria-label={`Select session ${row.displayId}`}
-                      />
-                    </TableCell>
-                    <TableCell className="font-mono font-bold text-slate-900 dark:text-white">
-                      {row.displayId}
-                    </TableCell>
-                    <TableCell className="text-slate-600 dark:text-slate-300">
-                      {row.category}
-                    </TableCell>
-                    <TableCell className="font-mono">{row.weight}</TableCell>
-                    <TableCell className="font-medium">{row.company}</TableCell>
-                    <TableCell className="text-slate-500 dark:text-slate-400">
-                      {row.arrivalTime}
-                    </TableCell>
-                    <TableCell>{row.route}</TableCell>
-                    <TableCell>{row.shipper}</TableCell>
-                    <TableCell className="font-mono font-semibold text-[#0066FF] dark:text-[#38BDF8]">
-                      {row.score}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={row.statusVariant} size="sm">
-                        {row.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="w-7 h-7 text-slate-400 hover:text-slate-600 dark:hover:text-white"
-                          >
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Aksi Sesi</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={handleLaunchScenario}>
-                            <Eye className="w-3.5 h-3.5 mr-2" /> Lihat Skenario
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <FileText className="w-3.5 h-3.5 mr-2" /> Manifest Muatan
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>
-                            <Printer className="w-3.5 h-3.5 mr-2" /> Cetak Logbook
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Card>
-      </div>
-    </TooltipProvider>
+            <div className="space-y-3">
+              {/* Row 1 */}
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-100 dark:border-[#1E3A5F] space-y-1">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
+                  <span>Container Berthing</span>
+                  <span className="font-mono text-emerald-600 dark:text-emerald-400">92 / 100</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                  <span>MV Nusantara (B-01)</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Passed</span>
+                </div>
+              </div>
+
+              {/* Row 2 */}
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-100 dark:border-[#1E3A5F] space-y-1">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
+                  <span>Bulk Carrier Trimming</span>
+                  <span className="font-mono text-emerald-600 dark:text-emerald-400">88 / 100</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                  <span>MV Samudera Indah</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Passed</span>
+                </div>
+              </div>
+
+              {/* Row 3 */}
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-100 dark:border-[#1E3A5F] space-y-1">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
+                  <span>Tanker Dangerous Cargo</span>
+                  <span className="font-mono text-blue-500">In Progress</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                  <span>MT Nusantara Chem</span>
+                  <span className="text-blue-500 font-semibold">Stage 02</span>
+                </div>
+              </div>
+
+              {/* Row 4 */}
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#102A45] border border-slate-100 dark:border-[#1E3A5F] space-y-1">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
+                  <span>Ro-Ro Ramp Operations</span>
+                  <span className="font-mono text-slate-400">Pending</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                  <span>KMP Merak Express</span>
+                  <span className="text-slate-400">Scheduled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Competency Progress Card (3 cols) */}
+          <div className="lg:col-span-3 rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-6 shadow-card space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-purple-500" />
+                <span>Competency Progress</span>
+              </span>
+            </div>
+
+            <div className="space-y-4 pt-1">
+              {/* Skill 1 */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-700 dark:text-slate-300">Vessel Operations</span>
+                  <span className="font-mono font-bold text-[#0066FF] dark:text-[#38BDF8]">75%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div className="h-full bg-[#0066FF] rounded-full w-[75%]" />
+                </div>
+              </div>
+
+              {/* Skill 2 */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-700 dark:text-slate-300">Berthing & Mooring</span>
+                  <span className="font-mono font-bold text-emerald-500">60%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div className="h-full bg-emerald-500 rounded-full w-[60%]" />
+                </div>
+              </div>
+
+              {/* Skill 3 */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-700 dark:text-slate-300">Cargo Operations</span>
+                  <span className="font-mono font-bold text-amber-500">45%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div className="h-full bg-amber-500 rounded-full w-[45%]" />
+                </div>
+              </div>
+
+              {/* Skill 4 */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-700 dark:text-slate-300">Container Yard Management</span>
+                  <span className="font-mono font-bold text-purple-500">20%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div className="h-full bg-purple-500 rounded-full w-[20%]" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 6. Instructor Announcement Card (Bottom Banner from Slide 6)              */}
+        {/* ========================================================================= */}
+        <div className="rounded-2xl bg-white dark:bg-[#0A1931] border border-slate-200/80 dark:border-[#1E3A5F] p-4 sm:p-5 shadow-card flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-[#102A45] border border-blue-200 dark:border-[#1E3A5F] text-[#0066FF] dark:text-[#38BDF8] flex items-center justify-center shrink-0">
+              <Megaphone className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>Instructor Announcements</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/40 text-[#0066FF] dark:text-[#38BDF8]">
+                  NEW
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Capt. Rahmat S. has assigned Scenario SCN-001 (MV Nusantara Arrival & Berthing). Make sure to audit the Notice of Arrival draft clearance before 12:00 WIB.
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleLaunchScenario}
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-[#0066FF] hover:underline shrink-0 cursor-pointer"
+          >
+            <span>Buka Skenario</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </main>
+    </div>
   );
 }
