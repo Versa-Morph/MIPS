@@ -48,133 +48,9 @@ export function DashboardScreen() {
   };
 
   return (
-    <div className="flex-1 flex flex-col lg:flex-row min-h-screen bg-[#F1F5F9] dark:bg-[#081826] text-slate-900 dark:text-slate-100 font-sans select-none">
-      {/* ========================================================================= */}
-      {/* 1. Left Academy Navigation Sidebar (Exact Match to Slide 6)              */}
-      {/* ========================================================================= */}
-      <aside className="w-full lg:w-64 bg-[#0B192C] text-slate-300 flex flex-col justify-between shrink-0 border-r border-[#1E3A5F]">
-        {/* Top Brand & Navigation Sections */}
-        <div className="p-5 space-y-6">
-          {/* Logo & Brand Emblem */}
-          <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
-            <div className="w-10 h-10 rounded-xl bg-[#00A3E0]/15 border border-[#00A3E0]/40 flex items-center justify-center text-[#00A3E0]">
-              <Compass className="w-6 h-6 animate-spin-slow stroke-[2.2]" />
-            </div>
-            <div>
-              <div className="text-base font-black tracking-tight text-white flex items-center gap-1.5">
-                <span>MIPS</span>
-                <span className="text-[#00A3E0] font-normal text-xs uppercase tracking-widest">
-                  ACADEMY
-                </span>
-              </div>
-              <span className="text-[10px] uppercase font-mono text-slate-400 tracking-wider block">
-                PORT SIMULATOR
-              </span>
-            </div>
-          </div>
-
-          {/* Section: LEARNING */}
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block px-3">
-              LEARNING
-            </span>
-            <nav className="space-y-0.5">
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold bg-[#0066FF] text-white shadow-sm"
-              >
-                <Layers className="w-4 h-4" />
-                <span>Dashboard</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep(TrainingState.SCENARIO_CATALOG)}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors cursor-pointer"
-              >
-                <BookOpen className="w-4 h-4 text-slate-400" />
-                <span>My Activities</span>
-              </button>
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
-              >
-                <CheckSquare className="w-4 h-4 text-slate-400" />
-                <span>Assessments</span>
-              </button>
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
-              >
-                <Award className="w-4 h-4 text-slate-400" />
-                <span>Results & Certs</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Section: RESOURCES */}
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block px-3">
-              RESOURCES
-            </span>
-            <nav className="space-y-0.5">
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
-              >
-                <FolderOpen className="w-4 h-4 text-slate-400" />
-                <span>Learning Materials</span>
-              </button>
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
-              >
-                <FileText className="w-4 h-4 text-slate-400" />
-                <span>Documents & SOP</span>
-              </button>
-            </nav>
-          </div>
-
-          {/* Section: ACCOUNT */}
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block px-3">
-              ACCOUNT
-            </span>
-            <nav className="space-y-0.5">
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
-              >
-                <User className="w-4 h-4 text-slate-400" />
-                <span>Cadet Profile</span>
-              </button>
-              <button
-                type="button"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#132B4F] transition-colors"
-              >
-                <HelpCircle className="w-4 h-4 text-slate-400" />
-                <span>Help Center</span>
-              </button>
-            </nav>
-          </div>
-        </div>
-
-        {/* Sidebar Bottom Banner (Slide 6 Crane Tagline) */}
-        <div className="p-5 border-t border-slate-800 bg-[#081826]/80 text-center space-y-1">
-          <div className="text-[11px] font-mono font-bold text-[#00A3E0] tracking-widest uppercase">
-            TRAIN · PRACTICE
-          </div>
-          <div className="text-[10px] text-slate-400 uppercase tracking-wider font-sans font-semibold">
-            BE PORT READY
-          </div>
-        </div>
-      </aside>
-
-      {/* ========================================================================= */}
-      {/* 2. Main Dashboard Content Canvas (Slide 6 Framework)                     */}
-      {/* ========================================================================= */}
-      <main className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto">
-        {/* Top Header Greeting & Date Row */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
+    <div className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 font-sans select-none animate-fadeIn">
+      {/* Top Header Greeting & Date Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-[#0066FF] dark:text-[#38BDF8] uppercase tracking-wider font-mono">
               <span>MIPS TRAINING CENTER</span>
@@ -633,7 +509,6 @@ export function DashboardScreen() {
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
-      </main>
     </div>
   );
 }
