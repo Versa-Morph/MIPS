@@ -27,6 +27,7 @@ import { TrainingState } from "@/types/simulation";
 import { DocumentType } from "@/types/domain";
 import { Modal } from "@/components/common/Modal";
 import { sound } from "@/utils/audioEngine";
+import { getAssetPath } from "@/utils/assetPath";
 
 export function DocumentCenterScreen() {
   const {
@@ -354,7 +355,7 @@ export function DocumentCenterScreen() {
                 {activeDoc.pdfUrl && (
                   <div className="flex items-center gap-1">
                     <a
-                      href={activeDoc.pdfUrl}
+                      href={getAssetPath(activeDoc.pdfUrl)}
                       download
                       className="p-1.5 rounded-full bg-slate-100 dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#38BDF8] border border-slate-200 dark:border-slate-800 transition-colors"
                       title="Download original PDF file"
@@ -362,7 +363,7 @@ export function DocumentCenterScreen() {
                       <Download className="w-4 h-4" />
                     </a>
                     <a
-                      href={activeDoc.pdfUrl}
+                      href={getAssetPath(activeDoc.pdfUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-1.5 rounded-full bg-slate-100 dark:bg-[#102A45] text-slate-600 dark:text-slate-300 hover:text-[#0066FF] dark:hover:text-[#38BDF8] border border-slate-200 dark:border-slate-800 transition-colors"
@@ -380,7 +381,7 @@ export function DocumentCenterScreen() {
               {viewMode === "pdf" ? (
                 activeDoc.pdfUrl ? (
                   <iframe
-                    src={`${activeDoc.pdfUrl}#toolbar=1`}
+                    src={`${getAssetPath(activeDoc.pdfUrl)}#toolbar=1`}
                     className="w-full h-full min-h-[580px] border-0"
                     title={activeDoc.title}
                   />

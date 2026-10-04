@@ -99,8 +99,9 @@ export function BerthDecisionScreen() {
   };
 
   const isDecisionAccepted =
-    currentState === TrainingState.DECISION_VALIDATED ||
-    (decisionFeedback?.submitted && decisionFeedback?.isValid);
+    activeChoice === selectedBerth &&
+    (currentState === TrainingState.DECISION_VALIDATED ||
+      (decisionFeedback?.submitted && decisionFeedback?.isValid));
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn select-none font-sans">
