@@ -123,33 +123,18 @@ export function Header() {
         </div>
 
         {/* Center Navigation: Portal Level vs In-Simulation Mode */}
+        {/* Middle Navigation / Breadcrumb */}
         {!isInsideSimulation ? (
-          /* Level 1: Global Portal Navigation */
-          <nav
-            aria-label="Portal Navigation"
-            className="hidden md:flex items-center p-1 rounded-full bg-slate-100 dark:bg-[#102A45] border border-slate-200 dark:border-[#1E3A5F]"
-          >
-            {portalNavItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={item.onClick}
-                className={cn(
-                  "rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-150 inline-flex items-center gap-1.5 cursor-pointer",
-                  item.isActive
-                    ? "bg-[#0066FF] text-white shadow-sm"
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-                )}
-              >
-                {item.isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#F5B800] inline-block shrink-0 animate-pulse" />
-                )}
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
+          /* Slide 6 Dashboard Topbar Center Tagline */
+          <div className="hidden lg:flex items-center gap-2.5 text-xs font-mono text-slate-500 dark:text-slate-400">
+            <span className="font-bold text-[#0066FF] dark:text-[#38BDF8]">MIPS Academy</span>
+            <span className="text-slate-300 dark:text-slate-700">|</span>
+            <span className="text-slate-600 dark:text-slate-300 italic">
+              Real Operations. Brighter Professionals.
+            </span>
+          </div>
         ) : (
-          /* Level 2: In-Simulation Breadcrumb & Status */
+          /* Level 2: In-Simulation Breadcrumb from Slides 0 to 4 */
           <div className="flex items-center gap-2.5">
             <button
               type="button"
@@ -160,9 +145,25 @@ export function Header() {
               <span>Keluar ke Portal</span>
             </button>
 
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-[#102A45] border border-blue-200/60 dark:border-[#1E3A5F] text-xs font-mono text-[#0A2540] dark:text-slate-200">
-              <Ship className="w-3.5 h-3.5 text-[#0066FF]" />
-              <span>MV NUSANTARA · Container Berthing (SCN-001)</span>
+            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-[#102A45] border border-slate-200/80 dark:border-[#1E3A5F] text-xs font-mono text-slate-700 dark:text-slate-200">
+              <Search className="w-3.5 h-3.5 text-slate-400" />
+              <span>Session</span>
+              <span className="text-slate-400">&gt;</span>
+              <span className="font-bold text-[#0066FF] dark:text-[#38BDF8]">
+                {currentState === TrainingState.SCENARIO_SELECTION ||
+                currentState === TrainingState.BRIEFING
+                  ? "Scenario Briefing"
+                  : currentState === TrainingState.DOCUMENT_REVIEW
+                  ? "Document Package"
+                  : currentState === TrainingState.DECISION ||
+                    currentState === TrainingState.DECISION_VALIDATED
+                  ? "Decision Interface"
+                  : currentState === TrainingState.SIMULATION_RUNNING ||
+                    currentState === TrainingState.SIMULATION_PAUSED ||
+                    currentState === TrainingState.SIMULATION_COMPLETED
+                  ? "Simulation Hub"
+                  : "Assessment / Debrief"}
+              </span>
             </div>
           </div>
         )}
